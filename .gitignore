@@ -9,3 +9,4 @@
 *.lock
 .github/*
 .vscode/*
+.env
