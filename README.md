@@ -11,7 +11,7 @@
 - **Channel**: Stable
 
 - **Framework**: multiversx-sc
-- **Version**: 0.52.3
+- **Version**: 0.53.0
 </details>
 
 ## Table of Contents
