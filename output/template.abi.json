@@ -16,6 +16,9 @@
             "version": "0.53.0"
         }
     },
+    "docs": [
+        "Empty Contract"
+    ],
     "name": "Template",
     "constructor": {
         "inputs": [],
@@ -25,52 +28,7 @@
         "inputs": [],
         "outputs": []
     },
-    "endpoints": [
-        {
-            "name": "endpointExample",
-            "mutability": "mutable",
-            "inputs": [],
-            "outputs": []
-        },
-        {
-            "name": "ownerPayableEndpointExample",
-            "onlyOwner": true,
-            "mutability": "mutable",
-            "payableInTokens": [
-                "*"
-            ],
-            "inputs": [],
-            "outputs": []
-        },
-        {
-            "name": "viewExample",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": []
-        },
-        {
-            "name": "getExampleMapper",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": [
-                {
-                    "type": "u64"
-                }
-            ]
-        }
-    ],
-    "events": [
-        {
-            "identifier": "example_event",
-            "inputs": [
-                {
-                    "name": "id",
-                    "type": "u64",
-                    "indexed": true
-                }
-            ]
-        }
-    ],
+    "endpoints": [],
     "esdtAttributes": [],
     "hasCallback": false,
     "types": {}

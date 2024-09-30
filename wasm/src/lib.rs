@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                            4
+// Endpoints:                            0
 // Async Callback (empty):               1
-// Total number of exported functions:   7
+// Total number of exported functions:   3
 
 #![no_std]
 
@@ -20,10 +20,6 @@ multiversx_sc_wasm_adapter::endpoints! {
     (
         init => init
         upgrade => upgrade
-        endpointExample => endpoint_example
-        ownerPayableEndpointExample => owner_payable_endpoint_example
-        viewExample => view_example
-        getExampleMapper => get_example_mapper
     )
 }
 
