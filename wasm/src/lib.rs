@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                            0
+// Endpoints:                            6
 // Async Callback (empty):               1
-// Total number of exported functions:   3
+// Total number of exported functions:   9
 
 #![no_std]
 
@@ -20,6 +20,12 @@ multiversx_sc_wasm_adapter::endpoints! {
     (
         init => init
         upgrade => upgrade
+        getEmrNft => emr_nft
+        getIsScPaused => is_sc_paused
+        pauseSc => pause_sc
+        resumeSc => resume_sc
+        upgradeNft => upgrade_nft
+        resetNft => reset_nft
     )
 }
 

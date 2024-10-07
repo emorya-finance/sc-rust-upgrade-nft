@@ -9,23 +9,23 @@
 
 use multiversx_sc::proxy_imports::*;
 
-pub struct TemplateProxy;
+pub struct SCProxy;
 
-impl<Env, From, To, Gas> TxProxyTrait<Env, From, To, Gas> for TemplateProxy
+impl<Env, From, To, Gas> TxProxyTrait<Env, From, To, Gas> for SCProxy
 where
     Env: TxEnv,
     From: TxFrom<Env>,
     To: TxTo<Env>,
     Gas: TxGas<Env>,
 {
-    type TxProxyMethods = TemplateProxyMethods<Env, From, To, Gas>;
+    type TxProxyMethods = SCProxyMethods<Env, From, To, Gas>;
 
     fn proxy_methods(self, tx: Tx<Env, From, To, (), Gas, (), ()>) -> Self::TxProxyMethods {
-        TemplateProxyMethods { wrapped_tx: tx }
+        SCProxyMethods { wrapped_tx: tx }
     }
 }
 
-pub struct TemplateProxyMethods<Env, From, To, Gas>
+pub struct SCProxyMethods<Env, From, To, Gas>
 where
     Env: TxEnv,
     From: TxFrom<Env>,
@@ -36,7 +36,7 @@ where
 }
 
 #[rustfmt::skip]
-impl<Env, From, Gas> TemplateProxyMethods<Env, From, (), Gas>
+impl<Env, From, Gas> SCProxyMethods<Env, From, (), Gas>
 where
     Env: TxEnv,
     Env::Api: VMApi,
@@ -54,7 +54,7 @@ where
 }
 
 #[rustfmt::skip]
-impl<Env, From, To, Gas> TemplateProxyMethods<Env, From, To, Gas>
+impl<Env, From, To, Gas> SCProxyMethods<Env, From, To, Gas>
 where
     Env: TxEnv,
     Env::Api: VMApi,
@@ -68,6 +68,82 @@ where
         self.wrapped_tx
             .payment(NotPayable)
             .raw_upgrade()
+            .original_result()
+    }
+}
+
+#[rustfmt::skip]
+impl<Env, From, To, Gas> SCProxyMethods<Env, From, To, Gas>
+where
+    Env: TxEnv,
+    Env::Api: VMApi,
+    From: TxFrom<Env>,
+    To: TxTo<Env>,
+    Gas: TxGas<Env>,
+{
+    pub fn emr_nft(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, TokenIdentifier<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getEmrNft")
+            .original_result()
+    }
+
+    pub fn is_sc_paused(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, bool> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getIsScPaused")
+            .original_result()
+    }
+
+    pub fn pause_sc(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("pauseSc")
+            .original_result()
+    }
+
+    pub fn resume_sc(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("resumeSc")
+            .original_result()
+    }
+
+    /// upgrade_nft 
+    /// receive the NFT, 
+    /// read the attributes, 
+    /// identify the level and increase it 
+    pub fn upgrade_nft<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("upgradeNft")
+            .argument(&user)
+            .original_result()
+    }
+
+    pub fn reset_nft<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("resetNft")
+            .argument(&user)
             .original_result()
     }
 }

@@ -3,7 +3,6 @@
 pub mod nftupgrade;
 pub mod owner;
 pub mod private;
-mod proxy;
 pub mod storage;
 
 multiversx_sc::imports!();
