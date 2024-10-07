@@ -1,3 +1,9 @@
+#![no_std]
+
+pub mod owner;
+pub mod private;
+pub mod storage;
+
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
 
@@ -6,10 +12,20 @@ struct NftAttributes {
     level: u32,
 }
 
-#[multiversx_sc::module]
+#[multiversx_sc::contract]
 pub trait NftUpgradeModule:
     crate::storage::StorageModule + crate::private::PrivateModule + crate::owner::OwnerModule
 {
+    // ===================== Deployment & Upgrade =====================
+
+    #[init]
+    fn init(&self) {}
+
+    #[upgrade]
+    fn upgrade(&self) {}
+
+    // ===================== Endpoints =====================
+
     /// upgrade_nft
     /// receive the NFT,
     /// read the attributes,
@@ -45,8 +61,7 @@ pub trait NftUpgradeModule:
 
         let mut args = ManagedArgBuffer::new();
         args.push_arg(&user);
-        let _ = self
-            .send_raw()
+        self.send_raw()
             .transfer_esdt_execute(
                 &user,
                 &emorya_nft_payment.token_identifier,
@@ -89,8 +104,7 @@ pub trait NftUpgradeModule:
 
         let mut args = ManagedArgBuffer::new();
         args.push_arg(&user);
-        let _ = self
-            .send_raw()
+        self.send_raw()
             .transfer_esdt_execute(
                 &user,
                 &emorya_nft_payment.token_identifier,
@@ -100,6 +114,5 @@ pub trait NftUpgradeModule:
                 &args,
             )
             .expect("Failed to transfer the updated NFT.");
-
     }
 }

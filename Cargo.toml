@@ -1,12 +1,12 @@
 [package]
-name = "template"
+name = "nftupgrade"
 version = "0.1.0"
 authors = [ "Kostas Tzoumpas <tzoumpas.ks@gmail.com>"]
 edition = "2021"
 publish = false
 
 [lib]
-path = "src/template.rs"
+path = "src/nftupgrade.rs"
 
 [dependencies.multiversx-sc]
 version = "0.53.0"

@@ -16,16 +16,16 @@ multiversx_sc_wasm_adapter::allocator!();
 multiversx_sc_wasm_adapter::panic_handler!();
 
 multiversx_sc_wasm_adapter::endpoints! {
-    template
+    nftupgrade
     (
         init => init
         upgrade => upgrade
+        upgradeNft => upgrade_nft
+        resetNft => reset_nft
         getEmrNft => emr_nft
         getIsScPaused => is_sc_paused
         pauseSc => pause_sc
         resumeSc => resume_sc
-        upgradeNft => upgrade_nft
-        resetNft => reset_nft
     )
 }
 

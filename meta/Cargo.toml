@@ -1,10 +1,10 @@
 [package]
-name = "template-meta"
+name = "nftupgrade-meta"
 version = "0.0.0"
 edition = "2021"
 publish = false
 
-[dependencies.template]
+[dependencies.nftupgrade]
 path = ".."
 
 [dependencies.multiversx-sc-meta-lib]
