@@ -1,5 +1,4 @@
 multiversx_sc::imports!();
-multiversx_sc::derive_imports!();
 
 #[multiversx_sc::module]
 pub trait OwnerModule: crate::storage::StorageModule + crate::private::PrivateModule {

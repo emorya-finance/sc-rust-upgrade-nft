@@ -1,6 +1,6 @@
 <sub>*This file has been auto-generated using the [abi-markdowner](https://github.com/0xk0stas/abi-markdowner).*</sub>
 
-# Smart Contract: NftUpgradeModule
+# Smart Contract: NftUpgrade
 
 <details>
 <summary>Build info</summary>
@@ -40,35 +40,6 @@
 ### Owner Only
 
 <details>
-<summary>upgradeNft</summary>
-
-upgrade_nft
-
-receive the NFT,
-
-read the attributes,
-
-identify the level and increase it
-#### Inputs:
-| Name | Type |
-| - | - |
-| user | Address |
-
-
-</details>
-
-<details>
-<summary>resetNft</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| user | Address |
-
-
-</details>
-
-<details>
 <summary>pauseSc</summary>
 
 
@@ -80,7 +51,47 @@ identify the level and increase it
 
 </details>
 
+### Other
+
+<details>
+<summary>initialize</summary>
+
+Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.
+
+</details>
+
+<details>
+<summary>upgradeNft</summary>
+
+Upgrade an NFT to the same level but with more data in attributes.
+
+</details>
+
+<details>
+<summary>increaseLevel</summary>
+
+
+</details>
+
 ## Views
+
+<details>
+<summary>getNftAttributes</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| owner | Address |
+| token_identifier | TokenIdentifier |
+| token_nonce | u64 |
+
+#### Outputs:
+| Type |
+| - |
+| bytes |
+
+
+</details>
 
 <details>
 <summary>getEmrNft</summary>
