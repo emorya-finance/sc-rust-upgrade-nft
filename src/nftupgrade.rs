@@ -39,7 +39,7 @@ pub trait NftUpgrade:
         // read NFT transfer
         let (nft_identifier, nft_nonce, _) = self.call_value().single_esdt().into_tuple();
 
-        // prepare NFT attributes
+        // prepare NFT attributes | I skip the IPFS CID and tags for now but you will need them in upgradeNft
         let mut new_attributes = ManagedBuffer::new();
         // new_attributes = new_attributes.clone().concat(sc_format!(
         //     "metadata:{}/{}.json",
