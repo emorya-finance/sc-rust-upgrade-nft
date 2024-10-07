@@ -1,0 +1,1 @@
+cargo fmt && cargo clippy && mxpy contract build && sc-meta all proxy && abi-markdowner --output-file README.md
