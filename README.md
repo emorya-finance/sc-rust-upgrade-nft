@@ -57,6 +57,8 @@
 <summary>initialize</summary>
 
 Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.
+#### Note: This endpoint is payable by any token.
+
 
 </details>
 
@@ -77,6 +79,24 @@ Upgrade an NFT to the same level but with more data in attributes.
 
 <details>
 <summary>getNftAttributes</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| owner | Address |
+| token_identifier | TokenIdentifier |
+| token_nonce | u64 |
+
+#### Outputs:
+| Type |
+| - |
+| bytes |
+
+
+</details>
+
+<details>
+<summary>getNftAttributesLevel</summary>
 
 #### Inputs:
 | Name | Type |

@@ -151,21 +151,12 @@ pub trait NftUpgrade:
             .blockchain()
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .attributes;
-        
-        // attributes example = level:1;activity_days:0;calories_per_day:0
-        // it should return 1 as ManagedBuffer
-        let binding = attributes.clone().to_boxed_bytes().into_vec();
 
-
-        let binding = binding
-            .split(|&x| x == b';')
-            .find(|x| x.starts_with(b"level:"))
-            .map(|x| {
-                let level = &x[6..];
-                level
-            })
-            .unwrap_or(b"0");
-
-        ManagedBuffer::new_from_bytes(binding)
+        let level_semicolon = attributes.copy_slice(9, 1).unwrap();
+        if level_semicolon != b";" {
+            attributes.copy_slice(6, 2).unwrap()
+        } else {
+            attributes.copy_slice(6, 1).unwrap()
+        }
     }
 }
