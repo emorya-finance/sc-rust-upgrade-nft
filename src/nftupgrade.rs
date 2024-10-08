@@ -89,16 +89,17 @@ pub trait NftUpgrade:
 
         let nft_attributes_buffer = self.get_nft_attributes(user.clone(), emr_nft_payment.clone(), token_nonce);
         
-        let new_attributes = nft_attributes_buffer.clone().concat(sc_format!(
+        let metadatas = nft_attributes_buffer.clone().concat(sc_format!(
             "metadata:{}/{}.json",
             IPFS_CID,
             token_nonce
         ));
-        let new_attributes = new_attributes.clone().concat(sc_format!(
+        let tags = nft_attributes_buffer.clone().concat(sc_format!(
             "tags:{};",
             TAGS
         ));
 
+        
 
         let mut encoded_attributes = ManagedBuffer::new();
 
