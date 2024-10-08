@@ -84,9 +84,8 @@ where
     /// Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs. 
     pub fn initialize(
         self,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+    ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
-            .payment(NotPayable)
             .raw_call("initialize")
             .original_result()
     }
@@ -123,6 +122,25 @@ where
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getNftAttributes")
+            .argument(&owner)
+            .argument(&token_identifier)
+            .argument(&token_nonce)
+            .original_result()
+    }
+
+    pub fn get_nft_attributes_level<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg2: ProxyArg<u64>,
+    >(
+        self,
+        owner: Arg0,
+        token_identifier: Arg1,
+        token_nonce: Arg2,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftAttributesLevel")
             .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)

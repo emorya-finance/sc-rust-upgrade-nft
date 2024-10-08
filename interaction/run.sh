@@ -7,4 +7,5 @@ fi
 source snippets.sh
 ############ START ############
 
-runESDT
+upgrade 
+# runESDT

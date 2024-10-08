@@ -31,6 +31,7 @@ pub trait NftUpgrade:
     // ===================== For Devnet initialization =====================
 
     /// Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.
+    #[payable("*")]
     #[endpoint(initialize)]
     fn initialize(&self) {
         // read caller
@@ -80,26 +81,27 @@ pub trait NftUpgrade:
 
         let payment = self.call_value().single_esdt().into_tuple();
 
-
         let emr_nft_payment = payment.0;
         let token_nonce = payment.1;
 
-        let emr_nft = self.emr_nft().get();
+        let _emr_nft = self.emr_nft().get();
 
+        let nft_attributes_buffer = self.get_nft_attributes(
+            self.blockchain().get_sc_address(),
+            emr_nft_payment.clone(),
+            token_nonce,
+        );
 
-        let nft_attributes_buffer = self.get_nft_attributes(user.clone(), emr_nft_payment.clone(), token_nonce);
-        
-        let metadatas = nft_attributes_buffer.clone().concat(sc_format!(
+        // so i need to work with string, separate with the quotes
+
+        let nft_attributes_buffer = nft_attributes_buffer.clone().concat(sc_format!(
             "metadata:{}/{}.json",
             IPFS_CID,
             token_nonce
         ));
-        let tags = nft_attributes_buffer.clone().concat(sc_format!(
-            "tags:{};",
-            TAGS
-        ));
-
-        
+        let nft_attributes_buffer = nft_attributes_buffer
+            .clone()
+            .concat(sc_format!("tags:{};", TAGS));
 
         let mut encoded_attributes = ManagedBuffer::new();
 
@@ -136,5 +138,34 @@ pub trait NftUpgrade:
         self.blockchain()
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .attributes
+    }
+
+    #[view(getNftAttributesLevel)]
+    fn get_nft_attributes_level(
+        &self,
+        owner: ManagedAddress,
+        token_identifier: TokenIdentifier,
+        token_nonce: u64,
+    ) -> ManagedBuffer {
+        let attributes = self
+            .blockchain()
+            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
+            .attributes;
+        
+        // attributes example = level:1;activity_days:0;calories_per_day:0
+        // it should return 1 as ManagedBuffer
+        let binding = attributes.clone().to_boxed_bytes().into_vec();
+
+
+        let binding = binding
+            .split(|&x| x == b';')
+            .find(|x| x.starts_with(b"level:"))
+            .map(|x| {
+                let level = &x[6..];
+                level
+            })
+            .unwrap_or(b"0");
+
+        ManagedBuffer::new_from_bytes(binding)
     }
 }

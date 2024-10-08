@@ -11,7 +11,7 @@ SC_PATH="../"
 SC_NAME=$(grep -oP 'name = "\K[^"]+' $SC_PATH"Cargo.toml")
 SC_BYTECODE=$SC_PATH"output/$SC_NAME.wasm"
 
-SC_ADDRESS=""
+SC_ADDRESS="erd1qqqqqqqqqqqqqpgqq9sml0hxc09ytmc9r2242tkkcetwy7vkyqdsqzzuxd"
 if [ ! -z $SC_ADDRESS ]; then
     SC_ADDRESS_HEX=$(mxpy wallet bech32 --decode $SC_ADDRESS)
 else
