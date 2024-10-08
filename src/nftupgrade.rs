@@ -78,27 +78,30 @@ pub trait NftUpgrade:
 
         let user = self.blockchain().get_caller();
 
-        let payment = self.call_value().all_esdt_transfers();
+        let payment = self.call_value().single_esdt().into_tuple();
 
-        require!(payment.len() == 1, "Only one NFT should be sent.");
 
-        let mut emr_nft_payment = None;
+        let emr_nft_payment = payment.0;
+        let token_nonce = payment.1;
 
         let emr_nft = self.emr_nft().get();
 
-        for data in payment.iter() {
-            if data.token_identifier == emr_nft {
-                emr_nft_payment = Some(data);
-            }
-        }
-        let emorya_nft_payment = emr_nft_payment.expect("Emorya NFT payment not found.");
 
-        let mut nft_attributes_buffer = self.blockchain().get_token_attributes::<NftAttributes>(
-            &emorya_nft_payment.token_identifier,
-            emorya_nft_payment.token_nonce,
-        );
-        nft_attributes_buffer.level += 1;
+        let nft_attributes_buffer = self.get_nft_attributes(user.clone(), emr_nft_payment.clone(), token_nonce);
+        
+        let new_attributes = nft_attributes_buffer.clone().concat(sc_format!(
+            "metadata:{}/{}.json",
+            IPFS_CID,
+            token_nonce
+        ));
+        let new_attributes = new_attributes.clone().concat(sc_format!(
+            "tags:{};",
+            TAGS
+        ));
+
+
         let mut encoded_attributes = ManagedBuffer::new();
+
         nft_attributes_buffer
             .top_encode(&mut encoded_attributes)
             .unwrap();
@@ -108,8 +111,8 @@ pub trait NftUpgrade:
         self.send_raw()
             .transfer_esdt_execute(
                 &user,
-                &emorya_nft_payment.token_identifier,
-                &BigUint::from(emorya_nft_payment.token_nonce),
+                &emr_nft_payment,
+                &BigUint::from(token_nonce),
                 self.blockchain().get_gas_left(),
                 &encoded_attributes,
                 &args,
