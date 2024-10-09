@@ -153,6 +153,10 @@ pub trait NftUpgrade:
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .attributes;
 
+        if attributes.copy_slice(0, 6).unwrap() != b"level:" {
+            sc_panic!("Attributes do not start with level.");
+        }
+
         let mut semicolon_index = 7;
         let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
         while semicolon != b";" {

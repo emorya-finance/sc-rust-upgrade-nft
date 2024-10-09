@@ -40,5 +40,5 @@ OWNER_ADDRESS_HEX=$(mxpy wallet bech32 --decode $OWNER_ADDRESS)
 NFT="TESTK-e49c59"
 NFT_HEX=$(python to_hex.py $NFT)
 
-NONCE="99"
+NONCE="100"
 NONCE_HEX=$(python to_hex.py $NONCE)
