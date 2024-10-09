@@ -96,6 +96,11 @@ pub trait NftUpgrade:
 
         // so i need to work with string, separate with the quotes
 
+        let next_level = match nft_attributes_buffer.parse_as_u64() {
+            Some(level) => level + 1,
+            None => 1,
+        };
+
         let nft_attributes_buffer = nft_attributes_buffer.clone().concat(sc_format!(
             "metadata:{}/{}.json",
             IPFS_CID,
@@ -104,6 +109,10 @@ pub trait NftUpgrade:
         let nft_attributes_buffer = nft_attributes_buffer
             .clone()
             .concat(sc_format!("tags:{};", TAGS));
+
+        let nft_attributes_buffer = nft_attributes_buffer
+            .clone()
+            .concat(sc_format!("level:{}", next_level));
 
         self.send()
             .nft_update_attributes(&emr_nft_payment, token_nonce, &nft_attributes_buffer);
@@ -139,10 +148,6 @@ pub trait NftUpgrade:
             None => 1,
         };
 
-        let nft_attributes_buffer = nft_attributes_buffer
-            .clone()
-            .concat(sc_format!("level:{}", next_level));
-
         let nft_attributes_buffer = nft_attributes_buffer.clone().concat(sc_format!(
             "metadata:{}/{}.json",
             IPFS_CID,
@@ -152,6 +157,10 @@ pub trait NftUpgrade:
         let nft_attributes_buffer = nft_attributes_buffer
             .clone()
             .concat(sc_format!("tags:{};", TAGS));
+
+        let nft_attributes_buffer = nft_attributes_buffer
+            .clone()
+            .concat(sc_format!("level:{}", next_level));
 
         self.send()
             .nft_update_attributes(&nft_identifier, nft_nonce, &nft_attributes_buffer);
