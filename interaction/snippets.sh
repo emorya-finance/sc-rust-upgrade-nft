@@ -87,35 +87,6 @@ runTx() {
     --data $ENDPOINT_NAME$ARGUMENTS
 }
 
-runESDT(){
-    # Configuration
-    SENDER_ADDRESS="erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle"  # The sender's address (your address)
-    SC_ADDRESS="erd1qqqqqqqqqqqqqpgqq9sml0hxc09ytmc9r2242tkkcetwy7vkyqdsqzzuxd"  # Recipient's address (can be the smart contract address)
-    NFT_TOKEN="TESTDICK-d4c12a"  # Token identifier (you need to base64 encode it)
-    NFT_NONCE="01"
-    AMOUNT="1"  # Amount in tokens, base64 encode it
-    local REPORT_FILE=${ENDPOINT_NAME:-"tx"} # Default report file is tx.report.json
-    local OUTFILE="./reports/$REPORT_FILE.report.json" # Default outfile is ./reports/tx.report.json
-
-    TOKEN_BASE64=$(python3 to_hex.py $NFT_TOKEN)
-    AMOUNT_BASE64=$(python3 to_hex.py $AMOUNT)  # Convert amount to hex, then to base64
-    # Data to include in the transaction, with values converted to hex
-
-    DATA="ESDTNFTTransfer@$TOKEN_BASE64@$(python3 to_hex.py $NFT_NONCE)@$AMOUNT_BASE64@$(mxpy wallet bech32 --decode $SC_ADDRESS)@$(python3 to_hex.py initialize)"
-
-    # Create and send the transaction
-    mxpy tx new \
-        --receiver $SENDER_ADDRESS --recall-nonce --pem $OWNER_PEM \
-        --gas-limit 20000000 --outfile $OUTFILE\
-        --send --value 0 --wait-result \
-        --proxy $PROXY --chain $CHAIN_ID \
-        --data $DATA 
-}
-
 assignRole () {
-    NFT_TOKEN="TESTDICK-d4c12a"
-    SC_ADDRESS="erd1qqqqqqqqqqqqqpgqq9sml0hxc09ytmc9r2242tkkcetwy7vkyqdsqzzuxd"
-    TOKEN=$(python3 to_hex.py $NFT_TOKEN)
-    
-    runTx erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u "" setSpecialRole @$TOKEN@$(mxpy wallet bech32 --decode $SC_ADDRESS)@$(python3 to_hex.py ESDTRoleNFTUpdateAttributes) 60000000
+    runTx erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u "" setSpecialRole @$NFT_HEX@$SC_ADDRESS_HEX@$(python3 to_hex.py ESDTRoleNFTUpdateAttributes) 60000000
 }

@@ -7,4 +7,5 @@ fi
 source snippets.sh
 ############ START ############
 
-view getNftAttributesLevel "0x$(mxpy wallet bech32 --decode erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle) 0x$(python3 to_hex.py TESTDICK-d4c12a) 0x01"
+view getNftAttributes "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"
+view getNftAttributesLevel "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"

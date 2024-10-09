@@ -51,9 +51,10 @@ pub trait NftUpgrade:
         //     "tags:{};",
         //     TAGS
         // ));
-        new_attributes = new_attributes
-            .clone()
-            .concat(sc_format!("level:{};activity_days:0;calories_per_day:0", 1));
+        new_attributes = new_attributes.clone().concat(sc_format!(
+            "level:{};activity_days:0;calories_per_day:0",
+            14278
+        ));
 
         // update NFT attributes
         self.send()
@@ -152,11 +153,13 @@ pub trait NftUpgrade:
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .attributes;
 
-        let level_semicolon = attributes.copy_slice(9, 1).unwrap();
-        if level_semicolon != b";" {
-            attributes.copy_slice(6, 2).unwrap()
-        } else {
-            attributes.copy_slice(6, 1).unwrap()
+        let mut semicolon_index = 7;
+        let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
+        while semicolon != b";" {
+            semicolon_index += 1;
+            semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
         }
+
+        attributes.copy_slice(6, semicolon_index - 6).unwrap()
     }
 }

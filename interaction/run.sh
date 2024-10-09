@@ -7,5 +7,9 @@ fi
 source snippets.sh
 ############ START ############
 
-upgrade 
-# runESDT
+# deploy
+# upgrade
+
+# assignRole
+
+runTx $OWNER_ADDRESS "" ESDTNFTTransfer @$NFT_HEX@$NONCE_HEX@01@$SC_ADDRESS_HEX@$(python3 to_hex.py initialize)
