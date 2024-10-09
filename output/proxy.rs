@@ -93,18 +93,16 @@ where
     /// Upgrade an NFT to the same level but with more data in attributes. 
     pub fn upgrade_nft(
         self,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+    ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
-            .payment(NotPayable)
             .raw_call("upgradeNft")
             .original_result()
     }
 
     pub fn increase_level(
         self,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+    ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
-            .payment(NotPayable)
             .raw_call("increaseLevel")
             .original_result()
     }

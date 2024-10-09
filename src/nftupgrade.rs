@@ -74,6 +74,7 @@ pub trait NftUpgrade:
     // ===================== Endpoints =====================
 
     /// Upgrade an NFT to the same level but with more data in attributes.
+    #[payable("*")]
     #[endpoint(upgradeNft)]
     fn upgrade_nft(&self) {
         self.require_not_paused();
@@ -87,7 +88,7 @@ pub trait NftUpgrade:
 
         let _emr_nft = self.emr_nft().get();
 
-        let nft_attributes_buffer = self.get_nft_attributes(
+        let nft_attributes_buffer = self.get_nft_attributes_level(
             self.blockchain().get_sc_address(),
             emr_nft_payment.clone(),
             token_nonce,
@@ -104,12 +105,6 @@ pub trait NftUpgrade:
             .clone()
             .concat(sc_format!("tags:{};", TAGS));
 
-        let mut encoded_attributes = ManagedBuffer::new();
-
-        nft_attributes_buffer
-            .top_encode(&mut encoded_attributes)
-            .unwrap();
-
         let mut args = ManagedArgBuffer::new();
         args.push_arg(&user);
         self.send_raw()
@@ -118,14 +113,59 @@ pub trait NftUpgrade:
                 &emr_nft_payment,
                 &BigUint::from(token_nonce),
                 self.blockchain().get_gas_left(),
-                &encoded_attributes,
+                &nft_attributes_buffer,
                 &args,
             )
             .expect("Failed to transfer the updated NFT.");
     }
 
+    #[payable("*")]
     #[endpoint(increaseLevel)]
-    fn increase_level(&self) {}
+    fn increase_level(&self) {
+        let user = self.blockchain().get_caller();
+
+        let (nft_identifier, nft_nonce, _) = self.call_value().single_esdt().into_tuple();
+
+        let _emr_nft = self.emr_nft().get();
+
+        let nft_attributes_buffer = self.get_nft_attributes_level(
+            self.blockchain().get_sc_address(),
+            nft_identifier.clone(),
+            nft_nonce,
+        );
+
+        let next_level = match nft_attributes_buffer.parse_as_u64() {
+            Some(level) => level + 1,
+            None => 1,
+        };
+
+        let nft_attributes_buffer = nft_attributes_buffer
+            .clone()
+            .concat(sc_format!("level:{}", next_level));
+
+        let nft_attributes_buffer = nft_attributes_buffer.clone().concat(sc_format!(
+            "metadata:{}/{}.json",
+            IPFS_CID,
+            nft_nonce
+        ));
+
+        let nft_attributes_buffer = nft_attributes_buffer
+            .clone()
+            .concat(sc_format!("tags:{};", TAGS));
+
+        let mut args = ManagedArgBuffer::new();
+        args.push_arg(&user);
+        self.send_raw()
+            .transfer_esdt_execute(
+                &user,
+                &nft_identifier,
+                &BigUint::from(nft_nonce),
+                self.blockchain().get_gas_left(),
+                &nft_attributes_buffer,
+                &args,
+            )
+            .expect("Failed to transfer the updated NFT.");
+    }
 
     // ===================== Views =====================
 
