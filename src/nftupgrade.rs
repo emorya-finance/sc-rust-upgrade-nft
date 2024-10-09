@@ -104,19 +104,19 @@ pub trait NftUpgrade:
         let nft_attributes_buffer = nft_attributes_buffer
             .clone()
             .concat(sc_format!("tags:{};", TAGS));
+    
+        self.send()
+            .nft_update_attributes(&emr_nft_payment, token_nonce, &nft_attributes_buffer);
 
-        let mut args = ManagedArgBuffer::new();
-        args.push_arg(&user);
-        self.send_raw()
-            .transfer_esdt_execute(
-                &user,
+        // transfer NFT back to caller
+        self.tx()
+            .to(&user)
+            .single_esdt(
                 &emr_nft_payment,
-                &BigUint::from(token_nonce),
-                self.blockchain().get_gas_left(),
-                &nft_attributes_buffer,
-                &args,
+                token_nonce,
+                &BigUint::from(1u8), // NFT amount is always 1
             )
-            .expect("Failed to transfer the updated NFT.");
+            .transfer();
     }
 
     #[payable("*")]
@@ -153,18 +153,18 @@ pub trait NftUpgrade:
             .clone()
             .concat(sc_format!("tags:{};", TAGS));
 
-        let mut args = ManagedArgBuffer::new();
-        args.push_arg(&user);
-        self.send_raw()
-            .transfer_esdt_execute(
-                &user,
+        self.send()
+            .nft_update_attributes(&nft_identifier, nft_nonce, &nft_attributes_buffer);
+
+        // transfer NFT back to caller
+        self.tx()
+            .to(&user)
+            .single_esdt(
                 &nft_identifier,
-                &BigUint::from(nft_nonce),
-                self.blockchain().get_gas_left(),
-                &nft_attributes_buffer,
-                &args,
+                nft_nonce,
+                &BigUint::from(1u8), // NFT amount is always 1
             )
-            .expect("Failed to transfer the updated NFT.");
+            .transfer();
     }
 
     // ===================== Views =====================
