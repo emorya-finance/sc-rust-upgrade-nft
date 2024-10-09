@@ -104,7 +104,7 @@ pub trait NftUpgrade:
         let nft_attributes_buffer = nft_attributes_buffer
             .clone()
             .concat(sc_format!("tags:{};", TAGS));
-    
+
         self.send()
             .nft_update_attributes(&emr_nft_payment, token_nonce, &nft_attributes_buffer);
 
