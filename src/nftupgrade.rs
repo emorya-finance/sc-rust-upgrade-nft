@@ -1,5 +1,6 @@
 #![no_std]
 
+
 pub mod owner;
 pub mod private;
 pub mod storage;
@@ -51,10 +52,9 @@ pub trait NftUpgrade:
         //     "tags:{};",
         //     TAGS
         // ));
-        new_attributes = new_attributes.clone().concat(sc_format!(
-            "level:{};activity_days:0;calories_per_day:0",
-            14278
-        ));
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("level:{};activity_days:0;calories_per_day:0", 1));
 
         // update NFT attributes
         self.send()
@@ -88,16 +88,21 @@ pub trait NftUpgrade:
 
         let _emr_nft = self.emr_nft().get();
 
-        let nft_attributes_buffer = self.get_nft_attributes_level(
+        let nft_attributes_buffer = self.get_nft_attributes(
             self.blockchain().get_sc_address(),
             emr_nft_payment.clone(),
             token_nonce,
         );
 
-        // so i need to work with string, separate with the quotes
-
-        let next_level = match nft_attributes_buffer.parse_as_u64() {
-            Some(level) => level + 1,
+        let level = match self
+            .get_nft_attributes_level(
+                self.blockchain().get_sc_address(),
+                emr_nft_payment.clone(),
+                token_nonce,
+            )
+            .parse_as_u64()
+        {
+            Some(level) => level,
             None => 1,
         };
 
@@ -112,7 +117,7 @@ pub trait NftUpgrade:
 
         let nft_attributes_buffer = nft_attributes_buffer
             .clone()
-            .concat(sc_format!("level:{}", next_level));
+            .concat(sc_format!("level:{}", level));
 
         self.send()
             .nft_update_attributes(&emr_nft_payment, token_nonce, &nft_attributes_buffer);
@@ -137,16 +142,22 @@ pub trait NftUpgrade:
 
         let _emr_nft = self.emr_nft().get();
 
-        let nft_attributes_buffer = self.get_nft_attributes_level(
+        let nft_attributes_buffer = self.get_nft_attributes(
             self.blockchain().get_sc_address(),
             nft_identifier.clone(),
             nft_nonce,
         );
 
-        let next_level = match nft_attributes_buffer.parse_as_u64() {
-            Some(level) => level + 1,
-            None => 1,
-        };
+        let next_level =match self
+            .get_nft_attributes_level(
+                self.blockchain().get_sc_address(),
+                nft_identifier.clone(),
+                nft_nonce,
+            )
+            .parse_as_u64(){
+                Some(level) => level +1,
+                None => 1,
+            };
 
         let nft_attributes_buffer = nft_attributes_buffer.clone().concat(sc_format!(
             "metadata:{}/{}.json",
@@ -202,17 +213,48 @@ pub trait NftUpgrade:
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .attributes;
 
-        if attributes.copy_slice(0, 6).unwrap() != b"level:" {
-            sc_panic!("Attributes do not start with level.");
+        let mut index = 1;
+        let flag;
+        let mut number_size = 0;
+
+        if attributes.copy_slice(0, 6).unwrap() == b"level:" {
+            flag = 1;
+        } else {
+            let mut semicolon_index = 1;
+            let mut semicolon = attributes.copy_slice(attributes.len() - 1, 1).unwrap();
+            while semicolon != b":" {
+                semicolon_index += 1;
+                number_size = semicolon_index;
+                semicolon = attributes
+                    .copy_slice(attributes.len() - semicolon_index, 1)
+                    .unwrap();
+                index += 1;
+            }
+            index += 5;
+            if attributes.copy_slice(attributes.len() - index, 6).unwrap() == b"level:" {
+                flag = 2;
+            } else {
+                sc_panic!("Attributes do not start or end with 'level:'.");
+            }
         }
 
-        let mut semicolon_index = 7;
-        let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-        while semicolon != b";" {
-            semicolon_index += 1;
-            semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-        }
+        if flag == 1 {
+            let mut semicolon_index = 7;
+            let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
+            while semicolon != b";" {
+                semicolon_index += 1;
+                semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
+            }
 
-        attributes.copy_slice(6, semicolon_index - 6).unwrap()
+            attributes.copy_slice(6, semicolon_index - 6).unwrap()
+        } else {
+            let semicolon_index = attributes.len() - number_size;
+            // sc_panic!(attributes
+            //     .copy_slice(semicolon_index + 1, number_size - 1)
+            //     .unwrap());
+            attributes
+                .copy_slice(semicolon_index + 1, number_size - 1)
+                .unwrap()
+        }
     }
 }

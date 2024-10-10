@@ -37,7 +37,7 @@ OWNER_ADDRESS_HEX=$(mxpy wallet bech32 --decode $OWNER_ADDRESS)
 # USDC="USDC-8d4068"
 # USDC_HEX=$(python to_hex.py $USDC)
 
-NFT="TESTDICK-d4c12a"
+NFT="FINALE-501978"
 NFT_HEX=$(python3 to_hex.py $NFT)
 
 NONCE="01"
