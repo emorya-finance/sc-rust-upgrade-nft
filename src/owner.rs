@@ -13,4 +13,10 @@ pub trait OwnerModule: crate::storage::StorageModule + crate::private::PrivateMo
     fn resume_sc(&self) {
         self.is_sc_paused().set(false);
     }
+
+    #[only_owner]
+    #[endpoint(setEmrNftIdentifier)]
+    fn set_emr_nft_identifier(&self, identifier: TokenIdentifier) {
+        self.emr_nft_identifier().set(identifier);
+    }
 }

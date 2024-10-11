@@ -82,6 +82,7 @@ where
     Gas: TxGas<Env>,
 {
     /// Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs. 
+    /// This will make an NFT similar to the current EMR NFTs. 
     pub fn initialize(
         self,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
@@ -99,11 +100,21 @@ where
             .original_result()
     }
 
+    /// Increase the level of an NFT by 1. 
     pub fn increase_level(
         self,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
             .raw_call("increaseLevel")
+            .original_result()
+    }
+
+    /// Decrease the level of an NFT by 1. 
+    pub fn decrease_level(
+        self,
+    ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
+        self.wrapped_tx
+            .raw_call("decreaseLevel")
             .original_result()
     }
 
@@ -126,7 +137,7 @@ where
             .original_result()
     }
 
-    pub fn get_nft_attributes_level<
+    pub fn get_nft_attributes_level_before_upgrade<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
         Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
         Arg2: ProxyArg<u64>,
@@ -138,19 +149,38 @@ where
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
         self.wrapped_tx
             .payment(NotPayable)
-            .raw_call("getNftAttributesLevel")
+            .raw_call("getNftAttributesLevelBeforeUpgrade")
             .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)
             .original_result()
     }
 
-    pub fn emr_nft(
+    pub fn get_nft_attributes_level_after_upgrade<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg2: ProxyArg<u64>,
+    >(
+        self,
+        owner: Arg0,
+        token_identifier: Arg1,
+        token_nonce: Arg2,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftAttributesLevelAfterUpgrade")
+            .argument(&owner)
+            .argument(&token_identifier)
+            .argument(&token_nonce)
+            .original_result()
+    }
+
+    pub fn emr_nft_identifier(
         self,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, TokenIdentifier<Env::Api>> {
         self.wrapped_tx
             .payment(NotPayable)
-            .raw_call("getEmrNft")
+            .raw_call("getEmrNftIdentifier")
             .original_result()
     }
 
@@ -178,6 +208,19 @@ where
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("resumeSc")
+            .original_result()
+    }
+
+    pub fn set_emr_nft_identifier<
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+    >(
+        self,
+        identifier: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("setEmrNftIdentifier")
+            .argument(&identifier)
             .original_result()
     }
 }

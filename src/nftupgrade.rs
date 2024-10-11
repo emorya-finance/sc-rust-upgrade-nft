@@ -1,6 +1,5 @@
 #![no_std]
 
-
 pub mod owner;
 pub mod private;
 pub mod storage;
@@ -32,42 +31,28 @@ pub trait NftUpgrade:
     // ===================== For Devnet initialization =====================
 
     /// Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.
+    /// This will make an NFT similar to the current EMR NFTs.
     #[payable("*")]
     #[endpoint(initialize)]
     fn initialize(&self) {
-        // read caller
         let caller = self.blockchain().get_caller();
 
-        // read NFT transfer
         let (nft_identifier, nft_nonce, _) = self.call_value().single_esdt().into_tuple();
 
         // prepare NFT attributes | I skip the IPFS CID and tags for now but you will need them in upgradeNft
         let mut new_attributes = ManagedBuffer::new();
-        // new_attributes = new_attributes.clone().concat(sc_format!(
-        //     "metadata:{}/{}.json",
-        //     IPFS_CID,
-        //     nft_nonce
-        // ));
-        // new_attributes = new_attributes.clone().concat(sc_format!(
-        //     "tags:{};",
-        //     TAGS
-        // ));
         new_attributes = new_attributes
             .clone()
             .concat(sc_format!("level:{};activity_days:0;calories_per_day:0", 1));
 
-        // update NFT attributes
+        // Update NFT attributes
         self.send()
             .nft_update_attributes(&nft_identifier, nft_nonce, &new_attributes);
 
-        // transfer NFT back to caller
+        // Transfer NFT back to caller
         self.tx()
             .to(&caller)
-            .single_esdt(
-                &nft_identifier,
-                nft_nonce,
-                &BigUint::from(1u8), // NFT amount is always 1
-            )
+            .single_esdt(&nft_identifier, nft_nonce, &BigUint::from(1u8))
             .transfer();
     }
 
@@ -81,109 +66,121 @@ pub trait NftUpgrade:
 
         let user = self.blockchain().get_caller();
 
-        let payment = self.call_value().single_esdt().into_tuple();
+        let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
+        self.require_valid_emr_nft(emr_nft_token.clone());
 
-        let emr_nft_payment = payment.0;
-        let token_nonce = payment.1;
-
-        let _emr_nft = self.emr_nft().get();
-
-        let nft_attributes_buffer = self.get_nft_attributes(
+        let level = self.get_nft_attributes_level_before_upgrade(
             self.blockchain().get_sc_address(),
-            emr_nft_payment.clone(),
-            token_nonce,
+            emr_nft_token.clone(),
+            emr_nft_nonce,
         );
 
-        let level = match self
-            .get_nft_attributes_level(
-                self.blockchain().get_sc_address(),
-                emr_nft_payment.clone(),
-                token_nonce,
-            )
-            .parse_as_u64()
-        {
-            Some(level) => level,
-            None => 1,
-        };
-
-        let nft_attributes_buffer = nft_attributes_buffer.clone().concat(sc_format!(
-            "metadata:{}/{}.json",
+        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
+        let mut new_attributes = ManagedBuffer::new();
+        new_attributes = new_attributes.clone().concat(sc_format!(
+            "metadata:{}/{}.json;",
             IPFS_CID,
-            token_nonce
+            emr_nft_nonce
         ));
-        let nft_attributes_buffer = nft_attributes_buffer
-            .clone()
-            .concat(sc_format!("tags:{};", TAGS));
+        new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
+        new_attributes = new_attributes.clone().concat(sc_format!("level:{}", level));
 
-        let nft_attributes_buffer = nft_attributes_buffer
-            .clone()
-            .concat(sc_format!("level:{}", level));
-
+        // Update NFT attributes
         self.send()
-            .nft_update_attributes(&emr_nft_payment, token_nonce, &nft_attributes_buffer);
+            .nft_update_attributes(&emr_nft_token, emr_nft_nonce, &new_attributes);
 
-        // transfer NFT back to caller
+        // Transfer NFT back to caller
         self.tx()
             .to(&user)
-            .single_esdt(
-                &emr_nft_payment,
-                token_nonce,
-                &BigUint::from(1u8), // NFT amount is always 1
-            )
+            .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
             .transfer();
     }
 
+    /// Increase the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(increaseLevel)]
     fn increase_level(&self) {
+        self.require_not_paused();
+
         let user = self.blockchain().get_caller();
 
-        let (nft_identifier, nft_nonce, _) = self.call_value().single_esdt().into_tuple();
+        let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
+        self.require_valid_emr_nft(emr_nft_token.clone());
 
-        let _emr_nft = self.emr_nft().get();
-
-        let nft_attributes_buffer = self.get_nft_attributes(
+        let level = self.get_nft_attributes_level_after_upgrade(
             self.blockchain().get_sc_address(),
-            nft_identifier.clone(),
-            nft_nonce,
+            emr_nft_token.clone(),
+            emr_nft_nonce,
         );
 
-        let next_level =match self
-            .get_nft_attributes_level(
-                self.blockchain().get_sc_address(),
-                nft_identifier.clone(),
-                nft_nonce,
-            )
-            .parse_as_u64(){
-                Some(level) => level +1,
-                None => 1,
-            };
+        let new_level = level.parse_as_u64().unwrap() + 1;
 
-        let nft_attributes_buffer = nft_attributes_buffer.clone().concat(sc_format!(
-            "metadata:{}/{}.json",
+        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
+        let mut new_attributes = ManagedBuffer::new();
+        new_attributes = new_attributes.clone().concat(sc_format!(
+            "metadata:{}/{}.json;",
             IPFS_CID,
-            nft_nonce
+            emr_nft_nonce
         ));
-
-        let nft_attributes_buffer = nft_attributes_buffer
+        new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
+        new_attributes = new_attributes
             .clone()
-            .concat(sc_format!("tags:{};", TAGS));
+            .concat(sc_format!("level:{}", new_level));
 
-        let nft_attributes_buffer = nft_attributes_buffer
-            .clone()
-            .concat(sc_format!("level:{}", next_level));
-
+        // Update NFT attributes
         self.send()
-            .nft_update_attributes(&nft_identifier, nft_nonce, &nft_attributes_buffer);
+            .nft_update_attributes(&emr_nft_token, emr_nft_nonce, &new_attributes);
 
-        // transfer NFT back to caller
+        // Transfer NFT back to caller
         self.tx()
             .to(&user)
-            .single_esdt(
-                &nft_identifier,
-                nft_nonce,
-                &BigUint::from(1u8), // NFT amount is always 1
-            )
+            .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
+            .transfer();
+    }
+
+    /// Decrease the level of an NFT by 1.
+    #[payable("*")]
+    #[endpoint(decreaseLevel)]
+    fn decrease_level(&self) {
+        self.require_not_paused();
+
+        let user = self.blockchain().get_caller();
+
+        let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
+        self.require_valid_emr_nft(emr_nft_token.clone());
+
+        let level = self.get_nft_attributes_level_after_upgrade(
+            self.blockchain().get_sc_address(),
+            emr_nft_token.clone(),
+            emr_nft_nonce,
+        );
+
+        let level_as_u64 = level.parse_as_u64().unwrap();
+        if level_as_u64 <= 1 {
+            sc_panic!("NFT level cannot be decreased because it is already 1.");
+        }
+        let new_level = level_as_u64 - 1;
+
+        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
+        let mut new_attributes = ManagedBuffer::new();
+        new_attributes = new_attributes.clone().concat(sc_format!(
+            "metadata:{}/{}.json;",
+            IPFS_CID,
+            emr_nft_nonce
+        ));
+        new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("level:{}", new_level));
+
+        // Update NFT attributes
+        self.send()
+            .nft_update_attributes(&emr_nft_token, emr_nft_nonce, &new_attributes);
+
+        // Transfer NFT back to caller
+        self.tx()
+            .to(&user)
+            .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
             .transfer();
     }
 
@@ -201,8 +198,8 @@ pub trait NftUpgrade:
             .attributes
     }
 
-    #[view(getNftAttributesLevel)]
-    fn get_nft_attributes_level(
+    #[view(getNftAttributesLevelBeforeUpgrade)]
+    fn get_nft_attributes_level_before_upgrade(
         &self,
         owner: ManagedAddress,
         token_identifier: TokenIdentifier,
@@ -213,48 +210,50 @@ pub trait NftUpgrade:
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .attributes;
 
-        let mut index = 1;
-        let flag;
-        let mut number_size = 0;
-
-        if attributes.copy_slice(0, 6).unwrap() == b"level:" {
-            flag = 1;
-        } else {
-            let mut semicolon_index = 1;
-            let mut semicolon = attributes.copy_slice(attributes.len() - 1, 1).unwrap();
-            while semicolon != b":" {
-                semicolon_index += 1;
-                number_size = semicolon_index;
-                semicolon = attributes
-                    .copy_slice(attributes.len() - semicolon_index, 1)
-                    .unwrap();
-                index += 1;
-            }
-            index += 5;
-            if attributes.copy_slice(attributes.len() - index, 6).unwrap() == b"level:" {
-                flag = 2;
-            } else {
-                sc_panic!("Attributes do not start or end with 'level:'.");
-            }
+        if attributes.copy_slice(0, 6).unwrap() != b"level:" {
+            sc_panic!("Attributes do not start as expected.");
         }
 
-        if flag == 1 {
-            let mut semicolon_index = 7;
-            let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-            while semicolon != b";" {
-                semicolon_index += 1;
-                semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-            }
-
-            attributes.copy_slice(6, semicolon_index - 6).unwrap()
-        } else {
-            let semicolon_index = attributes.len() - number_size;
-            // sc_panic!(attributes
-            //     .copy_slice(semicolon_index + 1, number_size - 1)
-            //     .unwrap());
-            attributes
-                .copy_slice(semicolon_index + 1, number_size - 1)
-                .unwrap()
+        let mut semicolon_index = 7;
+        let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
+        while semicolon != b";" {
+            semicolon_index += 1;
+            semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
         }
+
+        attributes.copy_slice(6, semicolon_index - 6).unwrap()
+    }
+
+    #[view(getNftAttributesLevelAfterUpgrade)]
+    fn get_nft_attributes_level_after_upgrade(
+        &self,
+        owner: ManagedAddress,
+        token_identifier: TokenIdentifier,
+        token_nonce: u64,
+    ) -> ManagedBuffer {
+        let attributes = self
+            .blockchain()
+            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
+            .attributes;
+
+        let mut starting_attributes = ManagedBuffer::new();
+        starting_attributes = starting_attributes
+            .clone()
+            .concat(sc_format!("metadata:{}/", IPFS_CID));
+
+        if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
+            sc_panic!("Attributes do not start as expected.");
+        }
+
+        let mut semicolon_index = attributes.len() - 1;
+        let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
+        while semicolon != b";" {
+            semicolon_index -= 1;
+            semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
+        }
+
+        attributes
+            .copy_slice(semicolon_index, attributes.len() - 1)
+            .unwrap()
     }
 }

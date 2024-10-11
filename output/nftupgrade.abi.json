@@ -1,11 +1,11 @@
 {
     "buildInfo": {
         "rustc": {
-            "version": "1.81.0",
-            "commitHash": "eeb90cda1969383f56a2637cbd3037bdf598841c",
-            "commitDate": "2024-09-04",
+            "version": "1.79.0",
+            "commitHash": "129f3b9964af4d4a709d1383930ade12dfe7c081",
+            "commitDate": "2024-06-10",
             "channel": "Stable",
-            "short": "rustc 1.81.0 (eeb90cda1 2024-09-04)"
+            "short": "rustc 1.79.0 (129f3b996 2024-06-10)"
         },
         "contractCrate": {
             "name": "nftupgrade",
@@ -28,7 +28,8 @@
     "endpoints": [
         {
             "docs": [
-                "Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs."
+                "Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.",
+                "This will make an NFT similar to the current EMR NFTs."
             ],
             "name": "initialize",
             "mutability": "mutable",
@@ -51,7 +52,22 @@
             "outputs": []
         },
         {
+            "docs": [
+                "Increase the level of an NFT by 1."
+            ],
             "name": "increaseLevel",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "Decrease the level of an NFT by 1."
+            ],
+            "name": "decreaseLevel",
             "mutability": "mutable",
             "payableInTokens": [
                 "*"
@@ -83,7 +99,7 @@
             ]
         },
         {
-            "name": "getNftAttributesLevel",
+            "name": "getNftAttributesLevelBeforeUpgrade",
             "mutability": "readonly",
             "inputs": [
                 {
@@ -106,7 +122,30 @@
             ]
         },
         {
-            "name": "getEmrNft",
+            "name": "getNftAttributesLevelAfterUpgrade",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "Address"
+                },
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "getEmrNftIdentifier",
             "mutability": "readonly",
             "inputs": [],
             "outputs": [
@@ -137,6 +176,18 @@
             "onlyOwner": true,
             "mutability": "mutable",
             "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "setEmrNftIdentifier",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "identifier",
+                    "type": "TokenIdentifier"
+                }
+            ],
             "outputs": []
         }
     ],

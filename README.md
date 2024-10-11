@@ -51,12 +51,25 @@
 
 </details>
 
+<details>
+<summary>setEmrNftIdentifier</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| identifier | TokenIdentifier |
+
+
+</details>
+
 ### Other
 
 <details>
 <summary>initialize</summary>
 
 Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.
+
+This will make an NFT similar to the current EMR NFTs.
 #### Note: This endpoint is payable by any token.
 
 
@@ -66,11 +79,25 @@ Initialize a Test NFT with level 1 in attributes, plus some more info to match c
 <summary>upgradeNft</summary>
 
 Upgrade an NFT to the same level but with more data in attributes.
+#### Note: This endpoint is payable by any token.
+
 
 </details>
 
 <details>
 <summary>increaseLevel</summary>
+
+Increase the level of an NFT by 1.
+#### Note: This endpoint is payable by any token.
+
+
+</details>
+
+<details>
+<summary>decreaseLevel</summary>
+
+Decrease the level of an NFT by 1.
+#### Note: This endpoint is payable by any token.
 
 
 </details>
@@ -96,7 +123,7 @@ Upgrade an NFT to the same level but with more data in attributes.
 </details>
 
 <details>
-<summary>getNftAttributesLevel</summary>
+<summary>getNftAttributesLevelBeforeUpgrade</summary>
 
 #### Inputs:
 | Name | Type |
@@ -114,7 +141,25 @@ Upgrade an NFT to the same level but with more data in attributes.
 </details>
 
 <details>
-<summary>getEmrNft</summary>
+<summary>getNftAttributesLevelAfterUpgrade</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| owner | Address |
+| token_identifier | TokenIdentifier |
+| token_nonce | u64 |
+
+#### Outputs:
+| Type |
+| - |
+| bytes |
+
+
+</details>
+
+<details>
+<summary>getEmrNftIdentifier</summary>
 
 #### Outputs:
 | Type |
