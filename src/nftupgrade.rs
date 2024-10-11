@@ -245,15 +245,16 @@ pub trait NftUpgrade:
             sc_panic!("Attributes do not start as expected.");
         }
 
-        let mut semicolon_index = attributes.len() - 1;
-        let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-        while semicolon != b";" {
-            semicolon_index -= 1;
-            semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
+        let mut colon_index = attributes.len() - 1;
+        let mut colon = attributes.copy_slice(colon_index, 1).unwrap();
+
+        while colon != b":" {
+            colon_index -= 1;
+            colon = attributes.copy_slice(colon_index, 1).unwrap();
         }
 
         attributes
-            .copy_slice(semicolon_index, attributes.len() - 1)
+            .copy_slice(colon_index + 1, attributes.len() - colon_index - 1)
             .unwrap()
     }
 }
