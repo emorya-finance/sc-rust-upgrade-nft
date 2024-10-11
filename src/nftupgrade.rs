@@ -113,7 +113,7 @@ pub trait NftUpgrade:
             emr_nft_nonce,
         );
 
-        let new_level = level.parse_as_u64().unwrap() + 1;
+        let new_level = BigUint::from(level) + BigUint::from(1u8);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
@@ -155,11 +155,11 @@ pub trait NftUpgrade:
             emr_nft_nonce,
         );
 
-        let level_as_u64 = level.parse_as_u64().unwrap();
-        if level_as_u64 <= 1 {
+        let level_as_biguint = BigUint::from(level);
+        if level_as_biguint <= 1 {
             sc_panic!("NFT level cannot be decreased because it is already 1.");
         }
-        let new_level = level_as_u64 - 1;
+        let new_level = level_as_biguint - BigUint::from(1u8);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
