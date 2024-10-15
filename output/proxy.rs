@@ -118,6 +118,60 @@ where
             .original_result()
     }
 
+    pub fn is_sc_paused(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, bool> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getIsScPaused")
+            .original_result()
+    }
+
+    pub fn pause_sc(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("pauseSc")
+            .original_result()
+    }
+
+    pub fn resume_sc(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("resumeSc")
+            .original_result()
+    }
+
+    pub fn get_ipfs_cid(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getIpfsCid")
+            .original_result()
+    }
+
+    pub fn get_tags(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getTags")
+            .original_result()
+    }
+
+    pub fn get_nft_identifier(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, TokenIdentifier<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftIdentifier")
+            .original_result()
+    }
+
     pub fn get_nft_attributes<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
         Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
@@ -172,55 +226,6 @@ where
             .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)
-            .original_result()
-    }
-
-    pub fn emr_nft_identifier(
-        self,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, TokenIdentifier<Env::Api>> {
-        self.wrapped_tx
-            .payment(NotPayable)
-            .raw_call("getEmrNftIdentifier")
-            .original_result()
-    }
-
-    pub fn is_sc_paused(
-        self,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, bool> {
-        self.wrapped_tx
-            .payment(NotPayable)
-            .raw_call("getIsScPaused")
-            .original_result()
-    }
-
-    pub fn pause_sc(
-        self,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
-        self.wrapped_tx
-            .payment(NotPayable)
-            .raw_call("pauseSc")
-            .original_result()
-    }
-
-    pub fn resume_sc(
-        self,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
-        self.wrapped_tx
-            .payment(NotPayable)
-            .raw_call("resumeSc")
-            .original_result()
-    }
-
-    pub fn set_emr_nft_identifier<
-        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
-    >(
-        self,
-        identifier: Arg0,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
-        self.wrapped_tx
-            .payment(NotPayable)
-            .raw_call("setEmrNftIdentifier")
-            .argument(&identifier)
             .original_result()
     }
 }

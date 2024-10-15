@@ -51,17 +51,6 @@
 
 </details>
 
-<details>
-<summary>setEmrNftIdentifier</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| identifier | TokenIdentifier |
-
-
-</details>
-
 ### Other
 
 <details>
@@ -88,7 +77,7 @@ Upgrade an NFT to the same level but with more data in attributes.
 <summary>increaseLevel</summary>
 
 Increase the level of an NFT by 1.
-#### Note: This endpoint is payable by any token .
+#### Note: This endpoint is payable by any token.
 
 
 </details>
@@ -97,12 +86,56 @@ Increase the level of an NFT by 1.
 <summary>decreaseLevel</summary>
 
 Decrease the level of an NFT by 1.
-#### Note: This endpoint is payable by any token .
+#### Note: This endpoint is payable by any token.
 
 
 </details>
 
 ## Views
+
+<details>
+<summary>getIsScPaused</summary>
+
+#### Outputs:
+| Type |
+| - |
+| bool |
+
+
+</details>
+
+<details>
+<summary>getIpfsCid</summary>
+
+#### Outputs:
+| Type |
+| - |
+| bytes |
+
+
+</details>
+
+<details>
+<summary>getTags</summary>
+
+#### Outputs:
+| Type |
+| - |
+| bytes |
+
+
+</details>
+
+<details>
+<summary>getNftIdentifier</summary>
+
+#### Outputs:
+| Type |
+| - |
+| TokenIdentifier |
+
+
+</details>
 
 <details>
 <summary>getNftAttributes</summary>
@@ -154,28 +187,6 @@ Decrease the level of an NFT by 1.
 | Type |
 | - |
 | bytes |
-
-
-</details>
-
-<details>
-<summary>getEmrNftIdentifier</summary>
-
-#### Outputs:
-| Type |
-| - |
-| TokenIdentifier |
-
-
-</details>
-
-<details>
-<summary>getIsScPaused</summary>
-
-#### Outputs:
-| Type |
-| - |
-| bool |
 
 
 </details>

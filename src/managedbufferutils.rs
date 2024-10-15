@@ -5,6 +5,7 @@ use multiversx_sc::{
     types::{ManagedBuffer, ManagedVec},
 };
 
+#[allow(clippy::all)]
 pub trait ManagedBufferUtils<M: ManagedTypeApi> {
     fn load_512_bytes(&self) -> [u8; 512];
 
@@ -29,6 +30,7 @@ pub trait ManagedBufferUtils<M: ManagedTypeApi> {
     fn compare(&self, other: &Self) -> Ordering;
 }
 
+#[allow(clippy::all)]
 impl<M: ManagedTypeApi> ManagedBufferUtils<M> for ManagedBuffer<M> {
     fn load_512_bytes(&self) -> [u8; 512] {
         if (self.len() as usize) > 512 {

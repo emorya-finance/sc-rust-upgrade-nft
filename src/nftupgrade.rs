@@ -2,19 +2,22 @@
 
 multiversx_sc::imports!();
 
+pub mod constants;
 pub mod managedbufferutils;
 pub mod owner;
 pub mod private;
-pub mod views;
 pub mod storage;
-pub mod constants;
+pub mod views;
 
 use constants::{IPFS_CID, TAGS};
 use managedbufferutils::ManagedBufferUtils;
 
 #[multiversx_sc::contract]
 pub trait NftUpgrade:
-    crate::storage::StorageModule + crate::private::PrivateModule + crate::owner::OwnerModule + crate::views::ViewsModule
+    crate::storage::StorageModule
+    + crate::private::PrivateModule
+    + crate::owner::OwnerModule
+    + crate::views::ViewsModule
 {
     // ===================== Deployment & Upgrade =====================
 
