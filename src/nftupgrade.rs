@@ -1,27 +1,20 @@
 #![no_std]
 
-use managedbufferutils::ManagedBufferUtils;
+multiversx_sc::imports!();
 
 pub mod managedbufferutils;
 pub mod owner;
 pub mod private;
+pub mod views;
 pub mod storage;
+pub mod constants;
 
-multiversx_sc::imports!();
-multiversx_sc::derive_imports!();
-
-#[derive(TopEncode, TopDecode, NestedEncode, NestedDecode, TypeAbi)]
-struct NftAttributes {
-    level: u32,
-}
-
-const IPFS_CID: &[u8] =
-    b"bafybeihggf4ao72jrpc7oeyvyrfm6srxbtwybiyans4e37pxxxgrhrjx4y.ipfs.nftstorage.link";
-const TAGS: &[u8] = b"tag1,tag2,tag3";
+use constants::{IPFS_CID, TAGS};
+use managedbufferutils::ManagedBufferUtils;
 
 #[multiversx_sc::contract]
 pub trait NftUpgrade:
-    crate::storage::StorageModule + crate::private::PrivateModule + crate::owner::OwnerModule
+    crate::storage::StorageModule + crate::private::PrivateModule + crate::owner::OwnerModule + crate::views::ViewsModule
 {
     // ===================== Deployment & Upgrade =====================
 
@@ -70,7 +63,7 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        // self.require_valid_emr_nft(emr_nft_token.clone());
+        self.require_valid_emr_nft(emr_nft_token.clone());
 
         let level = self.get_nft_attributes_level_before_upgrade(
             self.blockchain().get_sc_address(),
@@ -108,7 +101,7 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        // self.require_valid_emr_nft(emr_nft_token.clone());
+        self.require_valid_emr_nft(emr_nft_token.clone());
 
         let level = self.get_nft_attributes_level_after_upgrade(
             self.blockchain().get_sc_address(),
@@ -119,8 +112,6 @@ pub trait NftUpgrade:
         let level = level.ascii_to_u64().unwrap();
 
         let new_level = level + 1;
-
-        // sc_panic!("the level is {} and the new one is {}", level, new_level);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
@@ -154,7 +145,7 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        // self.require_valid_emr_nft(emr_nft_token.clone());
+        self.require_valid_emr_nft(emr_nft_token.clone());
 
         let level = self.get_nft_attributes_level_after_upgrade(
             self.blockchain().get_sc_address(),
@@ -163,6 +154,8 @@ pub trait NftUpgrade:
         );
 
         let level = level.ascii_to_u64().unwrap();
+
+        require!(level > 1, "NFT level cannot be less than 1.");
 
         let new_level = level - 1;
 
@@ -187,79 +180,5 @@ pub trait NftUpgrade:
             .to(&user)
             .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
             .transfer();
-    }
-
-    // ===================== Views =====================
-
-    #[view(getNftAttributes)]
-    fn get_nft_attributes(
-        &self,
-        owner: ManagedAddress,
-        token_identifier: TokenIdentifier,
-        token_nonce: u64,
-    ) -> ManagedBuffer {
-        self.blockchain()
-            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
-            .attributes
-    }
-
-    #[view(getNftAttributesLevelBeforeUpgrade)]
-    fn get_nft_attributes_level_before_upgrade(
-        &self,
-        owner: ManagedAddress,
-        token_identifier: TokenIdentifier,
-        token_nonce: u64,
-    ) -> ManagedBuffer {
-        let attributes = self
-            .blockchain()
-            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
-            .attributes;
-
-        if attributes.copy_slice(0, 6).unwrap() != b"level:" {
-            sc_panic!("Attributes do not start as expected.");
-        }
-
-        let mut semicolon_index = 7;
-        let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-        while semicolon != b";" {
-            semicolon_index += 1;
-            semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-        }
-
-        attributes.copy_slice(6, semicolon_index - 6).unwrap()
-    }
-
-    #[view(getNftAttributesLevelAfterUpgrade)]
-    fn get_nft_attributes_level_after_upgrade(
-        &self,
-        owner: ManagedAddress,
-        token_identifier: TokenIdentifier,
-        token_nonce: u64,
-    ) -> ManagedBuffer {
-        let attributes = self
-            .blockchain()
-            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
-            .attributes;
-
-        let mut starting_attributes = ManagedBuffer::new();
-        starting_attributes = starting_attributes
-            .clone()
-            .concat(sc_format!("metadata:{}/", IPFS_CID));
-
-        if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
-            sc_panic!("Attributes do not start as expected.");
-        }
-
-        let mut colon_index = attributes.len() - 1;
-        let mut colon = attributes.copy_slice(colon_index, 1).unwrap();
-
-        while colon != b":" {
-            colon_index -= 1;
-            colon = attributes.copy_slice(colon_index, 1).unwrap();
-        }
-
-        attributes
-            .copy_slice(colon_index + 1, attributes.len() - colon_index - 1)
-            .unwrap()
     }
 }
