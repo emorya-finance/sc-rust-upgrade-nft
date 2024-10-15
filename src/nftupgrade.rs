@@ -1,5 +1,8 @@
 #![no_std]
 
+use managedbufferutils::ManagedBufferUtils;
+
+pub mod managedbufferutils;
 pub mod owner;
 pub mod private;
 pub mod storage;
@@ -113,7 +116,9 @@ pub trait NftUpgrade:
             emr_nft_nonce,
         );
 
-        let new_level = BigUint::from(level) + BigUint::from(1u8);
+        let level = level.ascii_to_u64().unwrap();
+
+        let new_level = level + u64::from_be(1);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
