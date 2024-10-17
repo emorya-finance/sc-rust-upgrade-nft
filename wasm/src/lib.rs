@@ -6,9 +6,15 @@
 
 // Init:                                 1
 // Upgrade:                              1
+<<<<<<< HEAD
 // Endpoints:                           15
 // Async Callback (empty):               1
 // Total number of exported functions:  18
+=======
+// Endpoints:                           16
+// Async Callback (empty):               1
+// Total number of exported functions:  19
+>>>>>>> Emorya-NFT-Investors
 
 #![no_std]
 
@@ -29,10 +35,15 @@ multiversx_sc_wasm_adapter::endpoints! {
         pauseSc => pause_sc
         resumeSc => resume_sc
         addAllowedAddresses => add_allowed_addresses
+<<<<<<< HEAD
         getIpfsCid => get_ipfs_cid
+=======
+>>>>>>> Emorya-NFT-Investors
         getTags => get_tags
         getNftIdentifier => get_nft_identifier
         getNftAttributes => get_nft_attributes
+        getNftUris => get_nft_uris
+        getNftUriJson => get_nft_uri_json
         getNftAttributesLevelBeforeUpgrade => get_nft_attributes_level_before_upgrade
         getNftAttributesLevelAfterUpgrade => get_nft_attributes_level_after_upgrade
     )

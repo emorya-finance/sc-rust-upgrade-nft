@@ -157,6 +157,7 @@ where
     pub fn add_allowed_addresses<
         Arg0: ProxyArg<MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>>,
     >(
+<<<<<<< HEAD
         self,
         addresses: Arg0,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
@@ -168,11 +169,15 @@ where
     }
 
     pub fn get_ipfs_cid(
+=======
+>>>>>>> Emorya-NFT-Investors
         self,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
+        addresses: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
         self.wrapped_tx
             .payment(NotPayable)
-            .raw_call("getIpfsCid")
+            .raw_call("addAllowedAddresses")
+            .argument(&addresses)
             .original_result()
     }
 
@@ -207,6 +212,44 @@ where
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getNftAttributes")
+            .argument(&owner)
+            .argument(&token_identifier)
+            .argument(&token_nonce)
+            .original_result()
+    }
+
+    pub fn get_nft_uris<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg2: ProxyArg<u64>,
+    >(
+        self,
+        owner: Arg0,
+        token_identifier: Arg1,
+        token_nonce: Arg2,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedVec<Env::Api, ManagedBuffer<Env::Api>>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftUris")
+            .argument(&owner)
+            .argument(&token_identifier)
+            .argument(&token_nonce)
+            .original_result()
+    }
+
+    pub fn get_nft_uri_json<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg2: ProxyArg<u64>,
+    >(
+        self,
+        owner: Arg0,
+        token_identifier: Arg1,
+        token_nonce: Arg2,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftUriJson")
             .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)

@@ -115,6 +115,7 @@
             "onlyOwner": true,
             "mutability": "mutable",
             "inputs": [
+<<<<<<< HEAD
                 {
                     "name": "addresses",
                     "type": "variadic<Address>",
@@ -128,10 +129,15 @@
             "mutability": "readonly",
             "inputs": [],
             "outputs": [
+=======
+>>>>>>> Emorya-NFT-Investors
                 {
-                    "type": "bytes"
+                    "name": "addresses",
+                    "type": "variadic<Address>",
+                    "multi_arg": true
                 }
-            ]
+            ],
+            "outputs": []
         },
         {
             "name": "getTags",
@@ -155,6 +161,52 @@
         },
         {
             "name": "getNftAttributes",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "Address"
+                },
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "getNftUris",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "Address"
+                },
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<bytes>"
+                }
+            ]
+        },
+        {
+            "name": "getNftUriJson",
             "mutability": "readonly",
             "inputs": [
                 {

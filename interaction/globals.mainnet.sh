@@ -34,10 +34,10 @@ WRAPPEDEGLD_ADDRESS_HEX=$(mxpy wallet bech32 --decode $WRAPPEDEGLD_ADDRESS)
 #=============================== TOKENS ===============================
 
 EGLD="EGLD"
-EGLD_HEX=$(python to_hex.py $EGLD)
+EGLD_HEX=$(python3 to_hex.py $EGLD)
 
 WEGLD="WEGLD-bd4d79"
-WEGLD_HEX=$(python to_hex.py $WEGLD)
+WEGLD_HEX=$(python3 to_hex.py $WEGLD)
 
 USDC="USDC-c76f1f"
-USDC_HEX=$(python to_hex.py $USDC)
+USDC_HEX=$(python3 to_hex.py $USDC)

@@ -32,7 +32,11 @@ claimDeveloperRewards() {
 deploy() {
     # deploy OR  deploy "0xArg1_hex 0xArg2_hex ..." 50000000
 
+<<<<<<< HEAD
     local GAS_LIMIT=${2:-60000000}  # Default gas limit is 20 million
+=======
+    local GAS_LIMIT=${2:-40000000}  # Default gas limit is 20 million
+>>>>>>> Emorya-NFT-Investors
 
     if [ -n "$1" ]; then
         ARGS="--arguments $1"

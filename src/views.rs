@@ -1,14 +1,9 @@
-use crate::constants::{IPFS_CID, NFT_IDENTIFIER, TAGS};
+use crate::constants::{NFT_IDENTIFIER, TAGS};
 
 multiversx_sc::imports!();
 
 #[multiversx_sc::module]
 pub trait ViewsModule: crate::storage::StorageModule {
-    #[view(getIpfsCid)]
-    fn get_ipfs_cid(&self) -> ManagedBuffer {
-        ManagedBuffer::new_from_bytes(IPFS_CID)
-    }
-
     #[view(getTags)]
     fn get_tags(&self) -> ManagedBuffer {
         ManagedBuffer::new_from_bytes(TAGS)
@@ -55,7 +50,12 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .uris;
 
+<<<<<<< HEAD
         uris.get(0).clone_value()
+=======
+        let link = uris.get(0).clone_value();
+        link.copy_slice(8, link.len() - 8).unwrap()
+>>>>>>> Emorya-NFT-Investors
     }
 
     #[view(getNftAttributesLevelBeforeUpgrade)]
@@ -96,10 +96,12 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .attributes;
 
+        let uri_json = self.get_nft_uri_json(owner, token_identifier, token_nonce);
+
         let mut starting_attributes = ManagedBuffer::new();
         starting_attributes = starting_attributes
             .clone()
-            .concat(sc_format!("metadata:{}/", IPFS_CID));
+            .concat(sc_format!("metadata:{}", uri_json));
 
         if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
             sc_panic!("Attributes do not start as expected.");
