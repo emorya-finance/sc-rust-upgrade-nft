@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                           15
+// Endpoints:                           16
 // Async Callback (empty):               1
-// Total number of exported functions:  18
+// Total number of exported functions:  19
 
 #![no_std]
 
@@ -29,10 +29,11 @@ multiversx_sc_wasm_adapter::endpoints! {
         pauseSc => pause_sc
         resumeSc => resume_sc
         addAllowedAddresses => add_allowed_addresses
-        getIpfsCid => get_ipfs_cid
         getTags => get_tags
         getNftIdentifier => get_nft_identifier
         getNftAttributes => get_nft_attributes
+        getNftUris => get_nft_uris
+        getNftUriJson => get_nft_uri_json
         getNftAttributesLevelBeforeUpgrade => get_nft_attributes_level_before_upgrade
         getNftAttributesLevelAfterUpgrade => get_nft_attributes_level_after_upgrade
     )

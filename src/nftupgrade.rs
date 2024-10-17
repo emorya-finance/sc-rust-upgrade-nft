@@ -9,7 +9,7 @@ pub mod private;
 pub mod storage;
 pub mod views;
 
-use constants::{IPFS_CID, TAGS};
+use constants::TAGS;
 use managedbufferutils::ManagedBufferUtils;
 
 #[multiversx_sc::contract]
@@ -86,13 +86,18 @@ pub trait NftUpgrade:
             emr_nft_nonce,
         );
 
+        let uri_json = self.get_nft_uri_json(
+            self.blockchain().get_sc_address(),
+            emr_nft_token.clone(),
+            emr_nft_nonce,
+        );
+
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
-        new_attributes = new_attributes.clone().concat(sc_format!(
-            "metadata:{}/{}.json;",
-            IPFS_CID,
-            emr_nft_nonce
-        ));
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("metadata:{};", uri_json));
+
         new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
         new_attributes = new_attributes.clone().concat(sc_format!("level:{}", level));
 
@@ -134,13 +139,18 @@ pub trait NftUpgrade:
 
         let new_level = level + 1;
 
+        let uri_json = self.get_nft_uri_json(
+            self.blockchain().get_sc_address(),
+            emr_nft_token.clone(),
+            emr_nft_nonce,
+        );
+
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
-        new_attributes = new_attributes.clone().concat(sc_format!(
-            "metadata:{}/{}.json;",
-            IPFS_CID,
-            emr_nft_nonce
-        ));
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("metadata:{};", uri_json));
+
         new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
         new_attributes = new_attributes
             .clone()
@@ -186,13 +196,18 @@ pub trait NftUpgrade:
 
         let new_level = level - 1;
 
+        let uri_json = self.get_nft_uri_json(
+            self.blockchain().get_sc_address(),
+            emr_nft_token.clone(),
+            emr_nft_nonce,
+        );
+
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
-        new_attributes = new_attributes.clone().concat(sc_format!(
-            "metadata:{}/{}.json;",
-            IPFS_CID,
-            emr_nft_nonce
-        ));
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("metadata:{};", uri_json));
+
         new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
         new_attributes = new_attributes
             .clone()
