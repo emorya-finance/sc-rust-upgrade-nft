@@ -127,6 +127,15 @@ where
             .original_result()
     }
 
+    pub fn allowed_addresses(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getAllowedAddresses")
+            .original_result()
+    }
+
     pub fn pause_sc(
         self,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
@@ -142,6 +151,19 @@ where
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("resumeSc")
+            .original_result()
+    }
+
+    pub fn add_allowed_addresses<
+        Arg0: ProxyArg<MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>>,
+    >(
+        self,
+        addresses: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("addAllowedAddresses")
+            .argument(&addresses)
             .original_result()
     }
 
