@@ -48,7 +48,12 @@
             "payableInTokens": [
                 "*"
             ],
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "actual_user",
+                    "type": "Address"
+                }
+            ],
             "outputs": []
         },
         {
@@ -60,7 +65,12 @@
             "payableInTokens": [
                 "*"
             ],
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "actual_user",
+                    "type": "Address"
+                }
+            ],
             "outputs": []
         },
         {
@@ -72,7 +82,12 @@
             "payableInTokens": [
                 "*"
             ],
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "actual_user",
+                    "type": "Address"
+                }
+            ],
             "outputs": []
         },
         {
@@ -115,22 +130,6 @@
             "onlyOwner": true,
             "mutability": "mutable",
             "inputs": [
-<<<<<<< HEAD
-                {
-                    "name": "addresses",
-                    "type": "variadic<Address>",
-                    "multi_arg": true
-                }
-            ],
-            "outputs": []
-        },
-        {
-            "name": "getIpfsCid",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": [
-=======
->>>>>>> Emorya-NFT-Investors
                 {
                     "name": "addresses",
                     "type": "variadic<Address>",

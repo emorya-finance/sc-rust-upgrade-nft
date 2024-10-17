@@ -41,7 +41,7 @@ pub trait NftUpgrade:
         require!(
             caller == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&caller),
-            "You are not allowed to allocate EMRS."
+            "You are not allowed to upgrade NFTs."
         );
 
         // prepare NFT attributes | I skip the IPFS CID and tags for now but you will need them in upgradeNft
@@ -77,11 +77,7 @@ pub trait NftUpgrade:
         require!(
             user == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&user),
-<<<<<<< HEAD
-            "You are not allowed to allocate EMRS."
-=======
-            "You are not to upgrade an NFT."
->>>>>>> Emorya-NFT-Investors
+            "You are not allowed to upgrade NFTs."
         );
 
         let level = self.get_nft_attributes_level_before_upgrade(
@@ -130,7 +126,7 @@ pub trait NftUpgrade:
         require!(
             user == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&user),
-            "You are not allowed to allocate EMRS."
+            "You are not allowed to upgrade NFTs."
         );
 
         let level = self.get_nft_attributes_level_after_upgrade(
@@ -185,7 +181,7 @@ pub trait NftUpgrade:
         require!(
             user == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&user),
-            "You are not allowed to allocate EMRS."
+            "You are not allowed to upgrade NFTs."
         );
 
         let level = self.get_nft_attributes_level_after_upgrade(

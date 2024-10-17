@@ -1,10 +1,6 @@
 pub const TAGS: &[u8] = b"Emorya,Sports,NFT";
 
-<<<<<<< HEAD
 pub const NFT_IDENTIFIER: &[u8] = b"EMRNFT-041abf";
-=======
-pub const NFT_IDENTIFIER: &[u8] = b"EMRNFT-50e862";
->>>>>>> Emorya-NFT-Investors
 
 // EXAMPLE FOR EMR NFT
 

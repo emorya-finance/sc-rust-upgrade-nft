@@ -92,29 +92,41 @@ where
     }
 
     /// Upgrade an NFT to the same level but with more data in attributes. 
-    pub fn upgrade_nft(
+    pub fn upgrade_nft<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
         self,
+        actual_user: Arg0,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
             .raw_call("upgradeNft")
+            .argument(&actual_user)
             .original_result()
     }
 
     /// Increase the level of an NFT by 1. 
-    pub fn increase_level(
+    pub fn increase_level<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
         self,
+        actual_user: Arg0,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
             .raw_call("increaseLevel")
+            .argument(&actual_user)
             .original_result()
     }
 
     /// Decrease the level of an NFT by 1. 
-    pub fn decrease_level(
+    pub fn decrease_level<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
         self,
+        actual_user: Arg0,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
             .raw_call("decreaseLevel")
+            .argument(&actual_user)
             .original_result()
     }
 
@@ -157,20 +169,6 @@ where
     pub fn add_allowed_addresses<
         Arg0: ProxyArg<MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>>,
     >(
-<<<<<<< HEAD
-        self,
-        addresses: Arg0,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
-        self.wrapped_tx
-            .payment(NotPayable)
-            .raw_call("addAllowedAddresses")
-            .argument(&addresses)
-            .original_result()
-    }
-
-    pub fn get_ipfs_cid(
-=======
->>>>>>> Emorya-NFT-Investors
         self,
         addresses: Arg0,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {

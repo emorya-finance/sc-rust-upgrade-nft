@@ -50,12 +50,8 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .uris;
 
-<<<<<<< HEAD
-        uris.get(0).clone_value()
-=======
         let link = uris.get(0).clone_value();
         link.copy_slice(8, link.len() - 8).unwrap()
->>>>>>> Emorya-NFT-Investors
     }
 
     #[view(getNftAttributesLevelBeforeUpgrade)]
