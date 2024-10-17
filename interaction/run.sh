@@ -12,5 +12,5 @@ source snippets.sh
 
 # assignRole
 
-# runTx $OWNER_ADDRESS "" ESDTNFTTransfer@$NFT_HEX@$NONCE_HEX@01@$SC_ADDRESS_HEX@$(python3 to_hex.py increaseLevel)
+# runTx $OWNER_ADDRESS "" ESDTNFTTransfer@$NFT_HEX@$NONCE_HEX@01@$SC_ADDRESS_HEX@$(python3 to_hex.py decreaseLevel)
 
