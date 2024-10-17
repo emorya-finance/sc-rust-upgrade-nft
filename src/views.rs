@@ -97,7 +97,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let mut starting_attributes = ManagedBuffer::new();
         starting_attributes = starting_attributes
             .clone()
-            .concat(sc_format!("metadata:{}/", uri_json));
+            .concat(sc_format!("metadata:{}", uri_json));
 
         if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
             sc_panic!("Attributes do not start as expected.");

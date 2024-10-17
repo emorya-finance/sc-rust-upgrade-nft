@@ -72,12 +72,12 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        // self.require_valid_emr_nft(emr_nft_token.clone());
 
         require!(
             user == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&user),
-            "You are not allowed to allocate EMRS."
+            "You are not to upgrade an NFT."
         );
 
         let level = self.get_nft_attributes_level_before_upgrade(
@@ -121,7 +121,7 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        // self.require_valid_emr_nft(emr_nft_token.clone());
 
         require!(
             user == self.blockchain().get_owner_address()
@@ -176,7 +176,7 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        // self.require_valid_emr_nft(emr_nft_token.clone());
 
         require!(
             user == self.blockchain().get_owner_address()
