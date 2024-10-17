@@ -31,6 +31,33 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .attributes
     }
 
+    #[view(getNftUris)]
+    fn get_nft_uris(
+        &self,
+        owner: ManagedAddress,
+        token_identifier: TokenIdentifier,
+        token_nonce: u64,
+    ) -> ManagedVec<ManagedBuffer> {
+        self.blockchain()
+            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
+            .uris
+    }
+
+    #[view(getNftUriJson)]
+    fn get_nft_uri_json(
+        &self,
+        owner: ManagedAddress,
+        token_identifier: TokenIdentifier,
+        token_nonce: u64,
+    ) -> ManagedBuffer {
+        let uris = self
+            .blockchain()
+            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
+            .uris;
+
+        uris.get(0).clone_value()
+    }
+
     #[view(getNftAttributesLevelBeforeUpgrade)]
     fn get_nft_attributes_level_before_upgrade(
         &self,
