@@ -159,6 +159,16 @@
             ]
         },
         {
+            "name": "getNftIdentifierInvestors",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
             "name": "getNftAttributes",
             "mutability": "readonly",
             "inputs": [

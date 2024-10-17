@@ -197,6 +197,15 @@ where
             .original_result()
     }
 
+    pub fn get_nft_identifier_investors(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, TokenIdentifier<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftIdentifierInvestors")
+            .original_result()
+    }
+
     pub fn get_nft_attributes<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
         Arg1: ProxyArg<TokenIdentifier<Env::Api>>,

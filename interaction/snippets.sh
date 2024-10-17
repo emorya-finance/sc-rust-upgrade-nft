@@ -88,5 +88,5 @@ runTx() {
 }
 
 assignRole () {
-    runTx erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u "" setSpecialRole @$NFT_HEX@$SC_ADDRESS_HEX@$(python3 to_hex.py ESDTRoleNFTUpdateAttributes) 60000000
+    runTx erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u "" setSpecialRole @$NFT_INVESTORS_HEX@$SC_ADDRESS_HEX@$(python3 to_hex.py ESDTRoleNFTUpdateAttributes) 60000000
 }

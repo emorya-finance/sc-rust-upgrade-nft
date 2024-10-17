@@ -45,5 +45,8 @@ USDC_HEX=$(python3 to_hex.py $USDC)
 NFT="EMRNFT-041abf"
 NFT_HEX=$(python3 to_hex.py $NFT)
 
-NONCE="2478"
+NFT_INVESTORS="EMRNFT-50e862"
+NFT_INVESTORS_HEX=$(python3 to_hex.py $NFT_INVESTORS)
+
+NONCE="2485"
 NONCE_HEX=$(python3 to_hex.py $NONCE)

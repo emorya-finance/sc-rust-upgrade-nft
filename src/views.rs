@@ -1,4 +1,4 @@
-use crate::constants::{NFT_IDENTIFIER, TAGS};
+use crate::constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS};
 
 multiversx_sc::imports!();
 
@@ -12,6 +12,11 @@ pub trait ViewsModule: crate::storage::StorageModule {
     #[view(getNftIdentifier)]
     fn get_nft_identifier(&self) -> TokenIdentifier {
         TokenIdentifier::from_esdt_bytes(NFT_IDENTIFIER)
+    }
+
+    #[view(getNftIdentifierInvestors)]
+    fn get_nft_identifier_investors(&self) -> TokenIdentifier {
+        TokenIdentifier::from_esdt_bytes(NFT_IDENTIFIER_INVESTORS)
     }
 
     #[view(getNftAttributes)]
@@ -50,7 +55,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .get_esdt_token_data(&owner, &token_identifier, token_nonce)
             .uris;
 
-        let link = uris.get(0).clone_value();
+        let link = uris.get(1).clone_value();
         link.copy_slice(8, link.len() - 8).unwrap()
     }
 
