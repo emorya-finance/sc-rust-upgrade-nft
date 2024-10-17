@@ -7,7 +7,7 @@ fi
 source snippets.sh
 ############ START ############
 
-# deploy
+deploy
 # upgrade
 
 # assignRole
