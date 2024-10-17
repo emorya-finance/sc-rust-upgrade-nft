@@ -72,11 +72,12 @@ pub trait ViewsModule: crate::storage::StorageModule {
 
         let mut semicolon_index = 7;
         let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-        while semicolon != b";" {
+        while semicolon != b"," {
             semicolon_index += 1;
             semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
         }
-
+        // 0 1 2 3 4 5 6 7
+        // l e v e l : 5 ;
         attributes.copy_slice(6, semicolon_index - 6).unwrap()
     }
 

@@ -32,11 +32,7 @@ claimDeveloperRewards() {
 deploy() {
     # deploy OR  deploy "0xArg1_hex 0xArg2_hex ..." 50000000
 
-<<<<<<< HEAD
-    local GAS_LIMIT=${2:-60000000}  # Default gas limit is 20 million
-=======
     local GAS_LIMIT=${2:-40000000}  # Default gas limit is 20 million
->>>>>>> Emorya-NFT-Investors
 
     if [ -n "$1" ]; then
         ARGS="--arguments $1"
@@ -79,7 +75,7 @@ runTx() {
     local EGLD_VALUE=${2:-0}  # Default EGLD value is 0
     local ENDPOINT_NAME=${3:-""}  # Default endpoint name is empty
     local ARGUMENTS=${4:-""}  # Default arguments are empty
-    local GAS_LIMIT=${5:-20000000}  # Default gas limit is 20 million
+    local GAS_LIMIT=${5:-60000000}  # Default gas limit is 20 million
     local REPORT_FILE=${ENDPOINT_NAME:-"tx"} # Default report file is tx.report.json
     local OUTFILE="./reports/$REPORT_FILE.report.json" # Default outfile is ./reports/tx.report.json
 

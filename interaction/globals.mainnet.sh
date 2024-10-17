@@ -41,3 +41,9 @@ WEGLD_HEX=$(python3 to_hex.py $WEGLD)
 
 USDC="USDC-c76f1f"
 USDC_HEX=$(python3 to_hex.py $USDC)
+
+NFT="EMRNFT-041abf"
+NFT_HEX=$(python3 to_hex.py $NFT)
+
+NONCE="2478"
+NONCE_HEX=$(python3 to_hex.py $NONCE)
