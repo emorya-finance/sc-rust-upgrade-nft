@@ -38,6 +38,12 @@ pub trait NftUpgrade:
 
         let (nft_identifier, nft_nonce, _) = self.call_value().single_esdt().into_tuple();
 
+        require!(
+            caller == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&caller),
+            "You are not allowed to allocate EMRS."
+        );
+
         // prepare NFT attributes | I skip the IPFS CID and tags for now but you will need them in upgradeNft
         let mut new_attributes = ManagedBuffer::new();
         new_attributes = new_attributes
@@ -67,6 +73,12 @@ pub trait NftUpgrade:
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
         self.require_valid_emr_nft(emr_nft_token.clone());
+
+        require!(
+            user == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&user),
+            "You are not allowed to allocate EMRS."
+        );
 
         let level = self.get_nft_attributes_level_before_upgrade(
             self.blockchain().get_sc_address(),
@@ -105,6 +117,12 @@ pub trait NftUpgrade:
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
         self.require_valid_emr_nft(emr_nft_token.clone());
+
+        require!(
+            user == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&user),
+            "You are not allowed to allocate EMRS."
+        );
 
         let level = self.get_nft_attributes_level_after_upgrade(
             self.blockchain().get_sc_address(),
@@ -149,6 +167,12 @@ pub trait NftUpgrade:
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
         self.require_valid_emr_nft(emr_nft_token.clone());
+
+        require!(
+            user == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&user),
+            "You are not allowed to allocate EMRS."
+        );
 
         let level = self.get_nft_attributes_level_after_upgrade(
             self.blockchain().get_sc_address(),
