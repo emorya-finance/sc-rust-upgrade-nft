@@ -66,7 +66,7 @@ pub trait NftUpgrade:
     /// Upgrade an NFT to the same level but with more data in attributes.
     #[payable("*")]
     #[endpoint(upgradeNft)]
-    fn upgrade_nft(&self) {
+    fn upgrade_nft(&self, actual_user: ManagedAddress) {
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
@@ -107,7 +107,7 @@ pub trait NftUpgrade:
 
         // Transfer NFT back to caller
         self.tx()
-            .to(&user)
+            .to(&actual_user)
             .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
             .transfer();
     }
@@ -115,7 +115,7 @@ pub trait NftUpgrade:
     /// Increase the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(increaseLevel)]
-    fn increase_level(&self) {
+    fn increase_level(&self, actual_user: ManagedAddress) {
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
@@ -162,7 +162,7 @@ pub trait NftUpgrade:
 
         // Transfer NFT back to caller
         self.tx()
-            .to(&user)
+            .to(&actual_user)
             .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
             .transfer();
     }
@@ -170,7 +170,7 @@ pub trait NftUpgrade:
     /// Decrease the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(decreaseLevel)]
-    fn decrease_level(&self) {
+    fn decrease_level(&self, actual_user: ManagedAddress) {
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
@@ -219,7 +219,7 @@ pub trait NftUpgrade:
 
         // Transfer NFT back to caller
         self.tx()
-            .to(&user)
+            .to(&actual_user)
             .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
             .transfer();
     }
