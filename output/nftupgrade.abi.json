@@ -1,11 +1,11 @@
 {
     "buildInfo": {
         "rustc": {
-            "version": "1.79.0",
-            "commitHash": "129f3b9964af4d4a709d1383930ade12dfe7c081",
-            "commitDate": "2024-06-10",
+            "version": "1.81.0",
+            "commitHash": "eeb90cda1969383f56a2637cbd3037bdf598841c",
+            "commitDate": "2024-09-04",
             "channel": "Stable",
-            "short": "rustc 1.79.0 (129f3b996 2024-06-10)"
+            "short": "rustc 1.81.0 (eeb90cda1 2024-09-04)"
         },
         "contractCrate": {
             "name": "nftupgrade",
@@ -48,7 +48,12 @@
             "payableInTokens": [
                 "*"
             ],
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "actual_user",
+                    "type": "Address"
+                }
+            ],
             "outputs": []
         },
         {
@@ -60,7 +65,12 @@
             "payableInTokens": [
                 "*"
             ],
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "actual_user",
+                    "type": "Address"
+                }
+            ],
             "outputs": []
         },
         {
@@ -72,7 +82,12 @@
             "payableInTokens": [
                 "*"
             ],
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "actual_user",
+                    "type": "Address"
+                }
+            ],
             "outputs": []
         },
         {
@@ -82,6 +97,17 @@
             "outputs": [
                 {
                     "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "getAllowedAddresses",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<Address>",
+                    "multi_result": true
                 }
             ]
         },
@@ -100,14 +126,17 @@
             "outputs": []
         },
         {
-            "name": "getIpfsCid",
-            "mutability": "readonly",
-            "inputs": [],
-            "outputs": [
+            "name": "addAllowedAddresses",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
                 {
-                    "type": "bytes"
+                    "name": "addresses",
+                    "type": "variadic<Address>",
+                    "multi_arg": true
                 }
-            ]
+            ],
+            "outputs": []
         },
         {
             "name": "getTags",
@@ -130,7 +159,63 @@
             ]
         },
         {
+            "name": "getNftIdentifierInvestors",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
             "name": "getNftAttributes",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "Address"
+                },
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bytes"
+                }
+            ]
+        },
+        {
+            "name": "getNftUris",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "Address"
+                },
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "List<bytes>"
+                }
+            ]
+        },
+        {
+            "name": "getNftUriJson",
             "mutability": "readonly",
             "inputs": [
                 {

@@ -11,7 +11,8 @@ pub trait PrivateModule: crate::storage::StorageModule + crate::views::ViewsModu
 
     fn require_valid_emr_nft(&self, nft_identifier: TokenIdentifier) {
         require!(
-            nft_identifier == self.get_nft_identifier(),
+            nft_identifier == self.get_nft_identifier()
+                || nft_identifier == self.get_nft_identifier_investors(),
             "Invalid EMR NFT identifier."
         );
     }

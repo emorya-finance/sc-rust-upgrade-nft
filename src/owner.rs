@@ -15,4 +15,12 @@ pub trait OwnerModule:
     fn resume_sc(&self) {
         self.is_sc_paused().set(false);
     }
+
+    #[only_owner]
+    #[endpoint(addAllowedAddresses)]
+    fn add_allowed_addresses(&self, addresses: MultiValueEncoded<ManagedAddress>) {
+        for address in addresses.into_iter() {
+            self.allowed_addresses().insert(address);
+        }
+    }
 }

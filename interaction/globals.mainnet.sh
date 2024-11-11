@@ -11,7 +11,7 @@ SC_PATH="../"
 SC_NAME=$(grep -oP 'name = "\K[^"]+' $SC_PATH"Cargo.toml")
 SC_BYTECODE=$SC_PATH"output/$SC_NAME.wasm"
 
-SC_ADDRESS=""
+SC_ADDRESS="erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370"
 if [ ! -z $SC_ADDRESS ]; then
     SC_ADDRESS_HEX=$(mxpy wallet bech32 --decode $SC_ADDRESS)
 else
@@ -34,10 +34,19 @@ WRAPPEDEGLD_ADDRESS_HEX=$(mxpy wallet bech32 --decode $WRAPPEDEGLD_ADDRESS)
 #=============================== TOKENS ===============================
 
 EGLD="EGLD"
-EGLD_HEX=$(python to_hex.py $EGLD)
+EGLD_HEX=$(python3 to_hex.py $EGLD)
 
 WEGLD="WEGLD-bd4d79"
-WEGLD_HEX=$(python to_hex.py $WEGLD)
+WEGLD_HEX=$(python3 to_hex.py $WEGLD)
 
 USDC="USDC-c76f1f"
-USDC_HEX=$(python to_hex.py $USDC)
+USDC_HEX=$(python3 to_hex.py $USDC)
+
+NFT="EMRNFT-041abf"
+NFT_HEX=$(python3 to_hex.py $NFT)
+
+NFT_INVESTORS="EMRNFT-50e862"
+NFT_INVESTORS_HEX=$(python3 to_hex.py $NFT_INVESTORS)
+
+NONCE="2485"
+NONCE_HEX=$(python3 to_hex.py $NONCE)
