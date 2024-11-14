@@ -1,4 +1,4 @@
-use crate::constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS};
+use crate::constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS, DEVNET_SMART_CONTRACT};
 
 multiversx_sc::imports!();
 
@@ -22,38 +22,34 @@ pub trait ViewsModule: crate::storage::StorageModule {
     #[view(getNftAttributes)]
     fn get_nft_attributes(
         &self,
-        owner: ManagedAddress,
         token_identifier: TokenIdentifier,
         token_nonce: u64,
     ) -> ManagedBuffer {
         self.blockchain()
-            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
+            .get_esdt_token_data(&ManagedAddress::from_address(&Address::from_slice(DEVNET_SMART_CONTRACT)), &token_identifier, token_nonce)
             .attributes
     }
 
     #[view(getNftUris)]
     fn get_nft_uris(
         &self,
-        owner: ManagedAddress,
         token_identifier: TokenIdentifier,
         token_nonce: u64,
     ) -> ManagedVec<ManagedBuffer> {
         self.blockchain()
-            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
+            .get_esdt_token_data(&ManagedAddress::from_address(&Address::from_slice(DEVNET_SMART_CONTRACT)), &token_identifier, token_nonce)
             .uris
     }
 
     #[view(getNftUriJson)]
     fn get_nft_uri_json(
         &self,
-        owner: ManagedAddress,
         token_identifier: TokenIdentifier,
         token_nonce: u64,
     ) -> ManagedBuffer {
-        let uris = self
-            .blockchain()
-            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
-            .uris;
+        let uris = self.blockchain()
+        .get_esdt_token_data(&ManagedAddress::from_address(&Address::from_slice(DEVNET_SMART_CONTRACT)), &token_identifier, token_nonce)
+        .uris;
 
         let link = uris.get(1).clone_value();
         link.copy_slice(8, link.len() - 8).unwrap()
@@ -62,14 +58,12 @@ pub trait ViewsModule: crate::storage::StorageModule {
     #[view(getNftAttributesLevelBeforeUpgrade)]
     fn get_nft_attributes_level_before_upgrade(
         &self,
-        owner: ManagedAddress,
         token_identifier: TokenIdentifier,
         token_nonce: u64,
     ) -> ManagedBuffer {
-        let attributes = self
-            .blockchain()
-            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
-            .attributes;
+        let attributes = self.blockchain()
+        .get_esdt_token_data(&ManagedAddress::from_address(&Address::from_slice(DEVNET_SMART_CONTRACT)), &token_identifier, token_nonce)
+        .attributes;
 
         if attributes.copy_slice(0, 6).unwrap() != b"level:" {
             sc_panic!("Attributes do not start as expected.");
@@ -89,16 +83,14 @@ pub trait ViewsModule: crate::storage::StorageModule {
     #[view(getNftAttributesLevelAfterUpgrade)]
     fn get_nft_attributes_level_after_upgrade(
         &self,
-        owner: ManagedAddress,
         token_identifier: TokenIdentifier,
         token_nonce: u64,
     ) -> ManagedBuffer {
-        let attributes = self
-            .blockchain()
-            .get_esdt_token_data(&owner, &token_identifier, token_nonce)
-            .attributes;
+        let attributes = self.blockchain()
+        .get_esdt_token_data(&ManagedAddress::from_address(&Address::from_slice(DEVNET_SMART_CONTRACT)), &token_identifier, token_nonce)
+        .attributes;
 
-        let uri_json = self.get_nft_uri_json(owner, token_identifier, token_nonce);
+        let uri_json = self.get_nft_uri_json(token_identifier, token_nonce);
 
         let mut starting_attributes = ManagedBuffer::new();
         starting_attributes = starting_attributes

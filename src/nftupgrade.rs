@@ -9,6 +9,22 @@ pub mod private;
 pub mod storage;
 pub mod views;
 
+/*
+Emorya NFT Benefits SC
+
+— Start by modifying the NFT upgrade SC. Make sure you merge into main the code from the most recent branch. Then delete all the unneeded branches.
+
+— Add two endpoints for the users in order to transfer their NFT to/from the SC: 1) Deposit 2) Retrieve 
+
+— The key difference in storage right now is to save for each NFT the actual owner (the user address)
+
+— Modify existing endpoints/views based on the above (obtain the NFT owner from storage and adjust inputs).
+
+— Keep in mind that all endpoints (except Deposit and Retrieve) will be run by the allowed addresses (e.g. Emorya BE address). So make sure this is checked everywhere and act accordingly.
+
+— Create a view that given an address as input, it returns for that user all the info the SC knows (e.g. deposited NFT info, its level, etc)
+ */ 
+
 use constants::TAGS;
 use managedbufferutils::ManagedBufferUtils;
 
@@ -63,15 +79,43 @@ pub trait NftUpgrade:
 
     // ===================== Endpoints =====================
 
+
+    // Deposit the NFT and save the actual owner address in the storage
+    #[payable("*")]
+    #[endpoint(depositNft)]
+    fn deposit_nft(&self){
+        self.require_not_paused();
+        let user = self.blockchain().get_caller();
+
+        let (emr_nft_token, token_nonce , _) = self.call_value().single_esdt().into_tuple();
+        self.require_valid_emr_nft(emr_nft_token.clone());
+
+        self.get_nft_owner_address(emr_nft_token,token_nonce).set(user);
+    }
+
+    #[endpoint(retrieveNft)]
+    fn retrieve_nft(&self, token: TokenIdentifier, token_nonce: u64){
+        self.require_not_paused();
+        
+        let owner = self.get_nft_owner_address(token.clone(), token_nonce);
+
+        self.tx()
+            .to(&owner.get())
+            .single_esdt(&token, token_nonce, &BigUint::from(1u8))
+            .transfer();
+    }
+
+
     /// Upgrade an NFT to the same level but with more data in attributes.
     #[payable("*")]
     #[endpoint(upgradeNft)]
-    fn upgrade_nft(&self, actual_user: ManagedAddress) {
+    fn upgrade_nft(&self) {
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
 
         let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
+        
         self.require_valid_emr_nft(emr_nft_token.clone());
 
         require!(
@@ -81,13 +125,11 @@ pub trait NftUpgrade:
         );
 
         let level = self.get_nft_attributes_level_before_upgrade(
-            self.blockchain().get_sc_address(),
             emr_nft_token.clone(),
             emr_nft_nonce,
         );
 
         let uri_json = self.get_nft_uri_json(
-            self.blockchain().get_sc_address(),
             emr_nft_token.clone(),
             emr_nft_nonce,
         );
@@ -105,11 +147,6 @@ pub trait NftUpgrade:
         self.send()
             .nft_update_attributes(&emr_nft_token, emr_nft_nonce, &new_attributes);
 
-        // Transfer NFT back to caller
-        self.tx()
-            .to(&actual_user)
-            .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
-            .transfer();
     }
 
     /// Increase the level of an NFT by 1.
@@ -130,7 +167,6 @@ pub trait NftUpgrade:
         );
 
         let level = self.get_nft_attributes_level_after_upgrade(
-            self.blockchain().get_sc_address(),
             emr_nft_token.clone(),
             emr_nft_nonce,
         );
@@ -140,7 +176,6 @@ pub trait NftUpgrade:
         let new_level = level + 1;
 
         let uri_json = self.get_nft_uri_json(
-            self.blockchain().get_sc_address(),
             emr_nft_token.clone(),
             emr_nft_nonce,
         );
@@ -185,7 +220,6 @@ pub trait NftUpgrade:
         );
 
         let level = self.get_nft_attributes_level_after_upgrade(
-            self.blockchain().get_sc_address(),
             emr_nft_token.clone(),
             emr_nft_nonce,
         );
@@ -197,7 +231,6 @@ pub trait NftUpgrade:
         let new_level = level - 1;
 
         let uri_json = self.get_nft_uri_json(
-            self.blockchain().get_sc_address(),
             emr_nft_token.clone(),
             emr_nft_nonce,
         );
