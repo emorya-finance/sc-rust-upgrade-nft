@@ -40,6 +40,21 @@
             "outputs": []
         },
         {
+            "name": "depositNft",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "retrieveNft",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
             "docs": [
                 "Upgrade an NFT to the same level but with more data in attributes."
             ],
@@ -48,12 +63,7 @@
             "payableInTokens": [
                 "*"
             ],
-            "inputs": [
-                {
-                    "name": "actual_user",
-                    "type": "Address"
-                }
-            ],
+            "inputs": [],
             "outputs": []
         },
         {
@@ -108,6 +118,40 @@
                 {
                     "type": "variadic<Address>",
                     "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getOwnerNftAddress",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "nft_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nft_nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "getNftFromAddress",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "UserNft"
                 }
             ]
         },
@@ -173,10 +217,6 @@
             "mutability": "readonly",
             "inputs": [
                 {
-                    "name": "owner",
-                    "type": "Address"
-                },
-                {
                     "name": "token_identifier",
                     "type": "TokenIdentifier"
                 },
@@ -195,10 +235,6 @@
             "name": "getNftUris",
             "mutability": "readonly",
             "inputs": [
-                {
-                    "name": "owner",
-                    "type": "Address"
-                },
                 {
                     "name": "token_identifier",
                     "type": "TokenIdentifier"
@@ -219,10 +255,6 @@
             "mutability": "readonly",
             "inputs": [
                 {
-                    "name": "owner",
-                    "type": "Address"
-                },
-                {
                     "name": "token_identifier",
                     "type": "TokenIdentifier"
                 },
@@ -241,10 +273,6 @@
             "name": "getNftAttributesLevelBeforeUpgrade",
             "mutability": "readonly",
             "inputs": [
-                {
-                    "name": "owner",
-                    "type": "Address"
-                },
                 {
                     "name": "token_identifier",
                     "type": "TokenIdentifier"
@@ -265,10 +293,6 @@
             "mutability": "readonly",
             "inputs": [
                 {
-                    "name": "owner",
-                    "type": "Address"
-                },
-                {
                     "name": "token_identifier",
                     "type": "TokenIdentifier"
                 },
@@ -282,9 +306,59 @@
                     "type": "bytes"
                 }
             ]
+        },
+        {
+            "name": "getNftInfoBeforeUpgrade",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "UserNft"
+                },
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getNftInfoAfterUpgrade",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "UserNft"
+                },
+                {
+                    "type": "u64"
+                }
+            ]
         }
     ],
     "esdtAttributes": [],
     "hasCallback": false,
-    "types": {}
+    "types": {
+        "UserNft": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "nonce",
+                    "type": "u64"
+                }
+            ]
+        }
+    }
 }

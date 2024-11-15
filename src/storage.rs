@@ -8,7 +8,7 @@ pub struct UserNft<M: ManagedTypeApi> {
     pub nonce: u64,
 }
 #[multiversx_sc::module]
-pub trait StorageModule{
+pub trait StorageModule {
     #[view(getIsScPaused)]
     #[storage_mapper("isScPaused")]
     fn is_sc_paused(&self) -> SingleValueMapper<bool>;
@@ -19,9 +19,13 @@ pub trait StorageModule{
 
     #[view(getOwnerNftAddress)]
     #[storage_mapper("getOwnerNftAddress")]
-    fn get_nft_owner_address(&self,nft_token: TokenIdentifier, nft_nonce: u64) -> SingleValueMapper<ManagedAddress>;
-    
+    fn get_nft_owner_address(
+        &self,
+        nft_token: TokenIdentifier,
+        nft_nonce: u64,
+    ) -> SingleValueMapper<ManagedAddress>;
+
     #[view(getNftFromAddress)]
     #[storage_mapper("nftFromAddress")]
-    fn nft_from_address(&self, user:ManagedAddress) -> SingleValueMapper<UserNft<Self::Api>>;
+    fn nft_from_address(&self, user: ManagedAddress) -> SingleValueMapper<UserNft<Self::Api>>;
 }

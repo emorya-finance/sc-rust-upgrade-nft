@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                           17
+// Endpoints:                           23
 // Async Callback (empty):               1
-// Total number of exported functions:  20
+// Total number of exported functions:  26
 
 #![no_std]
 
@@ -21,11 +21,15 @@ multiversx_sc_wasm_adapter::endpoints! {
         init => init
         upgrade => upgrade
         initialize => initialize
+        depositNft => deposit_nft
+        retrieveNft => retrieve_nft
         upgradeNft => upgrade_nft
         increaseLevel => increase_level
         decreaseLevel => decrease_level
         getIsScPaused => is_sc_paused
         getAllowedAddresses => allowed_addresses
+        getOwnerNftAddress => get_nft_owner_address
+        getNftFromAddress => nft_from_address
         pauseSc => pause_sc
         resumeSc => resume_sc
         addAllowedAddresses => add_allowed_addresses
@@ -37,6 +41,8 @@ multiversx_sc_wasm_adapter::endpoints! {
         getNftUriJson => get_nft_uri_json
         getNftAttributesLevelBeforeUpgrade => get_nft_attributes_level_before_upgrade
         getNftAttributesLevelAfterUpgrade => get_nft_attributes_level_after_upgrade
+        getNftInfoBeforeUpgrade => get_nft_from_address_before
+        getNftInfoAfterUpgrade => get_nft_from_address
     )
 }
 

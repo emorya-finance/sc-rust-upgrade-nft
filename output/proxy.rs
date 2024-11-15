@@ -91,16 +91,29 @@ where
             .original_result()
     }
 
-    /// Upgrade an NFT to the same level but with more data in attributes. 
-    pub fn upgrade_nft<
-        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
-    >(
+    pub fn deposit_nft(
         self,
-        actual_user: Arg0,
+    ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
+        self.wrapped_tx
+            .raw_call("depositNft")
+            .original_result()
+    }
+
+    pub fn retrieve_nft(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("retrieveNft")
+            .original_result()
+    }
+
+    /// Upgrade an NFT to the same level but with more data in attributes. 
+    pub fn upgrade_nft(
+        self,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
             .raw_call("upgradeNft")
-            .argument(&actual_user)
             .original_result()
     }
 
@@ -145,6 +158,35 @@ where
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getAllowedAddresses")
+            .original_result()
+    }
+
+    pub fn get_nft_owner_address<
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg1: ProxyArg<u64>,
+    >(
+        self,
+        nft_token: Arg0,
+        nft_nonce: Arg1,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedAddress<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getOwnerNftAddress")
+            .argument(&nft_token)
+            .argument(&nft_nonce)
+            .original_result()
+    }
+
+    pub fn nft_from_address<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, UserNft<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftFromAddress")
+            .argument(&user)
             .original_result()
     }
 
@@ -207,97 +249,118 @@ where
     }
 
     pub fn get_nft_attributes<
-        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
-        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
-        Arg2: ProxyArg<u64>,
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg1: ProxyArg<u64>,
     >(
         self,
-        owner: Arg0,
-        token_identifier: Arg1,
-        token_nonce: Arg2,
+        token_identifier: Arg0,
+        token_nonce: Arg1,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getNftAttributes")
-            .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)
             .original_result()
     }
 
     pub fn get_nft_uris<
-        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
-        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
-        Arg2: ProxyArg<u64>,
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg1: ProxyArg<u64>,
     >(
         self,
-        owner: Arg0,
-        token_identifier: Arg1,
-        token_nonce: Arg2,
+        token_identifier: Arg0,
+        token_nonce: Arg1,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedVec<Env::Api, ManagedBuffer<Env::Api>>> {
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getNftUris")
-            .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)
             .original_result()
     }
 
     pub fn get_nft_uri_json<
-        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
-        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
-        Arg2: ProxyArg<u64>,
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg1: ProxyArg<u64>,
     >(
         self,
-        owner: Arg0,
-        token_identifier: Arg1,
-        token_nonce: Arg2,
+        token_identifier: Arg0,
+        token_nonce: Arg1,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getNftUriJson")
-            .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)
             .original_result()
     }
 
     pub fn get_nft_attributes_level_before_upgrade<
-        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
-        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
-        Arg2: ProxyArg<u64>,
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg1: ProxyArg<u64>,
     >(
         self,
-        owner: Arg0,
-        token_identifier: Arg1,
-        token_nonce: Arg2,
+        token_identifier: Arg0,
+        token_nonce: Arg1,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getNftAttributesLevelBeforeUpgrade")
-            .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)
             .original_result()
     }
 
     pub fn get_nft_attributes_level_after_upgrade<
-        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
-        Arg1: ProxyArg<TokenIdentifier<Env::Api>>,
-        Arg2: ProxyArg<u64>,
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg1: ProxyArg<u64>,
     >(
         self,
-        owner: Arg0,
-        token_identifier: Arg1,
-        token_nonce: Arg2,
+        token_identifier: Arg0,
+        token_nonce: Arg1,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getNftAttributesLevelAfterUpgrade")
-            .argument(&owner)
             .argument(&token_identifier)
             .argument(&token_nonce)
             .original_result()
     }
+
+    pub fn get_nft_from_address_before<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, MultiValue2<UserNft<Env::Api>, u64>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftInfoBeforeUpgrade")
+            .argument(&user)
+            .original_result()
+    }
+
+    pub fn get_nft_from_address<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, MultiValue2<UserNft<Env::Api>, u64>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftInfoAfterUpgrade")
+            .argument(&user)
+            .original_result()
+    }
+}
+
+#[type_abi]
+#[derive(NestedEncode, NestedDecode, TopEncode, TopDecode, ManagedVecItem, Debug, Clone)]
+pub struct UserNft<Api>
+where
+    Api: ManagedTypeApi,
+{
+    pub identifier: TokenIdentifier<Api>,
+    pub nonce: u64,
 }
