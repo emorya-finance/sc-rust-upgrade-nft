@@ -113,25 +113,22 @@ pub trait NftUpgrade:
     /// Upgrade an NFT to the same level but with more data in attributes.
     #[payable("*")]
     #[endpoint(upgradeNft)]
-    fn upgrade_nft(&self) {
+    fn upgrade_nft(&self, user: ManagedAddress) {
         self.require_not_paused();
 
-        let user = self.blockchain().get_caller();
+        let caller = self.blockchain().get_caller();
 
-        let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        let nft = self.nft_from_address(user).get();
 
         require!(
-            user == self.blockchain().get_owner_address()
-                || self.allowed_addresses().contains(&user),
+            caller == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&caller),
             "You are not allowed to upgrade NFTs."
         );
 
-        let level =
-            self.get_nft_attributes_level_before_upgrade(emr_nft_token.clone(), emr_nft_nonce);
+        let level = self.get_nft_attributes_level_before_upgrade(nft.identifier.clone(), nft.nonce);
 
-        let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), emr_nft_nonce);
+        let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
@@ -144,34 +141,31 @@ pub trait NftUpgrade:
 
         // Update NFT attributes
         self.send()
-            .nft_update_attributes(&emr_nft_token, emr_nft_nonce, &new_attributes);
+            .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
     }
 
     /// Increase the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(increaseLevel)]
-    fn increase_level(&self, actual_user: ManagedAddress) {
+    fn increase_level(&self, user: ManagedAddress) {
         self.require_not_paused();
 
-        let user = self.blockchain().get_caller();
-
-        let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        let nft = self.nft_from_address(user).get();
+        let caller = self.blockchain().get_caller();
 
         require!(
-            user == self.blockchain().get_owner_address()
-                || self.allowed_addresses().contains(&user),
+            caller == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&caller),
             "You are not allowed to upgrade NFTs."
         );
 
-        let level =
-            self.get_nft_attributes_level_after_upgrade(emr_nft_token.clone(), emr_nft_nonce);
+        let level = self.get_nft_attributes_level_after_upgrade(nft.identifier.clone(), nft.nonce);
 
         let level = level.ascii_to_u64().unwrap();
 
         let new_level = level + 1;
 
-        let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), emr_nft_nonce);
+        let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
@@ -186,34 +180,29 @@ pub trait NftUpgrade:
 
         // Update NFT attributes
         self.send()
-            .nft_update_attributes(&emr_nft_token, emr_nft_nonce, &new_attributes);
-
-        // Transfer NFT back to caller
-        self.tx()
-            .to(&actual_user)
-            .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
-            .transfer();
+            .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
     }
 
     /// Decrease the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(decreaseLevel)]
-    fn decrease_level(&self, actual_user: ManagedAddress) {
+    fn decrease_level(&self, user: ManagedAddress) {
         self.require_not_paused();
 
-        let user = self.blockchain().get_caller();
+        let caller = self.blockchain().get_caller();
 
-        let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        let nft = self.nft_from_address(user).get();
+
+        // let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
+        // self.require_valid_emr_nft(emr_nft_token.clone());
 
         require!(
-            user == self.blockchain().get_owner_address()
-                || self.allowed_addresses().contains(&user),
+            caller == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&caller),
             "You are not allowed to upgrade NFTs."
         );
 
-        let level =
-            self.get_nft_attributes_level_after_upgrade(emr_nft_token.clone(), emr_nft_nonce);
+        let level = self.get_nft_attributes_level_after_upgrade(nft.identifier.clone(), nft.nonce);
 
         let level = level.ascii_to_u64().unwrap();
 
@@ -221,7 +210,7 @@ pub trait NftUpgrade:
 
         let new_level = level - 1;
 
-        let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), emr_nft_nonce);
+        let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
@@ -236,12 +225,6 @@ pub trait NftUpgrade:
 
         // Update NFT attributes
         self.send()
-            .nft_update_attributes(&emr_nft_token, emr_nft_nonce, &new_attributes);
-
-        // Transfer NFT back to caller
-        self.tx()
-            .to(&actual_user)
-            .single_esdt(&emr_nft_token, emr_nft_nonce, &BigUint::from(1u8))
-            .transfer();
+            .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
     }
 }

@@ -34,9 +34,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     ) -> ManagedBuffer {
         self.blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::from_address(&multiversx_sc::types::heap::Address::from_slice(
-                    DEVNET_SMART_CONTRACT,
-                )),
+                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -51,9 +49,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     ) -> ManagedVec<ManagedBuffer> {
         self.blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::from_address(&multiversx_sc::types::heap::Address::from_slice(
-                    DEVNET_SMART_CONTRACT,
-                )),
+                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -69,9 +65,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let uris = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::from_address(&multiversx_sc::types::heap::Address::from_slice(
-                    DEVNET_SMART_CONTRACT,
-                )),
+                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -90,9 +84,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::from_address(&multiversx_sc::types::heap::Address::from_slice(
-                    DEVNET_SMART_CONTRACT,
-                )),
+                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -122,9 +114,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::from_address(&multiversx_sc::types::heap::Address::from_slice(
-                    DEVNET_SMART_CONTRACT,
-                )),
+                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -159,10 +149,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let nft_token = self.nft_from_address(user).get();
 
         let level = self
-            .get_nft_attributes_level_before_upgrade(
-                nft_token.identifier.clone(),
-                nft_token.nonce.clone(),
-            )
+            .get_nft_attributes_level_before_upgrade(nft_token.identifier.clone(), nft_token.nonce)
             .ascii_to_u64()
             .unwrap_or(1);
 
@@ -180,10 +167,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let nft_token = self.nft_from_address(user).get();
 
         let level = self
-            .get_nft_attributes_level_after_upgrade(
-                nft_token.identifier.clone(),
-                nft_token.nonce.clone(),
-            )
+            .get_nft_attributes_level_after_upgrade(nft_token.identifier.clone(), nft_token.nonce)
             .ascii_to_u64()
             .unwrap_or(1);
 

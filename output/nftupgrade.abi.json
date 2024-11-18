@@ -63,7 +63,12 @@
             "payableInTokens": [
                 "*"
             ],
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
             "outputs": []
         },
         {
@@ -77,7 +82,7 @@
             ],
             "inputs": [
                 {
-                    "name": "actual_user",
+                    "name": "user",
                     "type": "Address"
                 }
             ],
@@ -94,7 +99,7 @@
             ],
             "inputs": [
                 {
-                    "name": "actual_user",
+                    "name": "user",
                     "type": "Address"
                 }
             ],

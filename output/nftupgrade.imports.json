@@ -1,5 +1,6 @@
 [
   "bigIntAdd",
+  "bigIntNew",
   "bigIntSetInt64",
   "checkNoPayment",
   "cleanReturnData",
@@ -19,6 +20,7 @@
   "mBufferStorageStore",
   "managedCaller",
   "managedExecuteOnDestContext",
+  "managedGetESDTTokenData",
   "managedGetMultiESDTCallValue",
   "managedMultiTransferESDTNFTExecute",
   "managedOwnerAddress",
@@ -26,5 +28,6 @@
   "managedSignalError",
   "signalError",
   "smallIntFinishSigned",
+  "smallIntFinishUnsigned",
   "smallIntGetUnsignedArgument"
 ]

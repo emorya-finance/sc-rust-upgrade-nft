@@ -109,11 +109,15 @@ where
     }
 
     /// Upgrade an NFT to the same level but with more data in attributes. 
-    pub fn upgrade_nft(
+    pub fn upgrade_nft<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
         self,
+        user: Arg0,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
             .raw_call("upgradeNft")
+            .argument(&user)
             .original_result()
     }
 
@@ -122,11 +126,11 @@ where
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
         self,
-        actual_user: Arg0,
+        user: Arg0,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
             .raw_call("increaseLevel")
-            .argument(&actual_user)
+            .argument(&user)
             .original_result()
     }
 
@@ -135,11 +139,11 @@ where
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
         self,
-        actual_user: Arg0,
+        user: Arg0,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
             .raw_call("decreaseLevel")
-            .argument(&actual_user)
+            .argument(&user)
             .original_result()
     }
 
