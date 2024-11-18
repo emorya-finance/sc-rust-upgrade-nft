@@ -9,22 +9,6 @@ pub mod private;
 pub mod storage;
 pub mod views;
 
-/*
-Emorya NFT Benefits SC
-
-— Start by modifying the NFT upgrade SC. Make sure you merge into main the code from the most recent branch. Then delete all the unneeded branches.
-
-— Add two endpoints for the users in order to transfer their NFT to/from the SC: 1) Deposit 2) Retrieve
-
-— The key difference in storage right now is to save for each NFT the actual owner (the user address)
-
-— Modify existing endpoints/views based on the above (obtain the NFT owner from storage and adjust inputs).
-
-— Keep in mind that all endpoints (except Deposit and Retrieve) will be run by the allowed addresses (e.g. Emorya BE address). So make sure this is checked everywhere and act accordingly.
-
-— Create a view that given an address as input, it returns for that user all the info the SC knows (e.g. deposited NFT info, its level, etc)
- */
-
 use constants::TAGS;
 use managedbufferutils::ManagedBufferUtils;
 use storage::UserNft;
@@ -192,9 +176,6 @@ pub trait NftUpgrade:
         let caller = self.blockchain().get_caller();
 
         let nft = self.nft_from_address(user).get();
-
-        // let (emr_nft_token, emr_nft_nonce, _) = self.call_value().single_esdt().into_tuple();
-        // self.require_valid_emr_nft(emr_nft_token.clone());
 
         require!(
             caller == self.blockchain().get_owner_address()
