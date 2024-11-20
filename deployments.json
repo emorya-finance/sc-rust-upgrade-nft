@@ -1,0 +1,14 @@
+{
+    "devnet": [
+        {
+            "address": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+            "label": "SC"
+        }
+    ],
+    "mainnet": [
+        {
+            "address": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+            "label": "SC"
+        }
+    ]
+}
