@@ -4,7 +4,7 @@ use crate::{
     storage::UserNft,
 };
 
-type NftInfo<M> = MultiValue2<UserNft<M>, u64>;
+type NftInfo<M> = MultiValue2<TokenIdentifier<M>, u64, u64>;
 
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
@@ -153,6 +153,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .ascii_to_u64()
             .unwrap_or(1);
 
+        // TODO Update this to use the new NftInfo
         NftInfo::from((
             UserNft {
                 identifier: nft_token.identifier,
@@ -171,6 +172,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .ascii_to_u64()
             .unwrap_or(1);
 
+        // TODO Update this to use the new NftInfo
         NftInfo::from((
             UserNft {
                 identifier: nft_token.identifier,

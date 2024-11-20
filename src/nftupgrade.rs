@@ -71,10 +71,11 @@ pub trait NftUpgrade:
         self.require_not_paused();
         let user = self.blockchain().get_caller();
 
-        let (emr_nft_token, token_nonce, _) = self.call_value().single_esdt().into_tuple();
+        let (emr_nft_token, token_nonce, _) = self.call_value().single_esdt().into_tuple(); // replace single_esdt for specifically NFTs
         self.require_valid_emr_nft(emr_nft_token.clone());
+        // TODO Check if caller has already a deposited NFT right now
 
-        self.get_nft_owner_address(emr_nft_token.clone(), token_nonce)
+        self.nft_owner_address(emr_nft_token.clone(), token_nonce)
             .set(user.clone());
         self.nft_from_address(user).set(UserNft {
             identifier: emr_nft_token,
@@ -88,9 +89,11 @@ pub trait NftUpgrade:
 
         let owner = self.blockchain().get_caller();
         let nft = self.nft_from_address(owner.clone()).get();
+        // TODO make sure the caller has deposited an NFT and show a pretty error
+
         self.tx()
             .to(&owner)
-            .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
+            .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8)) // TODO maybe replace single_esdt for specifically NFTs
             .transfer();
     }
 
@@ -103,6 +106,7 @@ pub trait NftUpgrade:
         let caller = self.blockchain().get_caller();
 
         let nft = self.nft_from_address(user).get();
+        // TODO make sure the caller has deposited an NFT and show a pretty error
 
         require!(
             caller == self.blockchain().get_owner_address()
@@ -135,6 +139,8 @@ pub trait NftUpgrade:
         self.require_not_paused();
 
         let nft = self.nft_from_address(user).get();
+        // TODO make sure the caller has deposited an NFT and show a pretty error
+        
         let caller = self.blockchain().get_caller();
 
         require!(
@@ -176,6 +182,7 @@ pub trait NftUpgrade:
         let caller = self.blockchain().get_caller();
 
         let nft = self.nft_from_address(user).get();
+        // TODO make sure the caller has deposited an NFT and show a pretty error
 
         require!(
             caller == self.blockchain().get_owner_address()

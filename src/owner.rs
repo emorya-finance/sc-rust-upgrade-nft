@@ -23,4 +23,6 @@ pub trait OwnerModule:
             self.allowed_addresses().insert(address);
         }
     }
+
+    // TODO Add a function to remove allowed addresses
 }
