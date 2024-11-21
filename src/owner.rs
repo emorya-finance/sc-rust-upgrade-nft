@@ -24,5 +24,13 @@ pub trait OwnerModule:
         }
     }
 
+    #[only_owner]
+    #[endpoint(removeAllowedAddresses)]
+    fn remove_allowed_address(&self, addresses: MultiValueEncoded<ManagedAddress>){
+        for address in addresses.into_iter(){
+            self.allowed_addresses().swap_remove(&address);
+        }
+    }
+
     // TODO Add a function to remove allowed addresses
 }

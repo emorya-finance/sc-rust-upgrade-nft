@@ -1,10 +1,9 @@
 use crate::{
     constants::{DEVNET_SMART_CONTRACT, NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS},
     managedbufferutils::ManagedBufferUtils,
-    storage::UserNft,
 };
 
-type NftInfo<M> = MultiValue2<TokenIdentifier<M>, u64, u64>;
+type NftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, u64>;
 
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
@@ -155,12 +154,10 @@ pub trait ViewsModule: crate::storage::StorageModule {
 
         // TODO Update this to use the new NftInfo
         NftInfo::from((
-            UserNft {
-                identifier: nft_token.identifier,
-                nonce: nft_token.nonce,
-            },
-            level,
-        ))
+            nft_token.identifier,
+            nft_token.nonce,
+            level,)
+        )
     }
 
     #[view(getNftInfoAfterUpgrade)]
@@ -174,11 +171,9 @@ pub trait ViewsModule: crate::storage::StorageModule {
 
         // TODO Update this to use the new NftInfo
         NftInfo::from((
-            UserNft {
-                identifier: nft_token.identifier,
-                nonce: nft_token.nonce,
-            },
-            level,
-        ))
+            nft_token.identifier,
+            nft_token.nonce,
+            level,)
+        )
     }
 }
