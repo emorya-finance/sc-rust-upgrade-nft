@@ -1,5 +1,5 @@
 use crate::{
-    constants::{SMART_CONTRACT, NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS},
+    constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, SMART_CONTRACT, TAGS},
     managedbufferutils::ManagedBufferUtils,
 };
 
@@ -144,11 +144,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     }
 
     #[view(getNftLevel)]
-    fn get_nft_level(
-        &self,
-        token_identifier: TokenIdentifier,
-        token_nonce: u64,
-    ) -> ManagedBuffer {
+    fn get_nft_level(&self, token_identifier: TokenIdentifier, token_nonce: u64) -> ManagedBuffer {
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
@@ -158,7 +154,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
             )
             .attributes;
 
-        if attributes.copy_slice(0, 6).unwrap() != b"level:" {
+        if attributes.copy_slice(0, 6).unwrap() == b"level:" {
             self.get_nft_attributes_level_before_upgrade(token_identifier, token_nonce)
         } else {
             self.get_nft_attributes_level_after_upgrade(token_identifier, token_nonce)
@@ -167,33 +163,25 @@ pub trait ViewsModule: crate::storage::StorageModule {
 
     #[view(getNftInfoBeforeUpgrade)]
     fn get_nft_from_address_before(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
-        let nft_token = self.nft_from_address(user).get();
+        let nft_token = self.nft_from_address(&user).get();
 
         let level = self
             .get_nft_attributes_level_before_upgrade(nft_token.identifier.clone(), nft_token.nonce)
             .ascii_to_u64()
             .unwrap_or(1);
 
-        NftInfo::from((
-            nft_token.identifier,
-            nft_token.nonce,
-            level
-        ))
+        NftInfo::from((nft_token.identifier, nft_token.nonce, level))
     }
 
     #[view(getNftInfoAfterUpgrade)]
     fn get_nft_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
-        let nft_token = self.nft_from_address(user).get();
+        let nft_token = self.nft_from_address(&user).get();
 
         let level = self
             .get_nft_attributes_level_after_upgrade(nft_token.identifier.clone(), nft_token.nonce)
             .ascii_to_u64()
             .unwrap_or(1);
 
-        NftInfo::from((
-            nft_token.identifier,
-            nft_token.nonce,
-            level
-        ))
+        NftInfo::from((nft_token.identifier, nft_token.nonce, level))
     }
 }

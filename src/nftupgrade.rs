@@ -9,7 +9,7 @@ pub mod private;
 pub mod storage;
 pub mod views;
 
-use constants::TAGS;
+use constants::{SMART_CONTRACT, TAGS};
 use managedbufferutils::ManagedBufferUtils;
 use storage::UserNft;
 
@@ -71,35 +71,86 @@ pub trait NftUpgrade:
         self.require_not_paused();
         let user = self.blockchain().get_caller();
 
-        let (emr_nft_token, token_nonce) = self.call_value().single_fungible_esdt(); // replace single_esdt for specifically NFTs
+        let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
         self.require_valid_emr_nft(emr_nft_token.clone());
+        require!(
+            amount == BigUint::from(1u8),
+            "You can only deposit one NFT at a time."
+        );
 
-        require!(!self.nft_from_address(user.clone()).is_empty(), "You already deposited one NFT.");
-        // TODO Check if caller has already a deposited NFT right now
+        require!(
+            self.nft_from_address(&user).is_empty(),
+            "You already deposited one NFT."
+        );
+        require!(
+            self.nft_owner_address(&emr_nft_token, token_nonce)
+                .is_empty(),
+            "This NFT is already deposited."
+        );
 
-        self.nft_owner_address(emr_nft_token.clone(), token_nonce.to_u64().unwrap())
+        // Storage
+        self.nft_owner_address(&emr_nft_token, token_nonce)
             .set(user.clone());
-        self.nft_from_address(user).set(UserNft {
-            identifier: emr_nft_token,
-            nonce: token_nonce.to_u64().unwrap(),
+        self.nft_from_address(&user).set(UserNft {
+            identifier: emr_nft_token.clone(),
+            nonce: token_nonce,
         });
+
+        let attributes = self
+            .blockchain()
+            .get_esdt_token_data(
+                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &emr_nft_token,
+                token_nonce,
+            )
+            .attributes;
+
+        if attributes.copy_slice(0, 6).unwrap() == b"level:" {
+            let level =
+                self.get_nft_attributes_level_before_upgrade(emr_nft_token.clone(), token_nonce);
+
+            let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), token_nonce);
+
+            // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
+            let mut new_attributes = ManagedBuffer::new();
+            new_attributes = new_attributes
+                .clone()
+                .concat(sc_format!("metadata:{};", uri_json));
+
+            new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
+            new_attributes = new_attributes.clone().concat(sc_format!("level:{}", level));
+
+            // Update NFT attributes
+            self.send()
+                .nft_update_attributes(&emr_nft_token.clone(), token_nonce, &new_attributes);
+        }
     }
 
     #[endpoint(retrieveNft)]
     fn retrieve_nft(&self) {
         self.require_not_paused();
 
-        let owner = self.blockchain().get_caller();
-        let nft = self.nft_from_address(owner.clone()).get();
-        require!(self.nft_from_address(owner.clone()).is_empty(), "You do not have an NFT deposited. Try depositing first.");
-        // TODO make sure the caller has deposited an NFT and show a pretty error
+        let user = self.blockchain().get_caller();
+
+        require!(
+            !self.nft_from_address(&user).is_empty(),
+            "You do not have an NFT deposited. Try depositing first."
+        );
+        let nft = self.nft_from_address(&user).get();
+        require!(
+            self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
+            "You are not the owner of the NFT."
+        );
 
         self.tx()
-            .to(&owner)
-            .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8)) // TODO maybe replace single_esdt for specifically NFTs
-            .transfer()                                                   // Nothing like single_fungible_esdt()
-    }
+            .to(&user)
+            .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
+            .transfer();
 
+        // Storage
+        self.nft_owner_address(&nft.identifier, nft.nonce).clear();
+        self.nft_from_address(&user).clear();
+    }
 
     /// Upgrade an NFT to the same level but with more data in attributes.
     #[payable("*")]
@@ -109,20 +160,17 @@ pub trait NftUpgrade:
 
         let caller = self.blockchain().get_caller();
 
-        let (emr_nft_token, token_nonce) = self.call_value().single_fungible_esdt(); // replace single_esdt for specifically NFTs
+        let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
+        self.require_valid_emr_nft(emr_nft_token.clone());
+        require!(
+            amount == BigUint::from(1u8),
+            "You can only upgrade one NFT at a time."
+        );
 
-        // let nft = self.nft_from_address(user).get();
-        // TODO make sure the caller has deposited an NFT and show a pretty error
+        let level =
+            self.get_nft_attributes_level_before_upgrade(emr_nft_token.clone(), token_nonce);
 
-        // require!(
-        //     caller == self.blockchain().get_owner_address()
-        //         || self.allowed_addresses().contains(&caller),
-        //     "You are not allowed to upgrade NFTs."
-        // );
-
-        let level = self.get_nft_attributes_level_before_upgrade(emr_nft_token.clone(), token_nonce.to_u64().unwrap());
-
-        let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), token_nonce.to_u64().unwrap());
+        let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), token_nonce);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
@@ -135,27 +183,26 @@ pub trait NftUpgrade:
 
         // Update NFT attributes
         self.send()
-            .nft_update_attributes(&emr_nft_token.clone(), token_nonce.to_u64().unwrap(), &new_attributes);
+            .nft_update_attributes(&emr_nft_token.clone(), token_nonce, &new_attributes);
 
         self.tx()
-        .to(&caller)
-        .single_esdt(&emr_nft_token, token_nonce.to_u64().unwrap(), &BigUint::from(1u8))
-        .transfer();
-
+            .to(&caller)
+            .single_esdt(&emr_nft_token, token_nonce, &BigUint::from(1u8))
+            .transfer();
     }
 
-    /// Increase the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(increaseLevel)]
     fn increase_level(&self, user: ManagedAddress) {
         self.require_not_paused();
 
-        let nft = self.nft_from_address(user.clone()).get();
-        require!(self.nft_from_address(user).is_empty(), "The user has no NFT deposited!");
-        // TODO make sure the caller has deposited an NFT and show a pretty error
-        
-        let caller = self.blockchain().get_caller();
+        require!(
+            !self.nft_from_address(&user).is_empty(),
+            "The user has no NFT deposited!"
+        );
+        let nft = self.nft_from_address(&user).get();
 
+        let caller = self.blockchain().get_caller();
         require!(
             caller == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&caller),
@@ -186,18 +233,18 @@ pub trait NftUpgrade:
             .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
     }
 
-    /// Decrease the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(decreaseLevel)]
     fn decrease_level(&self, user: ManagedAddress) {
         self.require_not_paused();
 
+        require!(
+            !self.nft_from_address(&user).is_empty(),
+            "The user has no NFT deposited!"
+        );
+        let nft = self.nft_from_address(&user).get();
+
         let caller = self.blockchain().get_caller();
-        let nft = self.nft_from_address(user.clone()).get();
-        require!(self.nft_from_address(user).is_empty(), "The user has no NFT deposited!");
-
-        // TODO make sure the caller has deposited an NFT and show a pretty error
-
         require!(
             caller == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&caller),

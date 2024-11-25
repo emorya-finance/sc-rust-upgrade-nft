@@ -21,11 +21,11 @@ pub trait StorageModule {
     #[storage_mapper("nftOwnerAddress")]
     fn nft_owner_address(
         &self,
-        nft_token: TokenIdentifier,
+        nft_token: &TokenIdentifier,
         nft_nonce: u64,
     ) -> SingleValueMapper<ManagedAddress>;
 
     #[view(getNftFromAddress)]
     #[storage_mapper("nftFromAddress")]
-    fn nft_from_address(&self, user: ManagedAddress) -> SingleValueMapper<UserNft<Self::Api>>;
+    fn nft_from_address(&self, user: &ManagedAddress) -> SingleValueMapper<UserNft<Self::Api>>;
 }

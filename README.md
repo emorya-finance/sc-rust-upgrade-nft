@@ -5,19 +5,42 @@
 <details>
 <summary>Build info</summary>
 
-- **Rustc Version**: 1.79.0
-- **Commit Hash**: 129f3b9964af4d4a709d1383930ade12dfe7c081
-- **Commit Date**: 2024-06-10
+- **Rustc Version**: 1.80.1
+- **Commit Hash**: 3f5fd8dd41153bc5fdca9427e9e05be2c767ba23
+- **Commit Date**: 2024-08-06
 - **Channel**: Stable
 
 - **Framework**: multiversx-sc
 - **Version**: 0.53.2
 </details>
 
+<details>
+<summary>Links</summary>
+
+- **Mainnet Deployments**:
+  - **[SC](https://explorer.elrond.com/address/erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370)**: erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370
+- **Devnet Deployments**:
+  - **[SC](https://devnet-explorer.elrond.com/address/erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle)**: erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle
+</details>
+
 ## Table of Contents
 
+- [Types](#types)
 - [Endpoints](#endpoints)
 - [Views](#views)
+
+## Types
+
+<details>
+<summary>UserNft</summary>
+
+#### Struct Fields:
+| Name | Type |
+| - | - |
+| identifier | TokenIdentifier |
+| nonce | u64 |
+
+</details>
 
 ## Endpoints
 
@@ -51,6 +74,28 @@
 
 </details>
 
+<details>
+<summary>addAllowedAddresses</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| addresses | Address | ✔ |
+
+
+</details>
+
+<details>
+<summary>removeAllowedAddresses</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| addresses | Address | ✔ |
+
+
+</details>
+
 ### Other
 
 <details>
@@ -60,6 +105,20 @@ Initialize a Test NFT with level 1 in attributes, plus some more info to match c
 
 This will make an NFT similar to the current EMR NFTs.
 #### Note: This endpoint is payable by any token.
+
+
+</details>
+
+<details>
+<summary>depositNft</summary>
+
+#### Note: This endpoint is payable by any token.
+
+
+</details>
+
+<details>
+<summary>retrieveNft</summary>
 
 
 </details>
@@ -76,8 +135,12 @@ Upgrade an NFT to the same level but with more data in attributes.
 <details>
 <summary>increaseLevel</summary>
 
-Increase the level of an NFT by 1.
 #### Note: This endpoint is payable by any token.
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
 
 
 </details>
@@ -85,8 +148,12 @@ Increase the level of an NFT by 1.
 <details>
 <summary>decreaseLevel</summary>
 
-Decrease the level of an NFT by 1.
 #### Note: This endpoint is payable by any token.
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
 
 
 </details>
@@ -105,12 +172,45 @@ Decrease the level of an NFT by 1.
 </details>
 
 <details>
-<summary>getIpfsCid</summary>
+<summary>getAllowedAddresses</summary>
+
+#### Outputs:
+| Type | MultiValue |
+| - | - |
+| Address | ✔ |
+
+
+</details>
+
+<details>
+<summary>getNftOwnerAddress</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| nft_token | TokenIdentifier |
+| nft_nonce | u64 |
 
 #### Outputs:
 | Type |
 | - |
-| bytes |
+| Address |
+
+
+</details>
+
+<details>
+<summary>getNftFromAddress</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| UserNft |
 
 
 </details>
@@ -138,12 +238,56 @@ Decrease the level of an NFT by 1.
 </details>
 
 <details>
+<summary>getNftIdentifierInvestors</summary>
+
+#### Outputs:
+| Type |
+| - |
+| TokenIdentifier |
+
+
+</details>
+
+<details>
 <summary>getNftAttributes</summary>
 
 #### Inputs:
 | Name | Type |
 | - | - |
-| owner | Address |
+| token_identifier | TokenIdentifier |
+| token_nonce | u64 |
+
+#### Outputs:
+| Type |
+| - |
+| bytes |
+
+
+</details>
+
+<details>
+<summary>getNftUris</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| token_identifier | TokenIdentifier |
+| token_nonce | u64 |
+
+#### Outputs:
+| Type | List |
+| - | - |
+| bytes | ✔ |
+
+
+</details>
+
+<details>
+<summary>getNftUriJson</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
 | token_identifier | TokenIdentifier |
 | token_nonce | u64 |
 
@@ -161,7 +305,6 @@ Decrease the level of an NFT by 1.
 #### Inputs:
 | Name | Type |
 | - | - |
-| owner | Address |
 | token_identifier | TokenIdentifier |
 | token_nonce | u64 |
 
@@ -179,7 +322,6 @@ Decrease the level of an NFT by 1.
 #### Inputs:
 | Name | Type |
 | - | - |
-| owner | Address |
 | token_identifier | TokenIdentifier |
 | token_nonce | u64 |
 
@@ -187,6 +329,59 @@ Decrease the level of an NFT by 1.
 | Type |
 | - |
 | bytes |
+
+
+</details>
+
+<details>
+<summary>getNftLevel</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| token_identifier | TokenIdentifier |
+| token_nonce | u64 |
+
+#### Outputs:
+| Type |
+| - |
+| bytes |
+
+
+</details>
+
+<details>
+<summary>getNftInfoBeforeUpgrade</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| TokenIdentifier |
+| u64 |
+| u64 |
+
+
+</details>
+
+<details>
+<summary>getNftInfoAfterUpgrade</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| TokenIdentifier |
+| u64 |
+| u64 |
 
 
 </details>

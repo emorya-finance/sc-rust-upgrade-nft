@@ -1,5 +1,6 @@
 [
   "bigIntAdd",
+  "bigIntCmp",
   "bigIntNew",
   "bigIntSetInt64",
   "checkNoPayment",
