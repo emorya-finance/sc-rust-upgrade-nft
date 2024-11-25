@@ -1,5 +1,5 @@
 use crate::{
-    constants::{DEVNET_SMART_CONTRACT, NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS},
+    constants::{SMART_CONTRACT, NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS},
     managedbufferutils::ManagedBufferUtils,
 };
 
@@ -33,7 +33,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     ) -> ManagedBuffer {
         self.blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
+                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -48,7 +48,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     ) -> ManagedVec<ManagedBuffer> {
         self.blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
+                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -64,7 +64,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let uris = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
+                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -83,7 +83,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
+                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -113,7 +113,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&DEVNET_SMART_CONTRACT),
+                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
                 &token_identifier,
                 token_nonce,
             )
@@ -143,6 +143,28 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .unwrap()
     }
 
+    #[view(getNftLevel)]
+    fn get_nft_level(
+        &self,
+        token_identifier: TokenIdentifier,
+        token_nonce: u64,
+    ) -> ManagedBuffer {
+        let attributes = self
+            .blockchain()
+            .get_esdt_token_data(
+                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &token_identifier,
+                token_nonce,
+            )
+            .attributes;
+
+        if attributes.copy_slice(0, 6).unwrap() != b"level:" {
+            self.get_nft_attributes_level_before_upgrade(token_identifier, token_nonce)
+        } else {
+            self.get_nft_attributes_level_after_upgrade(token_identifier, token_nonce)
+        }
+    }
+
     #[view(getNftInfoBeforeUpgrade)]
     fn get_nft_from_address_before(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
         let nft_token = self.nft_from_address(user).get();
@@ -152,12 +174,11 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .ascii_to_u64()
             .unwrap_or(1);
 
-        // TODO Update this to use the new NftInfo
         NftInfo::from((
             nft_token.identifier,
             nft_token.nonce,
-            level)
-        )
+            level
+        ))
     }
 
     #[view(getNftInfoAfterUpgrade)]
@@ -169,11 +190,10 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .ascii_to_u64()
             .unwrap_or(1);
 
-        // TODO Update this to use the new NftInfo
         NftInfo::from((
             nft_token.identifier,
             nft_token.nonce,
-            level)
-        )
+            level
+        ))
     }
 }
