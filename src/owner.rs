@@ -24,6 +24,7 @@ pub trait OwnerModule:
         }
     }
 
+    // TODO Add a function to remove allowed addresses
     #[only_owner]
     #[endpoint(removeAllowedAddresses)]
     fn remove_allowed_address(&self, addresses: MultiValueEncoded<ManagedAddress>){
@@ -32,5 +33,4 @@ pub trait OwnerModule:
         }
     }
 
-    // TODO Add a function to remove allowed addresses
 }

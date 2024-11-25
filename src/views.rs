@@ -156,7 +156,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         NftInfo::from((
             nft_token.identifier,
             nft_token.nonce,
-            level,)
+            level)
         )
     }
 
@@ -173,7 +173,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         NftInfo::from((
             nft_token.identifier,
             nft_token.nonce,
-            level,)
+            level)
         )
     }
 }

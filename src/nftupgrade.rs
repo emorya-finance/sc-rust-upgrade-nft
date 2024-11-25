@@ -91,7 +91,7 @@ pub trait NftUpgrade:
 
         let owner = self.blockchain().get_caller();
         let nft = self.nft_from_address(owner.clone()).get();
-        require!(!self.nft_from_address(owner.clone()).is_empty(), "You do not have an NFT deposited. Try depositing first.");
+        require!(self.nft_from_address(owner.clone()).is_empty(), "You do not have an NFT deposited. Try depositing first.");
         // TODO make sure the caller has deposited an NFT and show a pretty error
 
         self.tx()
@@ -159,7 +159,7 @@ pub trait NftUpgrade:
         require!(
             caller == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&caller),
-            "You are not allowed to upgrade NFTs."
+            "You are not allowed to modify NFT level."
         );
 
         let level = self.get_nft_attributes_level_after_upgrade(nft.identifier.clone(), nft.nonce);
@@ -201,7 +201,7 @@ pub trait NftUpgrade:
         require!(
             caller == self.blockchain().get_owner_address()
                 || self.allowed_addresses().contains(&caller),
-            "You are not allowed to upgrade NFTs."
+            "You are not allowed to modify NFT level."
         );
 
         let level = self.get_nft_attributes_level_after_upgrade(nft.identifier.clone(), nft.nonce);
