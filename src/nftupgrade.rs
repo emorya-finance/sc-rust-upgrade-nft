@@ -72,7 +72,7 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        // self.require_valid_emr_nft(emr_nft_token.clone());
         require!(
             amount == BigUint::from(1u8),
             "You can only deposit one NFT at a time."
@@ -161,7 +161,7 @@ pub trait NftUpgrade:
         let caller = self.blockchain().get_caller();
 
         let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        // self.require_valid_emr_nft(emr_nft_token.clone());
         require!(
             amount == BigUint::from(1u8),
             "You can only upgrade one NFT at a time."
