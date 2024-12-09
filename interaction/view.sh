@@ -7,8 +7,8 @@ fi
 source snippets.sh
 ############ START ############
 
-view getNftAttributesLevelAfterUpgrade "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"
-view getNftAttributes "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"
-view getNftUriJson "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"
+view getNftAttributesLevelBeforeUpgrade "0x$NFT_HEX 0x$NONCE_HEX"
+# view getNftAttributes "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"
+# view getNftUriJson "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"
 
 
