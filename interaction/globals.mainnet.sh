@@ -48,5 +48,5 @@ NFT_HEX=$(python3 to_hex.py $NFT)
 NFT_INVESTORS="EMRNFT-50e862"
 NFT_INVESTORS_HEX=$(python3 to_hex.py $NFT_INVESTORS)
 
-NONCE="247"
+NONCE="2500"
 NONCE_HEX=$(python3 to_hex.py $NONCE)

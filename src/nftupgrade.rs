@@ -9,7 +9,7 @@ pub mod private;
 pub mod storage;
 pub mod views;
 
-use constants::{SMART_CONTRACT, TAGS};
+use constants::TAGS;
 use managedbufferutils::ManagedBufferUtils;
 use storage::UserNft;
 
@@ -99,7 +99,7 @@ pub trait NftUpgrade:
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &self.blockchain().get_sc_address(),
                 &emr_nft_token,
                 token_nonce,
             )
@@ -163,7 +163,7 @@ pub trait NftUpgrade:
         let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
 
         self.require_valid_emr_nft(emr_nft_token.clone());
-        
+
         require!(
             amount == BigUint::from(1u8),
             "You can only upgrade one NFT at a time."

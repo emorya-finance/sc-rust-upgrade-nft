@@ -1,5 +1,5 @@
 use crate::{
-    constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, SMART_CONTRACT, TAGS},
+    constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS},
     managedbufferutils::ManagedBufferUtils,
 };
 
@@ -33,7 +33,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     ) -> ManagedBuffer {
         self.blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &self.blockchain().get_sc_address(),
                 &token_identifier,
                 token_nonce,
             )
@@ -48,7 +48,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     ) -> ManagedVec<ManagedBuffer> {
         self.blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &self.blockchain().get_sc_address(),
                 &token_identifier,
                 token_nonce,
             )
@@ -64,7 +64,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let uris = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &self.blockchain().get_sc_address(),
                 &token_identifier,
                 token_nonce,
             )
@@ -83,7 +83,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &self.blockchain().get_sc_address(),
                 &token_identifier,
                 token_nonce,
             )
@@ -113,7 +113,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &self.blockchain().get_sc_address(),
                 &token_identifier,
                 token_nonce,
             )
@@ -148,7 +148,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let attributes = self
             .blockchain()
             .get_esdt_token_data(
-                &ManagedAddress::new_from_bytes(&SMART_CONTRACT),
+                &self.blockchain().get_sc_address(),
                 &token_identifier,
                 token_nonce,
             )
@@ -183,5 +183,11 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .unwrap_or(1);
 
         NftInfo::from((nft_token.identifier, nft_token.nonce, level))
+    }
+
+    #[view(getNftNonce)]
+    fn get_nft_nonce(&self, user: ManagedAddress) -> u64 {
+        let nft_token = self.nft_from_address(&user).get();
+        nft_token.nonce
     }
 }
