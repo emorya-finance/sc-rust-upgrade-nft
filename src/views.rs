@@ -175,6 +175,10 @@ pub trait ViewsModule: crate::storage::StorageModule {
 
     #[view(getNftInfoAfterUpgrade)]
     fn get_nft_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
+        if self.nft_from_address(&user).is_empty() {
+            return NftInfo::from((TokenIdentifier::from_esdt_bytes(b""), 0, 0));
+        }
+
         let nft_token = self.nft_from_address(&user).get();
 
         let level = self
@@ -193,6 +197,6 @@ pub trait ViewsModule: crate::storage::StorageModule {
 
     #[view(getNftLevelByAddress)]
     fn get_nft_level_by_address(&self, user: ManagedAddress) -> u64 {
-        self.get_nft_from_address(user).0 .2
+        self.get_nft_from_address(user).into_tuple().2
     }
 }
