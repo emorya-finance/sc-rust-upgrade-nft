@@ -190,4 +190,9 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let nft_token = self.nft_from_address(&user).get();
         nft_token.nonce
     }
+
+    #[view(getNftLevelByAddress)]
+    fn get_nft_level_by_address(&self, user: ManagedAddress) -> u64 {
+        self.get_nft_from_address(user).0 .2
+    }
 }

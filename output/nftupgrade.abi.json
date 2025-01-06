@@ -389,6 +389,21 @@
                     "type": "u64"
                 }
             ]
+        },
+        {
+            "name": "getNftLevelByAddress",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
         }
     ],
     "esdtAttributes": [],

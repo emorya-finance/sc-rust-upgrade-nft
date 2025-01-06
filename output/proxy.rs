@@ -393,6 +393,19 @@ where
             .argument(&user)
             .original_result()
     }
+
+    pub fn get_nft_level_by_address<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, u64> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftLevelByAddress")
+            .argument(&user)
+            .original_result()
+    }
 }
 
 #[type_abi]
