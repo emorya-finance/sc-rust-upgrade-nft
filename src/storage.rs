@@ -28,4 +28,12 @@ pub trait StorageModule {
     #[view(getNftFromAddress)]
     #[storage_mapper("nftFromAddress")]
     fn nft_from_address(&self, user: &ManagedAddress) -> SingleValueMapper<UserNft<Self::Api>>;
+
+    #[view(getUserRetrieveEpoch)]
+    #[storage_mapper("userRetrieveEpoch")]
+    fn user_retrieve_epoch(&self, user: &ManagedAddress) -> SingleValueMapper<u64>;
+
+    #[view(getUnbondingPeriod)]
+    #[storage_mapper("unbondingPeriod")]
+    fn unbonding_period(&self) -> SingleValueMapper<u64>;
 }

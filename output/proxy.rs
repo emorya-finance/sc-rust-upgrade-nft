@@ -108,6 +108,15 @@ where
             .original_result()
     }
 
+    pub fn claim_nft(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("claim_nft")
+            .original_result()
+    }
+
     /// Upgrade an NFT to the same level but with more data in attributes. 
     pub fn upgrade_nft(
         self,
@@ -185,6 +194,28 @@ where
             .payment(NotPayable)
             .raw_call("getNftFromAddress")
             .argument(&user)
+            .original_result()
+    }
+
+    pub fn user_retrieve_epoch<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, u64> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getUserRetrieveEpoch")
+            .argument(&user)
+            .original_result()
+    }
+
+    pub fn unbonding_period(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, u64> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getUnbondingPeriod")
             .original_result()
     }
 

@@ -55,6 +55,12 @@
             "outputs": []
         },
         {
+            "name": "claim_nft",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
             "docs": [
                 "Upgrade an NFT to the same level but with more data in attributes."
             ],
@@ -146,6 +152,31 @@
             "outputs": [
                 {
                     "type": "UserNft"
+                }
+            ]
+        },
+        {
+            "name": "getUserRetrieveEpoch",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getUnbondingPeriod",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
                 }
             ]
         },

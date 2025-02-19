@@ -142,14 +142,45 @@ pub trait NftUpgrade:
             "You are not the owner of the NFT."
         );
 
-        self.tx()
-            .to(&user)
-            .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
-            .transfer();
+        let current_epoch = self.blockchain().get_block_epoch();
 
         // Storage
+        self.user_retrieve_epoch(&user).set(current_epoch);
         self.nft_owner_address(&nft.identifier, nft.nonce).clear();
         self.nft_from_address(&user).clear();
+    }
+
+    #[endpoint(claim_nft)]
+    fn claim_nft(&self) {
+        self.require_not_paused();
+
+        let user = self.blockchain().get_caller();
+
+        require!(
+            !self.nft_from_address(&user).is_empty(),
+            "You do not have an NFT deposited. Try depositing first."
+        );
+
+        let nft = self.nft_from_address(&user).get();
+
+        require!(
+            self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
+            "You are not the owner of the NFT."
+        );
+
+        let current_epoch = self.blockchain().get_block_epoch();
+        let unbounding_period = self.unbonding_period().get();
+        let user_retrieve_epoch = self.user_retrieve_epoch(&user).get();
+        let unclaimed_epochs = current_epoch - user_retrieve_epoch;
+
+        if unclaimed_epochs <= unbounding_period {
+            sc_panic!("You have to wait until the unbounding period is over.");
+        } else {
+            self.tx()
+                .to(&user)
+                .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
+                .transfer();
+        }
     }
 
     /// Upgrade an NFT to the same level but with more data in attributes.
