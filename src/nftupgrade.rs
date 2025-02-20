@@ -148,7 +148,7 @@ pub trait NftUpgrade:
         self.user_retrieve_epoch(&user).set(current_epoch);
     }
 
-    #[endpoint(claim_nft)]
+    #[endpoint(claimNft)]
     fn claim_nft(&self) {
         self.require_not_paused();
 

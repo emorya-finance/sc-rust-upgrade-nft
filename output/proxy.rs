@@ -113,7 +113,7 @@ where
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
         self.wrapped_tx
             .payment(NotPayable)
-            .raw_call("claim_nft")
+            .raw_call("claimNft")
             .original_result()
     }
 
@@ -438,7 +438,7 @@ where
             .original_result()
     }
 
-    pub fn get_remaining_time<
+    pub fn get_remaining_unbonding_time<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
         self,
@@ -446,7 +446,7 @@ where
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, u64> {
         self.wrapped_tx
             .payment(NotPayable)
-            .raw_call("retrieveTimeRemaining")
+            .raw_call("getRemainingUnbondingTime")
             .argument(&user)
             .original_result()
     }

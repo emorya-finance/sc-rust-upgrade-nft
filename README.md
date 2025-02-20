@@ -124,6 +124,12 @@ This will make an NFT similar to the current EMR NFTs.
 </details>
 
 <details>
+<summary>claimNft</summary>
+
+
+</details>
+
+<details>
 <summary>upgradeNft</summary>
 
 Upgrade an NFT to the same level but with more data in attributes.
@@ -211,6 +217,33 @@ Upgrade an NFT to the same level but with more data in attributes.
 | Type |
 | - |
 | UserNft |
+
+
+</details>
+
+<details>
+<summary>getUserRetrieveEpoch</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| u64 |
+
+
+</details>
+
+<details>
+<summary>getUnbondingPeriod</summary>
+
+#### Outputs:
+| Type |
+| - |
+| u64 |
 
 
 </details>
@@ -381,6 +414,54 @@ Upgrade an NFT to the same level but with more data in attributes.
 | - |
 | TokenIdentifier |
 | u64 |
+| u64 |
+
+
+</details>
+
+<details>
+<summary>getNftNonce</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| u64 |
+
+
+</details>
+
+<details>
+<summary>getNftLevelByAddress</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| u64 |
+
+
+</details>
+
+<details>
+<summary>getRemainingUnbondingTime</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
 | u64 |
 
 

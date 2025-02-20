@@ -23,7 +23,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         initialize => initialize
         depositNft => deposit_nft
         retrieveNft => retrieve_nft
-        claim_nft => claim_nft
+        claimNft => claim_nft
         upgradeNft => upgrade_nft
         increaseLevel => increase_level
         decreaseLevel => decrease_level
@@ -50,7 +50,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         getNftInfoAfterUpgrade => get_nft_from_address
         getNftNonce => get_nft_nonce
         getNftLevelByAddress => get_nft_level_by_address
-        retrieveTimeRemaining => get_remaining_time
+        getRemainingUnbondingTime => get_remaining_unbonding_time
     )
 }
 
