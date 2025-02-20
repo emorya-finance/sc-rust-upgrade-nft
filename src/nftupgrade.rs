@@ -146,8 +146,6 @@ pub trait NftUpgrade:
 
         // Storage
         self.user_retrieve_epoch(&user).set(current_epoch);
-        self.nft_owner_address(&nft.identifier, nft.nonce).clear();
-        self.nft_from_address(&user).clear();
     }
 
     #[endpoint(claim_nft)]
@@ -180,6 +178,9 @@ pub trait NftUpgrade:
                 .to(&user)
                 .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
                 .transfer();
+
+            self.nft_owner_address(&nft.identifier, nft.nonce).clear();
+            self.nft_from_address(&user).clear();
         }
     }
 
