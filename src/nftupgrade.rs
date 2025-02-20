@@ -181,6 +181,7 @@ pub trait NftUpgrade:
 
             self.nft_owner_address(&nft.identifier, nft.nonce).clear();
             self.nft_from_address(&user).clear();
+            self.user_retrieve_epoch(&user).clear();
         }
     }
 
