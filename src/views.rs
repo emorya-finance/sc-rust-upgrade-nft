@@ -202,7 +202,12 @@ pub trait ViewsModule: crate::storage::StorageModule {
 
     #[view(getRemainingUnbondingTime)]
     fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> u64 {
-        self.unbonding_period().get()
-            - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
+        if self.unbonding_period().get()
+            >= (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
+        {
+            self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get()
+        } else {
+            0
+        }
     }
 }
