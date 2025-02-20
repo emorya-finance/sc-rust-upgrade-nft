@@ -437,6 +437,19 @@ where
             .argument(&user)
             .original_result()
     }
+
+    pub fn get_remaining_time<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, u64> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("retrieveTimeRemaining")
+            .argument(&user)
+            .original_result()
+    }
 }
 
 #[type_abi]

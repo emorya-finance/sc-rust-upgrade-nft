@@ -435,6 +435,21 @@
                     "type": "u64"
                 }
             ]
+        },
+        {
+            "name": "retrieveTimeRemaining",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
         }
     ],
     "esdtAttributes": [],

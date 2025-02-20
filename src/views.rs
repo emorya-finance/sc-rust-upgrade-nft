@@ -199,4 +199,10 @@ pub trait ViewsModule: crate::storage::StorageModule {
     fn get_nft_level_by_address(&self, user: ManagedAddress) -> u64 {
         self.get_nft_from_address(user).into_tuple().2
     }
+
+    #[view(retrieveTimeRemaining)]
+    fn get_remaining_time(&self, user: ManagedAddress) -> u64 {
+        self.unbonding_period().get()
+            - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
+    }
 }
