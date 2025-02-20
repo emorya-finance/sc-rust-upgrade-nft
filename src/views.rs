@@ -205,7 +205,8 @@ pub trait ViewsModule: crate::storage::StorageModule {
         if self.unbonding_period().get()
             >= (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
         {
-            self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get()
+            self.unbonding_period().get()
+                - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
         } else {
             0
         }
