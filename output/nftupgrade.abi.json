@@ -221,6 +221,18 @@
             "outputs": []
         },
         {
+            "name": "setUnbondingPeriod",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "period",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "getTags",
             "mutability": "readonly",
             "inputs": [],

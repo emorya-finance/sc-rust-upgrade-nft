@@ -32,4 +32,10 @@ pub trait OwnerModule:
             self.allowed_addresses().swap_remove(&address);
         }
     }
+
+    #[only_owner]
+    #[endpoint(setUnbondingPeriod)]
+    fn set_unbonding_period(&self, period: u64) {
+        self.unbonding_period().set(period);
+    }
 }

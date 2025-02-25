@@ -263,6 +263,19 @@ where
             .original_result()
     }
 
+    pub fn set_unbonding_period<
+        Arg0: ProxyArg<u64>,
+    >(
+        self,
+        period: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("setUnbondingPeriod")
+            .argument(&period)
+            .original_result()
+    }
+
     pub fn get_tags(
         self,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {

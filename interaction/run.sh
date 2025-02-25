@@ -10,6 +10,8 @@ source snippets.sh
 # deploy
 upgrade
 
+# runTx $SC_ADDRESS_HEX "" setUnbondingPeriod@$(python3 to_hex.py 30)
+
 # assignRole
 
 # runTx $OWNER_ADDRESS "" ESDTNFTTransfer@$NFT_HEX@$NONCE@01@$SC_ADDRESS_HEX@$(python3 to_hex.py initialize)

@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                           31
+// Endpoints:                           32
 // Async Callback (empty):               1
-// Total number of exported functions:  34
+// Total number of exported functions:  35
 
 #![no_std]
 
@@ -37,6 +37,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         resumeSc => resume_sc
         addAllowedAddresses => add_allowed_addresses
         removeAllowedAddresses => remove_allowed_address
+        setUnbondingPeriod => set_unbonding_period
         getTags => get_tags
         getNftIdentifier => get_nft_identifier
         getNftIdentifierInvestors => get_nft_identifier_investors
