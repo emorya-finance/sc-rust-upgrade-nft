@@ -96,6 +96,17 @@
 
 </details>
 
+<details>
+<summary>setUnbondingPeriod</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| period | u64 |
+
+
+</details>
+
 ### Other
 
 <details>

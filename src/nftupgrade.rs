@@ -133,7 +133,7 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         require!(
-            !self.user_retrieve_epoch(&user).is_empty(),
+            self.user_retrieve_epoch(&user).is_empty(),
             "You already started the retrieving period."
         );
 
@@ -160,12 +160,14 @@ pub trait NftUpgrade:
         let user = self.blockchain().get_caller();
 
         require!(
+            !self.user_retrieve_epoch(&user).is_empty(),
+            "First, retrieve the NFT and wait for the unbonding period to end."
+        );
+        require!(
             !self.nft_from_address(&user).is_empty(),
             "You do not have an NFT deposited. Try depositing first."
         );
-
         let nft = self.nft_from_address(&user).get();
-
         require!(
             self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
             "You are not the owner of the NFT."
