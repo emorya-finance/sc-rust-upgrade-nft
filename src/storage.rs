@@ -31,9 +31,15 @@ pub trait StorageModule {
 
     #[view(getUserRetrieveEpoch)]
     #[storage_mapper("userRetrieveEpoch")]
-    fn user_retrieve_epoch(&self, user: &ManagedAddress) -> SingleValueMapper<u64>;
+    fn user_retrieve_epoch(&self, user: &ManagedAddress, nft: UserNft<Self::Api>) -> SingleValueMapper<u64>;
 
     #[view(getUnbondingPeriod)]
     #[storage_mapper("unbondingPeriod")]
     fn unbonding_period(&self) -> SingleValueMapper<u64>;
+
+
+    /// New Added Storage
+    #[view(getUserNftRetrieve)]
+    #[storage_mapper("userNftRetrieve")]
+    fn in_retrieve_nft(&self, user: &ManagedAddress) -> UnorderedSetMapper<UserNft<Self::Api>>;
 }

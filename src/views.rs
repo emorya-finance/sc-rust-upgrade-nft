@@ -1,6 +1,6 @@
 use crate::{
     constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS},
-    managedbufferutils::ManagedBufferUtils,
+    managedbufferutils::ManagedBufferUtils, storage::UserNft,
 };
 
 type NftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, u64>;
@@ -201,12 +201,12 @@ pub trait ViewsModule: crate::storage::StorageModule {
     }
 
     #[view(getRemainingUnbondingTime)]
-    fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> u64 {
+    fn get_remaining_unbonding_time(&self, user: ManagedAddress, nft: UserNft<Self::Api>) -> u64 {
         if self.unbonding_period().get()
-            >= (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
+            >= (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user, nft.clone()).get())
         {
             self.unbonding_period().get()
-                - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
+                - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user, nft).get())
         } else {
             0
         }

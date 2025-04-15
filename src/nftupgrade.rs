@@ -131,9 +131,15 @@ pub trait NftUpgrade:
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
+        let nft = self.nft_from_address(&user).get();
+        
+        require!(
+            self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
+            "You are not the owner of the NFT."
+        );
 
         require!(
-            self.user_retrieve_epoch(&user).is_empty(),
+            self.user_retrieve_epoch(&user, nft.clone()).is_empty(),
             "You already started the retrieving period."
         );
 
@@ -141,11 +147,7 @@ pub trait NftUpgrade:
             !self.nft_from_address(&user).is_empty(),
             "You do not have an NFT deposited. Try depositing first."
         );
-        let nft = self.nft_from_address(&user).get();
-        require!(
-            self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
-            "You are not the owner of the NFT."
-        );
+       
 
         //TODO: Set the NFT retrieved inactive
         //TODO: Clear the storage of the NFT and add another storage (likely a tuple with (user_address, nft_identifier))
@@ -155,7 +157,13 @@ pub trait NftUpgrade:
         let current_epoch = self.blockchain().get_block_epoch();
 
         // Storage
-        self.user_retrieve_epoch(&user).set(current_epoch);
+        let nfts_in_retrieve = self.in_retrieve_nft(&user).len();
+        require!(nfts_in_retrieve < 3, "You already have 3 NFTs in retrieve.");
+
+        self.nft_owner_address(&nft.clone().identifier, nft.clone().nonce).clear();
+        self.nft_from_address(&user).clear();
+        self.user_retrieve_epoch(&user, nft).set(current_epoch);        
+
     }
 
     #[endpoint(claimNft)]
@@ -163,24 +171,26 @@ pub trait NftUpgrade:
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
-
-        require!(
-            !self.user_retrieve_epoch(&user).is_empty(),
-            "First, retrieve the NFT and wait for the unbonding period to end."
-        );
-        require!(
-            !self.nft_from_address(&user).is_empty(),
-            "You do not have an NFT deposited. Try depositing first."
-        );
         let nft = self.nft_from_address(&user).get();
+
         require!(
             self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
             "You are not the owner of the NFT."
         );
+        
+        require!(
+            !self.user_retrieve_epoch(&user,nft.clone()).is_empty(),
+            "First, retrieve the NFT and wait for the unbonding period to end."
+        );
+       
+        require!(
+            !self.nft_from_address(&user).is_empty(),
+            "You do not have an NFT deposited. Try depositing first."
+        );
 
         let current_epoch = self.blockchain().get_block_epoch();
         let unbounding_period = self.unbonding_period().get();
-        let user_retrieve_epoch = self.user_retrieve_epoch(&user).get();
+        let user_retrieve_epoch = self.user_retrieve_epoch(&user,nft.clone()).get();
         let unclaimed_epochs = current_epoch - user_retrieve_epoch;
 
         if unclaimed_epochs <= unbounding_period {
@@ -191,9 +201,8 @@ pub trait NftUpgrade:
                 .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
                 .transfer();
 
-            self.nft_owner_address(&nft.identifier, nft.nonce).clear();
-            self.nft_from_address(&user).clear();
-            self.user_retrieve_epoch(&user).clear();
+
+            self.user_retrieve_epoch(&user,nft).clear();
         }
     }
 
