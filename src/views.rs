@@ -201,12 +201,17 @@ pub trait ViewsModule: crate::storage::StorageModule {
     }
 
     #[view(getRemainingUnbondingTime)]
-    fn get_remaining_unbonding_time(&self, user: ManagedAddress, nft: UserNft<Self::Api>) -> u64 {
+    fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> u64 {
+
+        // TODO: for loop to iterate through the nfts using the user address, and calculate for every nft the 
+        //  remaining time 
+        //  Return a List with the unbounding time
+
         if self.unbonding_period().get()
             >= (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user, nft.clone()).get())
         {
             self.unbonding_period().get()
-                - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user, nft).get())
+            - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user, nft).get())
         } else {
             0
         }

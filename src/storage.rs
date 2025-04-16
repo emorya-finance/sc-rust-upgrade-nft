@@ -38,6 +38,13 @@ pub trait StorageModule {
     fn unbonding_period(&self) -> SingleValueMapper<u64>;
 
 
+    /// 1 active  0 in retrieve
+    /// 0 active  1 in retrieve
+    /// 1 active  1 in retrieve
+    /// 0 active  2 in retrieve
+    /// 1 active  2 in retrieve
+    /// 0 active  3 in retrieve
+
     /// New Added Storage
     #[view(getUserNftRetrieve)]
     #[storage_mapper("userNftRetrieve")]

@@ -87,6 +87,11 @@ pub trait NftUpgrade:
                 .is_empty(),
             "This NFT is already deposited."
         );
+      
+        require!(
+            self.in_retrieve_nft(&user).len() < 3,
+            "You already placed in retrieve 3 NFTs."
+        );
 
         // Storage
         self.nft_owner_address(&emr_nft_token, token_nonce)
@@ -160,32 +165,28 @@ pub trait NftUpgrade:
         let nfts_in_retrieve = self.in_retrieve_nft(&user).len();
         require!(nfts_in_retrieve < 3, "You already have 3 NFTs in retrieve.");
 
+
+        self.in_retrieve_nft(&user).insert(nft.clone());
         self.nft_owner_address(&nft.clone().identifier, nft.clone().nonce).clear();
         self.nft_from_address(&user).clear();
-        self.user_retrieve_epoch(&user, nft).set(current_epoch);        
-
+        self.user_retrieve_epoch(&user, nft).set(current_epoch);
     }
 
     #[endpoint(claimNft)]
-    fn claim_nft(&self) {
+    fn claim_nft(&self, nft_token: TokenIdentifier, nft_nonce: u64) {
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
-        let nft = self.nft_from_address(&user).get();
+        let nft = UserNft { identifier: nft_token, nonce: nft_nonce };
 
-        require!(
-            self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
-            "You are not the owner of the NFT."
-        );
-        
         require!(
             !self.user_retrieve_epoch(&user,nft.clone()).is_empty(),
             "First, retrieve the NFT and wait for the unbonding period to end."
         );
-       
+
         require!(
-            !self.nft_from_address(&user).is_empty(),
-            "You do not have an NFT deposited. Try depositing first."
+            self.in_retrieve_nft(&user).contains(&nft),
+            "You do not have this NFT in retrieve."
         );
 
         let current_epoch = self.blockchain().get_block_epoch();
@@ -201,7 +202,7 @@ pub trait NftUpgrade:
                 .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
                 .transfer();
 
-
+            self.in_retrieve_nft(&user).swap_remove(&nft);
             self.user_retrieve_epoch(&user,nft).clear();
         }
     }
