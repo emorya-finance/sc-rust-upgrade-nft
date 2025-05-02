@@ -451,12 +451,13 @@ where
             .original_result()
     }
 
+    /// is a number -> 01 True , {empty}/"" False 
     pub fn get_remaining_unbonding_time<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
         self,
         user: Arg0,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, u64> {
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, UserRetrieve> {
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getRemainingUnbondingTime")
@@ -473,4 +474,11 @@ where
 {
     pub identifier: TokenIdentifier<Api>,
     pub nonce: u64,
+}
+
+#[type_abi]
+#[derive(NestedEncode, NestedDecode, TopEncode, TopDecode, ManagedVecItem, Debug, Clone)]
+pub struct UserRetrieve {
+    pub counter: u64,
+    pub unlocking: bool,
 }

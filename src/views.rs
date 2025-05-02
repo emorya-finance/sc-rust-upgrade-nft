@@ -1,6 +1,7 @@
 use crate::{
     constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS},
     managedbufferutils::ManagedBufferUtils,
+    storage::UserRetrieve,
 };
 
 type NftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, u64>;
@@ -200,15 +201,22 @@ pub trait ViewsModule: crate::storage::StorageModule {
         self.get_nft_from_address(user).into_tuple().2
     }
 
+    ///Boolean is a number -> 01 True , {empty}/"" False
     #[view(getRemainingUnbondingTime)]
-    fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> u64 {
+    fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> UserRetrieve {
         if self.unbonding_period().get()
             >= (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
         {
-            self.unbonding_period().get()
-                - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
+            UserRetrieve {
+                counter: self.unbonding_period().get()
+                    - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get()),
+                unlocking: !self.user_retrieve_epoch(&user).is_empty(),
+            }
         } else {
-            0
+            UserRetrieve {
+                counter: 0,
+                unlocking: !self.user_retrieve_epoch(&user).is_empty(),
+            }
         }
     }
 }

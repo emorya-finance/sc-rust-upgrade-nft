@@ -150,7 +150,6 @@ pub trait NftUpgrade:
         //TODO: Set the NFT retrieved inactive
         //TODO: Clear the storage of the NFT and add another storage (likely a tuple with (user_address, nft_identifier))
         //      and work with that to countdown the period for that.
-        
 
         let current_epoch = self.blockchain().get_block_epoch();
 

@@ -7,6 +7,14 @@ pub struct UserNft<M: ManagedTypeApi> {
     pub identifier: TokenIdentifier<M>,
     pub nonce: u64,
 }
+
+#[type_abi]
+#[derive(NestedEncode, NestedDecode, TopEncode, TopDecode, ManagedVecItem, Debug, Clone)]
+pub struct UserRetrieve {
+    pub counter: u64,
+    pub unlocking: bool,
+}
+
 #[multiversx_sc::module]
 pub trait StorageModule {
     #[view(getIsScPaused)]
