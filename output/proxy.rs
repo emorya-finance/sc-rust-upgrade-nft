@@ -276,6 +276,19 @@ where
             .original_result()
     }
 
+    pub fn force_claim<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("forceNftClaim")
+            .argument(&user)
+            .original_result()
+    }
+
     pub fn get_tags(
         self,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ManagedBuffer<Env::Api>> {

@@ -8,7 +8,7 @@ CHAIN_ID="1"
 #=================================== SC ===================================
 
 SC_PATH="../"
-SC_NAME=$(grep -oP 'name = "\K[^"]+' $SC_PATH"Cargo.toml")
+SC_NAME=$(sed -n 's/^name = "\([^"]*\)"/\1/p' "$SC_PATH/Cargo.toml")
 SC_BYTECODE=$SC_PATH"output/$SC_NAME.wasm"
 
 SC_ADDRESS="erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370"

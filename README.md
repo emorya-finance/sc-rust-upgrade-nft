@@ -118,6 +118,17 @@
 
 </details>
 
+<details>
+<summary>forceNftClaim</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+
+</details>
+
 ### Other
 
 <details>

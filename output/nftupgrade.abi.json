@@ -233,6 +233,18 @@
             "outputs": []
         },
         {
+            "name": "forceNftClaim",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "getTags",
             "mutability": "readonly",
             "inputs": [],
