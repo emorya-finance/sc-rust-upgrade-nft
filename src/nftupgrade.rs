@@ -174,7 +174,7 @@ pub trait NftUpgrade:
             !self.nft_retrieve_from_address(&user).is_empty(),
             "You do not have an NFT deposited. Try depositing first."
         );
-        let nft = self.nft_from_address(&user).get();
+        let nft = self.nft_retrieve_from_address(&user).get();
         require!(
             self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
             "You are not the owner of the NFT."
