@@ -210,6 +210,19 @@
             "outputs": []
         },
         {
+            "name": "updateStorage",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "addresses",
+                    "type": "variadic<Address>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "addAllowedAddresses",
             "onlyOwner": true,
             "mutability": "mutable",

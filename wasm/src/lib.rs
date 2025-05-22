@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                           34
+// Endpoints:                           35
 // Async Callback (empty):               1
-// Total number of exported functions:  37
+// Total number of exported functions:  38
 
 #![no_std]
 
@@ -36,6 +36,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         getUnbondingPeriod => unbonding_period
         pauseSc => pause_sc
         resumeSc => resume_sc
+        updateStorage => update_storage
         addAllowedAddresses => add_allowed_addresses
         removeAllowedAddresses => remove_allowed_address
         setUnbondingPeriod => set_unbonding_period

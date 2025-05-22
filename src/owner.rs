@@ -1,3 +1,5 @@
+use crate::storage::UserNft;
+
 multiversx_sc::imports!();
 
 #[multiversx_sc::module]
@@ -14,6 +16,19 @@ pub trait OwnerModule:
     #[endpoint(resumeSc)]
     fn resume_sc(&self) {
         self.is_sc_paused().set(false);
+    }
+
+    #[only_owner]
+    #[endpoint(updateStorage)]
+    fn update_storage(&self, addresses: MultiValueEncoded<ManagedAddress>) {
+        for user in addresses {
+            let nft = self.nft_from_address(&user).get();
+            self.nft_from_address(&user).clear();
+            self.nft_retrieve_from_address(&user).set(UserNft {
+                identifier: nft.identifier,
+                nonce: nft.nonce,
+            });
+        }
     }
 
     #[only_owner]

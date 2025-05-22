@@ -86,6 +86,17 @@
 </details>
 
 <details>
+<summary>updateStorage</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| addresses | Address | ✔ |
+
+
+</details>
+
+<details>
 <summary>addAllowedAddresses</summary>
 
 #### Inputs:

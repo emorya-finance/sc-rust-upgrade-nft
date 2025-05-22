@@ -250,6 +250,19 @@ where
             .original_result()
     }
 
+    pub fn update_storage<
+        Arg0: ProxyArg<MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>>,
+    >(
+        self,
+        addresses: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("updateStorage")
+            .argument(&addresses)
+            .original_result()
+    }
+
     pub fn add_allowed_addresses<
         Arg0: ProxyArg<MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>>,
     >(
