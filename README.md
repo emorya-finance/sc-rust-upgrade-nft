@@ -255,6 +255,22 @@ Upgrade an NFT to the same level but with more data in attributes.
 </details>
 
 <details>
+<summary>getNftRetrieveFromAddress</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| UserNft |
+
+
+</details>
+
+<details>
 <summary>getUserRetrieveEpoch</summary>
 
 #### Inputs:

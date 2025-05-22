@@ -156,6 +156,21 @@
             ]
         },
         {
+            "name": "getNftRetrieveFromAddress",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "UserNft"
+                }
+            ]
+        },
+        {
             "name": "getUserRetrieveEpoch",
             "mutability": "readonly",
             "inputs": [

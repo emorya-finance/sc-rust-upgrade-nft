@@ -54,10 +54,6 @@ pub trait OwnerModule:
             "User is not the owner of the NFT."
         );
 
-        let current_epoch = self.blockchain().get_block_epoch();
-        let unbounding_period = self.unbonding_period().get();
-        let user_retrieve_epoch = self.user_retrieve_epoch(&user).get();
-
         self.tx()
             .to(&user)
             .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))

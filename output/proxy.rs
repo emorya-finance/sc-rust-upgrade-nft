@@ -197,6 +197,19 @@ where
             .original_result()
     }
 
+    pub fn nft_retrieve_from_address<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, UserNft<Env::Api>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftRetrieveFromAddress")
+            .argument(&user)
+            .original_result()
+    }
+
     pub fn user_retrieve_epoch<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
