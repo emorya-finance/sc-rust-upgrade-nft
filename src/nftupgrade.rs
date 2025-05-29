@@ -49,7 +49,7 @@ pub trait NftUpgrade:
         let mut new_attributes = ManagedBuffer::new();
         new_attributes = new_attributes
             .clone()
-            .concat(sc_format!("level:{};activity_days:0;calories_per_day:0", 1));
+            .concat(sc_format!("level:{},activity_days:0,calories_per_day:0", 1));
 
         // Update NFT attributes
         self.send()

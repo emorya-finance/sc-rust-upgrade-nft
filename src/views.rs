@@ -97,7 +97,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
 
         let mut semicolon_index = 7;
         let mut semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
-        while semicolon != b";" {
+        while semicolon != b"," {
             semicolon_index += 1;
             semicolon = attributes.copy_slice(semicolon_index, 1).unwrap();
         }
