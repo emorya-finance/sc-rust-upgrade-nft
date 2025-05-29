@@ -16,8 +16,8 @@ source snippets.sh
 
 # assignRole
 
-runTx $OWNER_ADDRESS "" ESDTNFTTransfer@$NFT_HEX@$NONCE@01@$SC_ADDRESS_HEX@$(python3 to_hex.py upgradeNft)
-sleep 4
+# runTx $OWNER_ADDRESS "" ESDTNFTTransfer@$NFT_HEX@$NONCE@01@$SC_ADDRESS_HEX@$(python3 to_hex.py upgradeNft)
+# sleep 4
 runTx $OWNER_ADDRESS "" ESDTNFTTransfer@$NFT_HEX1@$NONCE1@01@$SC_ADDRESS_HEX@$(python3 to_hex.py upgradeNft)
 sleep 4
 runTx $OWNER_ADDRESS "" ESDTNFTTransfer@$NFT_HEX2@$NONCE2@01@$SC_ADDRESS_HEX@$(python3 to_hex.py upgradeNft)

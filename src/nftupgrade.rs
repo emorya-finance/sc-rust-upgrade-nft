@@ -219,13 +219,13 @@ pub trait NftUpgrade:
         let level =
             self.get_nft_attributes_level_before_upgrade(emr_nft_token.clone(), token_nonce);
 
-        let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), token_nonce);
+        // let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), token_nonce);
 
         // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
-        new_attributes = new_attributes
-            .clone()
-            .concat(sc_format!("metadata:{};", uri_json));
+        // new_attributes = new_attributes
+        //     .clone()
+        //     .concat(sc_format!("metadata:{};", uri_json));
 
         new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
         new_attributes = new_attributes.clone().concat(sc_format!("level:{}", level));
