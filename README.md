@@ -482,6 +482,24 @@ Bilal Endpoint
 </details>
 
 <details>
+<summary>getNftInRetrieveByAddress</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| TokenIdentifier |
+| u64 |
+| u64 |
+
+
+</details>
+
+<details>
 <summary>getNftNonce</summary>
 
 #### Inputs:
@@ -528,6 +546,38 @@ Bilal Endpoint
 | Type |
 | - |
 | UserRetrieve |
+
+
+</details>
+
+<details>
+<summary>getUserInfo</summary>
+
+Returns:
+
+- User Active NFT (Identifier, Nonce , Level)
+
+- User in Retrieve NFT (Identifier, Nonce, Level)
+
+- Unbounding Time
+
+- Can Claim
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| TokenIdentifier |
+| u64 |
+| u64 |
+| TokenIdentifier |
+| u64 |
+| u64 |
+| u64 |
+| bool |
 
 
 </details>

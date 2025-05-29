@@ -465,6 +465,27 @@
             ]
         },
         {
+            "name": "getNftInRetrieveByAddress",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
             "name": "getNftNonce",
             "mutability": "readonly",
             "inputs": [
@@ -510,6 +531,49 @@
             "outputs": [
                 {
                     "type": "UserRetrieve"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Returns:",
+                "- User Active NFT (Identifier, Nonce , Level)",
+                "- User in Retrieve NFT (Identifier, Nonce, Level)",
+                "- Unbounding Time",
+                "- Can Claim"
+            ],
+            "name": "getUserInfo",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "bool"
                 }
             ]
         }

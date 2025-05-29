@@ -466,6 +466,19 @@ where
             .original_result()
     }
 
+    pub fn get_nft_retrieve_from_address<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, MultiValue3<TokenIdentifier<Env::Api>, u64, u64>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getNftInRetrieveByAddress")
+            .argument(&user)
+            .original_result()
+    }
+
     pub fn get_nft_nonce<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
@@ -503,6 +516,24 @@ where
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("getRemainingUnbondingTime")
+            .argument(&user)
+            .original_result()
+    }
+
+    /// Returns: 
+    /// - User Active NFT (Identifier, Nonce , Level) 
+    /// - User in Retrieve NFT (Identifier, Nonce, Level) 
+    /// - Unbounding Time 
+    /// - Can Claim 
+    pub fn ger_user_info<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        user: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, MultiValue8<TokenIdentifier<Env::Api>, u64, u64, TokenIdentifier<Env::Api>, u64, u64, u64, bool>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getUserInfo")
             .argument(&user)
             .original_result()
     }
