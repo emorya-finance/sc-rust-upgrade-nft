@@ -25,6 +25,7 @@ pub trait StorageModule {
     #[storage_mapper("allowedAddresses")]
     fn allowed_addresses(&self) -> UnorderedSetMapper<ManagedAddress>;
 
+    /// Bilal Endpoint
     #[view(getNftOwnerAddress)]
     #[storage_mapper("nftOwnerAddress")]
     fn nft_owner_address(

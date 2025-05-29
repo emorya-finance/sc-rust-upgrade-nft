@@ -174,6 +174,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         NftInfo::from((nft_token.identifier, nft_token.nonce, level))
     }
 
+    /// Bilal Endpoint
     #[view(getNftInfoAfterUpgrade)]
     fn get_nft_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
         if self.nft_from_address(&user).is_empty() {
@@ -202,6 +203,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     }
 
     ///Boolean is a number -> 01 True , {empty}/"" False
+    /// Bilal Endpoint
     #[view(getRemainingUnbondingTime)]
     fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> UserRetrieve {
         if self.unbonding_period().get()

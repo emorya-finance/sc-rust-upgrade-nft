@@ -122,6 +122,9 @@
             ]
         },
         {
+            "docs": [
+                "Bilal Endpoint"
+            ],
             "name": "getNftOwnerAddress",
             "mutability": "readonly",
             "inputs": [
@@ -438,6 +441,9 @@
             ]
         },
         {
+            "docs": [
+                "Bilal Endpoint"
+            ],
             "name": "getNftInfoAfterUpgrade",
             "mutability": "readonly",
             "inputs": [
@@ -490,7 +496,8 @@
         },
         {
             "docs": [
-                "is a number -> 01 True , {empty}/\"\" False"
+                "is a number -> 01 True , {empty}/\"\" False",
+                "Bilal Endpoint"
             ],
             "name": "getRemainingUnbondingTime",
             "mutability": "readonly",

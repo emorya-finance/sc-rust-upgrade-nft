@@ -235,6 +235,7 @@ Upgrade an NFT to the same level but with more data in attributes.
 <details>
 <summary>getNftOwnerAddress</summary>
 
+Bilal Endpoint
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -464,6 +465,7 @@ Upgrade an NFT to the same level but with more data in attributes.
 <details>
 <summary>getNftInfoAfterUpgrade</summary>
 
+Bilal Endpoint
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -515,6 +517,8 @@ Upgrade an NFT to the same level but with more data in attributes.
 <summary>getRemainingUnbondingTime</summary>
 
 is a number -> 01 True , {empty}/"" False
+
+Bilal Endpoint
 #### Inputs:
 | Name | Type |
 | - | - |
