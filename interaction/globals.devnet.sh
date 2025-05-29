@@ -39,6 +39,20 @@ USDC_HEX=$(python3 to_hex.py $USDC)
 
 NFT="EMORYANFT-036f1f"
 NFT_HEX=$(python3 to_hex.py $NFT)
-
 NONCE="01"
 NONCE_HEX=$(python3 to_hex.py $NONCE)
+
+NFT1="EMORYANFT-036f1f"
+NFT_HEX1=$(python3 to_hex.py $NFT1)
+NONCE1="02"
+NONCE_HEX1=$(python3 to_hex.py $NONCE1)
+
+NFT2="EMORYANFT-036f1f"
+NFT_HEX2=$(python3 to_hex.py $NFT2)
+NONCE2="03"
+NONCE_HEX2=$(python3 to_hex.py $NONCE2)
+
+NFT3="EMORYANFT-036f1f"
+NFT_HEX3=$(python3 to_hex.py $NFT3)
+NONCE3="04"
+NONCE_HEX3=$(python3 to_hex.py $NONCE3)

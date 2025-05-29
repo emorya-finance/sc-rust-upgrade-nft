@@ -51,7 +51,7 @@ deploy() {
 upgrade() {
     # upgrade OR upgrade "0xArg1_hex 0xArg2_hex ..." 50000000
 
-    local GAS_LIMIT=${2:-60000000}  # Default gas limit is 20 million
+    local GAS_LIMIT=${2:-80000000}  # Default gas limit is 20 million
 
     if [ -n "$1" ]; then
         ARGS="--arguments $1"
@@ -88,5 +88,5 @@ runTx() {
 }
 
 assignRole () {
-    runTx erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u "" setSpecialRole @$NFT_INVESTORS_HEX@$SC_ADDRESS_HEX@$(python3 to_hex.py ESDTRoleNFTUpdateAttributes) 60000000
+    runTx erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u "" setSpecialRole @$NFT_HEX@$SC_ADDRESS_HEX@$(python3 to_hex.py ESDTRoleNFTUpdateAttributes) 60000000
 }
