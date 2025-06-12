@@ -121,16 +121,16 @@ pub trait ViewsModule: crate::storage::StorageModule {
             )
             .attributes;
 
-        let uri_json = self.get_nft_uri_json(token_identifier, token_nonce);
+        // let uri_json = self.get_nft_uri_json(token_identifier, token_nonce);
 
         let mut starting_attributes = ManagedBuffer::new();
-        starting_attributes = starting_attributes
-            .clone()
-            .concat(sc_format!("metadata:{}", uri_json));
+        // starting_attributes = starting_attributes
+        //     .clone()
+        //     .concat(sc_format!("metadata:{}", uri_json));
 
-        if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
-            sc_panic!("Attributes do not start as expected.");
-        }
+        // if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
+        //     sc_panic!("Attributes do not start as expected.");
+        // }
 
         let mut colon_index = attributes.len() - 1;
         let mut colon = attributes.copy_slice(colon_index, 1).unwrap();
