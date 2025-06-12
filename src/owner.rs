@@ -34,6 +34,22 @@ pub trait OwnerModule:
     }
 
     #[only_owner]
+    #[endpoint(addBlockUser)]
+    fn add_block_user(&self, users: MultiValueEncoded<ManagedAddress>){
+        for user in users{ 
+             self.blocked_user(&user).set(true);
+        }
+    }
+
+    #[only_owner]
+    #[endpoint(removeBlockUser)]
+    fn remove_block_user(&self, users: MultiValueEncoded<ManagedAddress>){
+        for user in users{
+            self.blocked_user(&user).set(false);
+        }
+    }
+
+    #[only_owner]
     #[endpoint(setUnbondingPeriod)]
     fn set_unbonding_period(&self, period: u64) {
         self.unbonding_period().set(period);

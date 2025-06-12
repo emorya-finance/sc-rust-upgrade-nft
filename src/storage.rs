@@ -44,4 +44,8 @@ pub trait StorageModule {
     #[view(getUnbondingPeriod)]
     #[storage_mapper("unbondingPeriod")]
     fn unbonding_period(&self) -> SingleValueMapper<u64>;
+
+    #[view(getBlockedUser)]
+    #[storage_mapper("blockedUser")]
+    fn blocked_user(&self, user: &ManagedAddress) -> SingleValueMapper<bool>;
 }

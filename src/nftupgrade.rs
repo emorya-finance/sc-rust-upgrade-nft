@@ -70,6 +70,8 @@ pub trait NftUpgrade:
     fn deposit_nft(&self) {
         self.require_not_paused();
         let user = self.blockchain().get_caller();
+       
+       self.require_non_blocked_user(&user);
 
         let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
         self.require_valid_emr_nft(emr_nft_token.clone());
@@ -132,6 +134,8 @@ pub trait NftUpgrade:
 
         let user = self.blockchain().get_caller();
 
+        self.require_non_blocked_user(&user);
+
         require!(
             self.user_retrieve_epoch(&user).is_empty(),
             "You already started the retrieving period."
@@ -162,6 +166,8 @@ pub trait NftUpgrade:
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
+
+        self.require_non_blocked_user(&user);
 
         require!(
             !self.user_retrieve_epoch(&user).is_empty(),
@@ -204,6 +210,8 @@ pub trait NftUpgrade:
 
         let caller = self.blockchain().get_caller();
 
+        self.require_non_blocked_user(&caller);
+
         let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
 
         self.require_valid_emr_nft(emr_nft_token.clone());
@@ -241,6 +249,8 @@ pub trait NftUpgrade:
     #[endpoint(increaseLevel)]
     fn increase_level(&self, user: ManagedAddress) {
         self.require_not_paused();
+
+        self.require_non_blocked_user(&user);
 
         require!(
             !self.nft_from_address(&user).is_empty(),
@@ -283,6 +293,8 @@ pub trait NftUpgrade:
     #[endpoint(decreaseLevel)]
     fn decrease_level(&self, user: ManagedAddress) {
         self.require_not_paused();
+
+        self.require_non_blocked_user(&user);
 
         require!(
             !self.nft_from_address(&user).is_empty(),
