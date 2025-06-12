@@ -17,9 +17,9 @@ pub trait PrivateModule: crate::storage::StorageModule + crate::views::ViewsModu
         );
     }
 
-    fn require_non_blocked_user(&self, user: &ManagedAddress){
+    fn require_non_blocked_user(&self, user: &ManagedAddress) {
         require!(
-            self.blocked_user(user).get() != true,
+            !self.blocked_user(user).get(),
             "You are blocked from actioning the NFT"
         );
     }

@@ -108,6 +108,28 @@
 </details>
 
 <details>
+<summary>addBlockUser</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| users | Address | ✔ |
+
+
+</details>
+
+<details>
+<summary>removeBlockUser</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| users | Address | ✔ |
+
+
+</details>
+
+<details>
 <summary>setUnbondingPeriod</summary>
 
 #### Inputs:
@@ -277,6 +299,22 @@ Upgrade an NFT to the same level but with more data in attributes.
 | Type |
 | - |
 | u64 |
+
+
+</details>
+
+<details>
+<summary>getBlockedUser</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| bool |
 
 
 </details>

@@ -35,16 +35,16 @@ pub trait OwnerModule:
 
     #[only_owner]
     #[endpoint(addBlockUser)]
-    fn add_block_user(&self, users: MultiValueEncoded<ManagedAddress>){
-        for user in users{ 
-             self.blocked_user(&user).set(true);
+    fn add_block_user(&self, users: MultiValueEncoded<ManagedAddress>) {
+        for user in users {
+            self.blocked_user(&user).set(true);
         }
     }
 
     #[only_owner]
     #[endpoint(removeBlockUser)]
-    fn remove_block_user(&self, users: MultiValueEncoded<ManagedAddress>){
-        for user in users{
+    fn remove_block_user(&self, users: MultiValueEncoded<ManagedAddress>) {
+        for user in users {
             self.blocked_user(&user).set(false);
         }
     }
@@ -70,9 +70,9 @@ pub trait OwnerModule:
             "User is not the owner of the NFT."
         );
 
-        let current_epoch = self.blockchain().get_block_epoch();
-        let unbounding_period = self.unbonding_period().get();
-        let user_retrieve_epoch = self.user_retrieve_epoch(&user).get();
+        // let current_epoch = self.blockchain().get_block_epoch();
+        // let unbounding_period = self.unbonding_period().get();
+        // let user_retrieve_epoch = self.user_retrieve_epoch(&user).get();
 
         self.tx()
             .to(&user)

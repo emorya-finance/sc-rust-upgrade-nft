@@ -181,6 +181,21 @@
             ]
         },
         {
+            "name": "getBlockedUser",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
             "name": "pauseSc",
             "onlyOwner": true,
             "mutability": "mutable",
@@ -214,6 +229,32 @@
             "inputs": [
                 {
                     "name": "addresses",
+                    "type": "variadic<Address>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "addBlockUser",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "users",
+                    "type": "variadic<Address>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "removeBlockUser",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "users",
                     "type": "variadic<Address>",
                     "multi_arg": true
                 }

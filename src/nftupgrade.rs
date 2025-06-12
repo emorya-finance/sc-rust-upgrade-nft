@@ -70,8 +70,8 @@ pub trait NftUpgrade:
     fn deposit_nft(&self) {
         self.require_not_paused();
         let user = self.blockchain().get_caller();
-       
-       self.require_non_blocked_user(&user);
+
+        self.require_non_blocked_user(&user);
 
         let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
         self.require_valid_emr_nft(emr_nft_token.clone());
