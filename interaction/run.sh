@@ -8,11 +8,11 @@ source snippets.sh
 ############ START ############
 
 # deploy
-upgrade
+# upgrade
 
 # runTx $SC_ADDRESS_HEX "" setUnbondingPeriod@$(python3 to_hex.py 30)
 
 # assignRole
 
-# runTx $OWNER_ADDRESS "" ESDTNFTTransfer@$NFT_HEX@$NONCE@01@$SC_ADDRESS_HEX@$(python3 to_hex.py initialize)
+runTx $SC_ADDRESS "" increaseLevel@$(mxpy wallet bech32 --decode erd1lza2qt95e7e3mtyrgj7azamyvdjnrtu8vzu4j2fcqevpzkneuexqyvrezm)
 

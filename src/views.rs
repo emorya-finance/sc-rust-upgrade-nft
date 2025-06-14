@@ -209,7 +209,8 @@ pub trait ViewsModule: crate::storage::StorageModule {
         {
             UserRetrieve {
                 counter: self.unbonding_period().get()
-                    - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get()),
+                    - (self.blockchain().get_block_epoch() - self.user_retrieve_epoch(&user).get())
+                    + 1,
                 unlocking: !self.user_retrieve_epoch(&user).is_empty(),
             }
         } else {
