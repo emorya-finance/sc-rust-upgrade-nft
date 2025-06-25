@@ -210,6 +210,18 @@
             "outputs": []
         },
         {
+            "name": "downgradeLevel",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "addAllowedAddresses",
             "onlyOwner": true,
             "mutability": "mutable",

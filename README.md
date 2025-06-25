@@ -86,6 +86,17 @@
 </details>
 
 <details>
+<summary>downgradeLevel</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| address | Address |
+
+
+</details>
+
+<details>
 <summary>addAllowedAddresses</summary>
 
 #### Inputs:
