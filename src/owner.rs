@@ -19,6 +19,57 @@ pub trait OwnerModule:
     }
 
     #[only_owner]
+    #[endpoint(upgradeInvestorsNft)]
+    fn upgrade_investors_nft(&self, token_identifier: TokenIdentifier, token_nonce: u64) {
+        // Upgrade function needs revise
+    }
+
+    fn set_manual_level(
+        &self,
+        token_identifier: TokenIdentifier,
+        token_nonce: u64,
+        new_level: u64,
+    ) {
+        let uri_json = self.get_nft_uri_json(token_identifier.clone(), token_nonce);
+
+        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
+        let mut new_attributes = ManagedBuffer::new();
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("metadata:{};", uri_json));
+
+        new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("level:{}", new_level));
+
+        self.send()
+            .nft_update_attributes(&token_identifier, token_nonce, &new_attributes);
+    }
+
+    #[only_owner]
+    #[endpoint(setLevel)]
+    fn set_level(&self, address: ManagedAddress, new_level: u64) {
+        let nft = self.nft_from_address(&address).get();
+
+        let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
+
+        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
+        let mut new_attributes = ManagedBuffer::new();
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("metadata:{};", uri_json));
+
+        new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
+        new_attributes = new_attributes
+            .clone()
+            .concat(sc_format!("level:{}", new_level));
+
+        self.send()
+            .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
+    }
+
+    #[only_owner]
     #[endpoint(downgradeLevel)]
     fn downgrade_nft_level(&self, addresses: MultiValueEncoded<ManagedAddress>) {
         for address in addresses {

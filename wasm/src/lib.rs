@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                           37
+// Endpoints:                           39
 // Async Callback (empty):               1
-// Total number of exported functions:  40
+// Total number of exported functions:  42
 
 #![no_std]
 
@@ -36,6 +36,8 @@ multiversx_sc_wasm_adapter::endpoints! {
         getBlockedUser => blocked_user
         pauseSc => pause_sc
         resumeSc => resume_sc
+        upgradeInvestorsNft => upgrade_investors_nft
+        setLevel => set_level
         downgradeLevel => downgrade_nft_level
         addAllowedAddresses => add_allowed_addresses
         removeAllowedAddresses => remove_allowed_address

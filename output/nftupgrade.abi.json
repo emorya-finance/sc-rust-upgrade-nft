@@ -210,6 +210,38 @@
             "outputs": []
         },
         {
+            "name": "upgradeInvestorsNft",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setLevel",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "new_level",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "downgradeLevel",
             "onlyOwner": true,
             "mutability": "mutable",

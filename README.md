@@ -86,6 +86,30 @@
 </details>
 
 <details>
+<summary>upgradeInvestorsNft</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| token_identifier | TokenIdentifier |
+| token_nonce | u64 |
+
+
+</details>
+
+<details>
+<summary>setLevel</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| address | Address |
+| new_level | u64 |
+
+
+</details>
+
+<details>
 <summary>downgradeLevel</summary>
 
 #### Inputs:
