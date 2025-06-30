@@ -20,27 +20,29 @@ pub trait OwnerModule:
 
     #[only_owner]
     #[endpoint(downgradeLevel)]
-    fn downgrade_nft_level(&self, address: &ManagedAddress) {
-        let nft = self.nft_from_address(address).get();
-        let new_level = 1u64;
+    fn downgrade_nft_level(&self, addresses: MultiValueEncoded<ManagedAddress>) {
+        for address in addresses {
+            let nft = self.nft_from_address(&address).get();
+            let new_level = 1u64;
 
-        let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
+            let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
 
-        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
-        let mut new_attributes = ManagedBuffer::new();
-        new_attributes = new_attributes
-            .clone()
-            .concat(sc_format!("metadata:{};", uri_json));
+            // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
+            let mut new_attributes = ManagedBuffer::new();
+            new_attributes = new_attributes
+                .clone()
+                .concat(sc_format!("metadata:{};", uri_json));
 
-        new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
-        new_attributes = new_attributes
-            .clone()
-            .concat(sc_format!("level:{}", new_level));
+            new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
+            new_attributes = new_attributes
+                .clone()
+                .concat(sc_format!("level:{}", new_level));
 
-        self.blocked_user(address).clear();
+            self.blocked_user(&address).clear();
 
-        self.send()
-            .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
+            self.send()
+                .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
+        }
     }
 
     #[only_owner]

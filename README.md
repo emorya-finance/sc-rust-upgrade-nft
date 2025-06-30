@@ -89,9 +89,9 @@
 <summary>downgradeLevel</summary>
 
 #### Inputs:
-| Name | Type |
-| - | - |
-| address | Address |
+| Name | Type | MultiValue |
+| - | - | - |
+| addresses | Address | ✔ |
 
 
 </details>

@@ -251,15 +251,15 @@ where
     }
 
     pub fn downgrade_nft_level<
-        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+        Arg0: ProxyArg<MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>>,
     >(
         self,
-        address: Arg0,
+        addresses: Arg0,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("downgradeLevel")
-            .argument(&address)
+            .argument(&addresses)
             .original_result()
     }
 
