@@ -11,7 +11,7 @@
 - **Channel**: Stable
 
 - **Framework**: multiversx-sc
-- **Version**: 0.53.2
+- **Version**: 0.58.0
 </details>
 
 <details>
@@ -81,18 +81,6 @@
 
 <details>
 <summary>resumeSc</summary>
-
-
-</details>
-
-<details>
-<summary>upgradeInvestorsNft</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| token_identifier | TokenIdentifier |
-| token_nonce | u64 |
 
 
 </details>
@@ -250,6 +238,19 @@ Upgrade an NFT to the same level but with more data in attributes.
 | Name | Type |
 | - | - |
 | user | Address |
+
+
+</details>
+
+<details>
+<summary>upgradeInvestorsNfts</summary>
+
+#### Note: This endpoint is payable by any token.
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| level | u64 |
 
 
 </details>

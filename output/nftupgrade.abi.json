@@ -13,7 +13,7 @@
         },
         "framework": {
             "name": "multiversx-sc",
-            "version": "0.53.2"
+            "version": "0.58.0"
         }
     },
     "name": "NftUpgrade",
@@ -210,16 +210,14 @@
             "outputs": []
         },
         {
-            "name": "upgradeInvestorsNft",
-            "onlyOwner": true,
+            "name": "upgradeInvestorsNfts",
             "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
             "inputs": [
                 {
-                    "name": "token_identifier",
-                    "type": "TokenIdentifier"
-                },
-                {
-                    "name": "token_nonce",
+                    "name": "level",
                     "type": "u64"
                 }
             ],

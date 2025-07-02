@@ -11,6 +11,7 @@ pub mod views;
 
 use constants::TAGS;
 use managedbufferutils::ManagedBufferUtils;
+use multiversx_sc::hex_literal::hex;
 use storage::UserNft;
 
 #[multiversx_sc::contract]
@@ -37,7 +38,7 @@ pub trait NftUpgrade:
     fn initialize(&self) {
         let caller = self.blockchain().get_caller();
 
-        let (nft_identifier, nft_nonce, _) = self.call_value().single_esdt().into_tuple();
+        let (nft_identifier, nft_nonce, _) = self.call_value().single_esdt().clone().into_tuple();
 
         require!(
             caller == self.blockchain().get_owner_address()
@@ -73,7 +74,8 @@ pub trait NftUpgrade:
 
         self.require_non_blocked_user(&user);
 
-        let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
+        let (emr_nft_token, token_nonce, amount) =
+            self.call_value().single_esdt().clone().into_tuple();
         self.require_valid_emr_nft(emr_nft_token.clone());
         require!(
             amount == BigUint::from(1u8),
@@ -212,7 +214,8 @@ pub trait NftUpgrade:
 
         self.require_non_blocked_user(&caller);
 
-        let (emr_nft_token, token_nonce, amount) = self.call_value().single_esdt().into_tuple();
+        let (emr_nft_token, token_nonce, amount) =
+            self.call_value().single_esdt().clone().into_tuple();
 
         self.require_valid_emr_nft(emr_nft_token.clone());
 

@@ -250,19 +250,15 @@ where
             .original_result()
     }
 
-    pub fn upgrade_investors_nft<
-        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
-        Arg1: ProxyArg<u64>,
+    pub fn upgrade_investors_nfts<
+        Arg0: ProxyArg<u64>,
     >(
         self,
-        token_identifier: Arg0,
-        token_nonce: Arg1,
-    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        level: Arg0,
+    ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
         self.wrapped_tx
-            .payment(NotPayable)
-            .raw_call("upgradeInvestorsNft")
-            .argument(&token_identifier)
-            .argument(&token_nonce)
+            .raw_call("upgradeInvestorsNfts")
+            .argument(&level)
             .original_result()
     }
 
