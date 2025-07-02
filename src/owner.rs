@@ -20,59 +20,6 @@ pub trait OwnerModule:
         self.is_sc_paused().set(false);
     }
 
-    #[payable]
-    #[endpoint(upgradeInvestorsNfts)]
-    fn upgrade_investors_nfts(&self, level: u64) {
-        self.require_not_paused();
-
-        let caller = self.blockchain().get_caller();
-        require!(
-            caller == self.blockchain().get_owner_address()
-                || caller
-                    == ManagedAddress::new_from_bytes(&hex!(
-                        "00000000000000000500efae4f2727b5fe9a7ee8f5f968cfe0e438a37756d863"
-                    )),
-            "You are not allowed to upgrade NFTs."
-        );
-
-        let allowed_nft_identifier = self.get_nft_identifier_investors();
-
-        let transfers = self.call_value().all_esdt_transfers();
-
-        for transfer in transfers.iter() {
-            let (nft_identifier, nft_nonce, nft_amount) = transfer.clone().into_tuple();
-
-            require!(
-                nft_amount == BigUint::from(1u8),
-                "NFT should have amount 1."
-            );
-            require!(
-                nft_identifier == allowed_nft_identifier,
-                "Invalid NFT identifier."
-            );
-
-            let uri_json = self.get_nft_uri_json(nft_identifier.clone(), nft_nonce);
-
-            // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
-            let mut new_attributes = ManagedBuffer::new();
-            new_attributes = new_attributes
-                .clone()
-                .concat(sc_format!("metadata:{};", uri_json));
-
-            new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
-            new_attributes = new_attributes.clone().concat(sc_format!("level:{}", level));
-
-            // Update NFT attributes
-            self.send()
-                .nft_update_attributes(&nft_identifier.clone(), nft_nonce, &new_attributes);
-
-            self.tx()
-                .to(&caller)
-                .single_esdt(&nft_identifier, nft_nonce, &BigUint::from(1u8))
-                .transfer();
-        }
-    }
-
     #[only_owner]
     #[endpoint(setLevel)]
     fn set_level(&self, address: ManagedAddress, new_level: u64) {

@@ -250,18 +250,6 @@ where
             .original_result()
     }
 
-    pub fn upgrade_investors_nfts<
-        Arg0: ProxyArg<u64>,
-    >(
-        self,
-        level: Arg0,
-    ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
-        self.wrapped_tx
-            .raw_call("upgradeInvestorsNfts")
-            .argument(&level)
-            .original_result()
-    }
-
     pub fn set_level<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
         Arg1: ProxyArg<u64>,

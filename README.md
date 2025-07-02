@@ -242,19 +242,6 @@ Upgrade an NFT to the same level but with more data in attributes.
 
 </details>
 
-<details>
-<summary>upgradeInvestorsNfts</summary>
-
-#### Note: This endpoint is payable by any token.
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| level | u64 |
-
-
-</details>
-
 ## Views
 
 <details>

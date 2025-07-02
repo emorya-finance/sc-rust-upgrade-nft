@@ -210,20 +210,6 @@
             "outputs": []
         },
         {
-            "name": "upgradeInvestorsNfts",
-            "mutability": "mutable",
-            "payableInTokens": [
-                "*"
-            ],
-            "inputs": [
-                {
-                    "name": "level",
-                    "type": "u64"
-                }
-            ],
-            "outputs": []
-        },
-        {
             "name": "setLevel",
             "onlyOwner": true,
             "mutability": "mutable",
