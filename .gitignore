@@ -3,6 +3,8 @@
 /target/
 */target/
 
+/interaction/
+
 # Other
 *.pem
 *report.json

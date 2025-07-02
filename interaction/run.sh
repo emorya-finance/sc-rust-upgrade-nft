@@ -39,6 +39,9 @@ source snippets.sh
 # runTx $SC_ADDRESS "" downgradeLevel@$(mxpy wallet bech32 --decode erd1h2hpg9smey2xhp8df6304z5ycg5034wj86r2u07hge82lrrn62msz5epjj)
 # runTx $SC_ADDRESS "" downgradeLevel@$(mxpy wallet bech32 --decode erd1jd8ua7elx7tjpq4dl9qss84z923xqjf06kqq5rq0063l7eey8swsq7njys)
 
+# runTx $SC_ADDRESS "" setLevel@$(mxpy wallet bech32 --decode erd1xs97t73adfnxaql8sss236tum72cm2pd0laps9m746mv80gqn2gsfmk4h7)@$(python3 to_hex.py 15)
+runTx $SC_ADDRESS "" setLevel@$(mxpy wallet bech32 --decode erd1x3h9y4geujxjvlhjlh5lc0t2w8k0kqx5cmljjgjmcmutmq3pa4lsdr50t5)@$(python3 to_hex.py 15)
+
 
 # erd1h2hpg9smey2xhp8df6304z5ycg5034wj86r2u07hge82lrrn62msz5epjj
 # erd1jd8ua7elx7tjpq4dl9qss84z923xqjf06kqq5rq0063l7eey8swsq7njys

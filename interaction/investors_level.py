@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import re
 
-url = "https://api.elrond.com/accounts/erd1qqqqqqqqqqqqqpgqhz07ak9chcm03lsgkxx80807ay0g9erxp4hqjrcjw8/nfts?size=150"
+url = "https://api.elrond.com/accounts/erd1qqqqqqqqqqqqqpgqa7hy7fe8khlf5lhg7huk3nlqusu2xa6kmp3suhgj4h/nfts?size=150"
 
 response = requests.get(url)
 response.raise_for_status()  
