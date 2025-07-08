@@ -11,7 +11,7 @@
 - **Channel**: Stable
 
 - **Framework**: multiversx-sc
-- **Version**: 0.53.2
+- **Version**: 0.58.0
 </details>
 
 <details>
@@ -235,7 +235,6 @@ Upgrade an NFT to the same level but with more data in attributes.
 <details>
 <summary>getNftOwnerAddress</summary>
 
-Bilal Endpoint
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -465,7 +464,6 @@ Bilal Endpoint
 <details>
 <summary>getNftInfoAfterUpgrade</summary>
 
-Bilal Endpoint
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -534,9 +532,7 @@ Bilal Endpoint
 <details>
 <summary>getRemainingUnbondingTime</summary>
 
-is a number -> 01 True , {empty}/"" False
-
-Bilal Endpoint
+Boolean is a number -> 01 True , {empty}/"" False
 #### Inputs:
 | Name | Type |
 | - | - |

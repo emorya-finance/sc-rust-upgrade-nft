@@ -5,6 +5,7 @@
   "bigIntSetInt64",
   "checkNoPayment",
   "cleanReturnData",
+  "finish",
   "getBlockEpoch",
   "getGasLeft",
   "getNumArguments",

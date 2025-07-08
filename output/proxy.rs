@@ -168,7 +168,6 @@ where
             .original_result()
     }
 
-    /// Bilal Endpoint 
     pub fn nft_owner_address<
         Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
         Arg1: ProxyArg<u64>,
@@ -452,7 +451,6 @@ where
             .original_result()
     }
 
-    /// Bilal Endpoint 
     pub fn get_nft_from_address<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
@@ -505,8 +503,7 @@ where
             .original_result()
     }
 
-    /// is a number -> 01 True , {empty}/"" False 
-    /// Bilal Endpoint 
+    /// Boolean is a number -> 01 True , {empty}/"" False 
     pub fn get_remaining_unbonding_time<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
