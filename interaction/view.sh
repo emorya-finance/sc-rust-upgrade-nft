@@ -13,7 +13,7 @@ source snippets.sh
 
 # view getNftAttributes "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"
 # view getNftUriJson "0x$OWNER_ADDRESS_HEX 0x$NFT_HEX 0x$NONCE_HEX"
-view getUserInfo "0x$(mxpy wallet bech32 --decode erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle)"
+# view getUserInfo "0x$(mxpy wallet bech32 --decode erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle)"
 
 # view getNftAttributesLevelAfterUpgrade "0x$NFT_HEX 0x01"
 

@@ -218,7 +218,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         self.get_nft_from_address(user).into_tuple().2
     }
 
-    ///Boolean is a number -> 01 True , {empty}/"" False
+    /// Boolean is a number -> 01 True , {empty}/"" False
     /// Bilal Endpoint
     #[view(getRemainingUnbondingTime)]
     fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> UserRetrieve {
