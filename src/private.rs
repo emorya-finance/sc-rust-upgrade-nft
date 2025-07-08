@@ -16,11 +16,4 @@ pub trait PrivateModule: crate::storage::StorageModule + crate::views::ViewsModu
             "Invalid EMR NFT identifier."
         );
     }
-
-    fn require_non_blocked_user(&self, user: &ManagedAddress) {
-        require!(
-            !self.blocked_user(user).get(),
-            "You are blocked from actioning the NFT"
-        );
-    }
 }
