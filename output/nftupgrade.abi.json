@@ -13,7 +13,7 @@
         },
         "framework": {
             "name": "multiversx-sc",
-            "version": "0.53.2"
+            "version": "0.58.0"
         }
     },
     "name": "NftUpgrade",
@@ -122,9 +122,6 @@
             ]
         },
         {
-            "docs": [
-                "Bilal Endpoint"
-            ],
             "name": "getNftOwnerAddress",
             "mutability": "readonly",
             "inputs": [
@@ -441,9 +438,6 @@
             ]
         },
         {
-            "docs": [
-                "Bilal Endpoint"
-            ],
             "name": "getNftInfoAfterUpgrade",
             "mutability": "readonly",
             "inputs": [
@@ -517,8 +511,7 @@
         },
         {
             "docs": [
-                "is a number -> 01 True , {empty}/\"\" False",
-                "Bilal Endpoint"
+                "Boolean is a number -> 01 True , {empty}/\"\" False"
             ],
             "name": "getRemainingUnbondingTime",
             "mutability": "readonly",

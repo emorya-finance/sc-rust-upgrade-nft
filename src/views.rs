@@ -121,16 +121,16 @@ pub trait ViewsModule: crate::storage::StorageModule {
             )
             .attributes;
 
-        // let uri_json = self.get_nft_uri_json(token_identifier, token_nonce);
+        let uri_json = self.get_nft_uri_json(token_identifier, token_nonce);
 
         let mut starting_attributes = ManagedBuffer::new();
-        // starting_attributes = starting_attributes
-        //     .clone()
-        //     .concat(sc_format!("metadata:{}", uri_json));
+        starting_attributes = starting_attributes
+            .clone()
+            .concat(sc_format!("metadata:{}", uri_json));
 
-        // if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
-        //     sc_panic!("Attributes do not start as expected.");
-        // }
+        if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
+            sc_panic!("Attributes do not start as expected.");
+        }
 
         let mut colon_index = attributes.len() - 1;
         let mut colon = attributes.copy_slice(colon_index, 1).unwrap();
@@ -175,7 +175,6 @@ pub trait ViewsModule: crate::storage::StorageModule {
         NftInfo::from((nft_token.identifier, nft_token.nonce, level))
     }
 
-    /// Bilal Endpoint
     #[view(getNftInfoAfterUpgrade)]
     fn get_nft_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
         if self.nft_from_address(&user).is_empty() {
@@ -219,7 +218,6 @@ pub trait ViewsModule: crate::storage::StorageModule {
     }
 
     /// Boolean is a number -> 01 True , {empty}/"" False
-    /// Bilal Endpoint
     #[view(getRemainingUnbondingTime)]
     fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> UserRetrieve {
         if self.unbonding_period().get()
