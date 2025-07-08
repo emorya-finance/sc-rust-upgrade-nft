@@ -144,7 +144,6 @@ pub trait NftUpgrade:
 
         let nft = self.nft_from_address(&user).get();
 
-        // Question: What to do regarding the below required?
         require!(
             self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
             "You are not the owner of the NFT."
