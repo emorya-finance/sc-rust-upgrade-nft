@@ -18,3 +18,8 @@ source snippets.sh
 # view getNftAttributesLevelAfterUpgrade "0x$NFT_HEX 0x01"
 
 
+# view getRemainingUnbondingTime addr:erd1xyphe7caprqgm9t05dewgrzvte3a32a9s8ml75wlzuqzht5cyg6skulk3y
+# view getRemainingUnbondingTime addr:erd15c4ptcs8szl90l6lq0tjz30a0u4qtptmu74lyp0a6l36qnl8aj8q9l2luc
+# view getRemainingUnbondingTime addr:erd14966040u3ha7xynqg7cdulvyzyegc8s6lrt8mtf57mtce7egq8psqj4ws6
+# view getRemainingUnbondingTime addr:erd1at6mzc3s9dmxj40kajwrw5zaazxpj6huvmsluxk38cezugc0n63srud6lw
+# view getRemainingUnbondingTime addr:erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370

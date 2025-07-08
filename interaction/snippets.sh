@@ -12,7 +12,7 @@ changeOwnerAddress() {
     # changeOwnerAddress new_owner_address_hex
 
     mxpy tx new \
-    --receiver $SC_ADDRESS --recall-nonce --pem $OWNER_PEM \
+    --receiver $SC_ADDRESS --pem $OWNER_PEM \
     --gas-limit 10000000 --outfile ./reports/changeOwnerAddress.report.json \
     --send --value 0 --proxy $PROXY --chain $CHAIN_ID \
     --data ChangeOwnerAddress@$1
@@ -23,7 +23,7 @@ claimDeveloperRewards() {
     # claimDeveloperRewards
 
     mxpy tx new \
-    --receiver $SC_ADDRESS --recall-nonce --pem $OWNER_PEM \
+    --receiver $SC_ADDRESS --pem $OWNER_PEM \
     --gas-limit 10000000 --outfile ./reports/claimDeveloperRewards.report.json \
     --send --value 0 --proxy $PROXY --chain $CHAIN_ID \
     --data ClaimDeveloperRewards
@@ -41,7 +41,7 @@ deploy() {
     fi
 
     mxpy contract deploy --bytecode $SC_BYTECODE \
-    --recall-nonce --pem $OWNER_PEM \
+    --pem $OWNER_PEM \
     --gas-limit $GAS_LIMIT \
     --send --outfile ./reports/deploy.report.json \
     --proxy $PROXY --chain $CHAIN_ID \
@@ -59,7 +59,7 @@ upgrade() {
         ARGS=""
     fi
     mxpy contract upgrade $SC_ADDRESS --bytecode $SC_BYTECODE \
-    --recall-nonce --pem $OWNER_PEM \
+    --pem $OWNER_PEM \
     --gas-limit $GAS_LIMIT \
     --send --outfile ./reports/upgrade.report.json \
     --proxy $PROXY --chain $CHAIN_ID \
@@ -80,7 +80,7 @@ runTx() {
     local OUTFILE="./reports/$REPORT_FILE.report.json" # Default outfile is ./reports/tx.report.json
 
     mxpy tx new \
-    --receiver $RECEIVER --recall-nonce --pem $OWNER_PEM \
+    --receiver $RECEIVER --pem $OWNER_PEM \
     --gas-limit $GAS_LIMIT --outfile $OUTFILE \
     --send --value $EGLD_VALUE --wait-result \
     --proxy $PROXY --chain $CHAIN_ID \
