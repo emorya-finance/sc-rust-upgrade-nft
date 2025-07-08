@@ -1,0 +1,72 @@
+{
+    "emittedTransaction": {
+        "nonce": 297,
+        "value": "0",
+        "receiver": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+        "sender": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+        "senderUsername": "",
+        "receiverUsername": "",
+        "gasPrice": 1000000000,
+        "gasLimit": 60000000,
+        "data": "c2V0VW5ib25kaW5nUGVyaW9kQDAw",
+        "chainID": "D",
+        "version": 2,
+        "options": 0,
+        "guardian": "",
+        "signature": "2fe3832a85b1f52aec25d0d40d2e982c0ff06c1769f544476cd0d8553f221110518fd568c496eb53e7f6db95e2a73f5bb14ab3dcd925b73509f4b752fa342902",
+        "guardianSignature": "",
+        "relayer": "",
+        "relayerSignature": ""
+    },
+    "emittedTransactionData": "setUnbondingPeriod@00",
+    "emittedTransactionHash": "",
+    "transactionOnNetwork": {
+        "sender": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+        "receiver": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+        "hash": "0bc13072d43e580913073762ac360deb70769e00e66cdad455f1138a1d930fd0",
+        "nonce": 297,
+        "round": 9086574,
+        "epoch": 3759,
+        "timestamp": 1748519444,
+        "blockHash": "7ef9ab4c4d44d31d1fd40631f392ba98bb864f5c02c343cf65d6736b3351e176",
+        "miniBlockHash": "f58c8053d6e243805ed321e36d23d65d1d47607d395b816c5d1cb16e0ebc2a29",
+        "senderShard": 1,
+        "receiverShard": 1,
+        "value": 0,
+        "gasLimit": 60000000,
+        "gasPrice": 1000000000,
+        "function": "setUnbondingPeriod",
+        "data": "setUnbondingPeriod@00",
+        "version": 2,
+        "options": 0,
+        "signature": "2fe3832a85b1f52aec25d0d40d2e982c0ff06c1769f544476cd0d8553f221110518fd568c496eb53e7f6db95e2a73f5bb14ab3dcd925b73509f4b752fa342902",
+        "status": "success",
+        "smartContractResults": [],
+        "logs": {
+            "address": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+            "events": [
+                {
+                    "address": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+                    "identifier": "writeLog",
+                    "topics": [
+                        "c34cb2ecee9cdcde241145bca52e67775ff81bee1265201266471edcdf38201b",
+                        "40746f6f206d756368206761732070726f766964656420666f722070726f63657373696e673a206761732070726f7669646564203d2035393931383530302c206761732075736564203d2032393234323830"
+                    ],
+                    "data": "@6f6b",
+                    "additional_data": [
+                        "4036663662"
+                    ]
+                },
+                {
+                    "address": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+                    "identifier": "completedTxEvent",
+                    "topics": [
+                        "0bc13072d43e580913073762ac360deb70769e00e66cdad455f1138a1d930fd0"
+                    ],
+                    "data": "",
+                    "additional_data": []
+                }
+            ]
+        }
+    }
+}
