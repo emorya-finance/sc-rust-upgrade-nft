@@ -8,7 +8,7 @@ CHAIN_ID="D"
 #=================================== SC ===================================
 
 SC_PATH="../"
-SC_NAME=$(grep -oP 'name = "\K[^"]+' $SC_PATH"Cargo.toml")
+SC_NAME=$(sed -n 's/^name = "\([^"]*\)".*/\1/p' "$SC_PATH/Cargo.toml")
 SC_BYTECODE=$SC_PATH"output/$SC_NAME.wasm"
 
 SC_ADDRESS="erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle"
@@ -39,6 +39,20 @@ USDC_HEX=$(python3 to_hex.py $USDC)
 
 NFT="EMORYANFT-036f1f"
 NFT_HEX=$(python3 to_hex.py $NFT)
-
 NONCE="01"
 NONCE_HEX=$(python3 to_hex.py $NONCE)
+
+NFT1="EMORYANFT-036f1f"
+NFT_HEX1=$(python3 to_hex.py $NFT1)
+NONCE1="02"
+NONCE_HEX1=$(python3 to_hex.py $NONCE1)
+
+NFT2="EMORYANFT-036f1f"
+NFT_HEX2=$(python3 to_hex.py $NFT2)
+NONCE2="03"
+NONCE_HEX2=$(python3 to_hex.py $NONCE2)
+
+NFT3="EMORYANFT-036f1f"
+NFT_HEX3=$(python3 to_hex.py $NFT3)
+NONCE3="04"
+NONCE_HEX3=$(python3 to_hex.py $NONCE3)

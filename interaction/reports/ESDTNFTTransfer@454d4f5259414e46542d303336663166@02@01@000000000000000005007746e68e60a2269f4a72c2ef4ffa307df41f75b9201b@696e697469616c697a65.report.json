@@ -1,0 +1,142 @@
+{
+    "emittedTransaction": {
+        "nonce": 317,
+        "value": "0",
+        "receiver": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+        "sender": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+        "senderUsername": "",
+        "receiverUsername": "",
+        "gasPrice": 1000000000,
+        "gasLimit": 60000000,
+        "data": "RVNEVE5GVFRyYW5zZmVyQDQ1NGQ0ZjUyNTk0MTRlNDY1NDJkMzAzMzM2NjYzMTY2QDAyQDAxQDAwMDAwMDAwMDAwMDAwMDAwNTAwNzc0NmU2OGU2MGEyMjY5ZjRhNzJjMmVmNGZmYTMwN2RmNDFmNzViOTIwMWJANjk2ZTY5NzQ2OTYxNmM2OTdhNjU=",
+        "chainID": "D",
+        "version": 2,
+        "options": 0,
+        "guardian": "",
+        "signature": "b6137075f8f49ae1469b018686cdfb1e998a2f5c5b97a4402c251d6c4f41c3a48e824d35a87947d92ca8113b5bd79a8b1b426f14aea72b314acd17752e2ff606",
+        "guardianSignature": "",
+        "relayer": "",
+        "relayerSignature": ""
+    },
+    "emittedTransactionData": "ESDTNFTTransfer@454d4f5259414e46542d303336663166@02@01@000000000000000005007746e68e60a2269f4a72c2ef4ffa307df41f75b9201b@696e697469616c697a65",
+    "emittedTransactionHash": "",
+    "transactionOnNetwork": {
+        "sender": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+        "receiver": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+        "hash": "5aa8c6d5ec30feffed1107a4c37b4f53187237c181056e524e3ae39e87927fab",
+        "nonce": 317,
+        "round": 9087147,
+        "epoch": 3760,
+        "timestamp": 1748522882,
+        "blockHash": "acbb962e683804a514452ffbade6dbc3bf62771cc1b3233ff11d2a139f2a9274",
+        "miniBlockHash": "de4cecc5aad29015ca19d86a4b3e275cee992b2b02d16a6cd033267aaac3fa9b",
+        "senderShard": 1,
+        "receiverShard": 1,
+        "value": 0,
+        "gasLimit": 60000000,
+        "gasPrice": 1000000000,
+        "function": "initialize",
+        "data": "ESDTNFTTransfer@454d4f5259414e46542d303336663166@02@01@000000000000000005007746e68e60a2269f4a72c2ef4ffa307df41f75b9201b@696e697469616c697a65",
+        "version": 2,
+        "options": 0,
+        "signature": "b6137075f8f49ae1469b018686cdfb1e998a2f5c5b97a4402c251d6c4f41c3a48e824d35a87947d92ca8113b5bd79a8b1b426f14aea72b314acd17752e2ff606",
+        "status": "success",
+        "smartContractResults": [
+            {
+                "sender": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+                "receiver": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+                "data": "ESDTNFTTransfer@454d4f5259414e46542d303336663166@02@01@c34cb2ecee9cdcde241145bca52e67775ff81bee1265201266471edcdf38201b",
+                "logs": {
+                    "address": "",
+                    "events": []
+                }
+            },
+            {
+                "sender": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+                "receiver": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+                "data": "initialize",
+                "logs": {
+                    "address": "",
+                    "events": []
+                }
+            }
+        ],
+        "logs": {
+            "address": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+            "events": [
+                {
+                    "address": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+                    "identifier": "ESDTNFTTransfer",
+                    "topics": [
+                        "454d4f5259414e46542d303336663166",
+                        "02",
+                        "01",
+                        "000000000000000005007746e68e60a2269f4a72c2ef4ffa307df41f75b9201b"
+                    ],
+                    "data": "",
+                    "additional_data": [
+                        "",
+                        "455344544e46545472616e73666572",
+                        "454d4f5259414e46542d303336663166",
+                        "02",
+                        "01",
+                        "000000000000000005007746e68e60a2269f4a72c2ef4ffa307df41f75b9201b",
+                        "696e697469616c697a65"
+                    ]
+                },
+                {
+                    "address": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+                    "identifier": "ESDTNFTUpdateAttributes",
+                    "topics": [
+                        "454d4f5259414e46542d303336663166",
+                        "02",
+                        "",
+                        "6c6576656c3a312c61637469766974795f646179733a302c63616c6f726965735f7065725f6461793a30"
+                    ],
+                    "data": "",
+                    "additional_data": []
+                },
+                {
+                    "address": "erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle",
+                    "identifier": "ESDTNFTTransfer",
+                    "topics": [
+                        "454d4f5259414e46542d303336663166",
+                        "02",
+                        "01",
+                        "c34cb2ecee9cdcde241145bca52e67775ff81bee1265201266471edcdf38201b"
+                    ],
+                    "data": "DirectCall",
+                    "additional_data": [
+                        "44697265637443616c6c",
+                        "455344544e46545472616e73666572",
+                        "454d4f5259414e46542d303336663166",
+                        "02",
+                        "01",
+                        "c34cb2ecee9cdcde241145bca52e67775ff81bee1265201266471edcdf38201b"
+                    ]
+                },
+                {
+                    "address": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+                    "identifier": "writeLog",
+                    "topics": [
+                        "c34cb2ecee9cdcde241145bca52e67775ff81bee1265201266471edcdf38201b",
+                        "40746f6f206d756368206761732070726f766964656420666f722070726f63657373696e673a206761732070726f7669646564203d2035393734303030302c206761732075736564203d2034303332323032"
+                    ],
+                    "data": "@6f6b",
+                    "additional_data": [
+                        "4036663662"
+                    ]
+                },
+                {
+                    "address": "erd1cdxt9m8wnnwdufq3gk722tn8wa0lsxlwzfjjqynxgu0dehecyqdsk33nle",
+                    "identifier": "completedTxEvent",
+                    "topics": [
+                        "5aa8c6d5ec30feffed1107a4c37b4f53187237c181056e524e3ae39e87927fab"
+                    ],
+                    "data": "",
+                    "additional_data": []
+                }
+            ]
+        }
+    }
+}

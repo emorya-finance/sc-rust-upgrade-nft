@@ -5,6 +5,7 @@ use crate::{
 };
 
 type NftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, u64>;
+type UserInfo<M> = MultiValue4<NftInfo<M>, NftInfo<M>, u64, bool>;
 
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
@@ -190,6 +191,21 @@ pub trait ViewsModule: crate::storage::StorageModule {
         NftInfo::from((nft_token.identifier, nft_token.nonce, level))
     }
 
+    #[view(getNftInRetrieveByAddress)]
+    fn get_nft_retrieve_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
+        if self.nft_retrieve_from_address(&user).is_empty() {
+            return NftInfo::from((TokenIdentifier::from_esdt_bytes(b""), 0, 0));
+        }
+        let nft = self.nft_retrieve_from_address(&user).get();
+
+        let level = self
+            .get_nft_attributes_level_after_upgrade(nft.identifier.clone(), nft.nonce)
+            .ascii_to_u64()
+            .unwrap_or(1);
+
+        NftInfo::from((nft.identifier, nft.nonce, level))
+    }
+
     #[view(getNftNonce)]
     fn get_nft_nonce(&self, user: ManagedAddress) -> u64 {
         let nft_token = self.nft_from_address(&user).get();
@@ -201,7 +217,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         self.get_nft_from_address(user).into_tuple().2
     }
 
-    ///Boolean is a number -> 01 True , {empty}/"" False
+    /// Boolean is a number -> 01 True , {empty}/"" False
     #[view(getRemainingUnbondingTime)]
     fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> UserRetrieve {
         if self.unbonding_period().get()
@@ -219,5 +235,21 @@ pub trait ViewsModule: crate::storage::StorageModule {
                 unlocking: !self.user_retrieve_epoch(&user).is_empty(),
             }
         }
+    }
+
+    /// Returns:
+    /// - User Active NFT (Identifier, Nonce , Level)
+    /// - User in Retrieve NFT (Identifier, Nonce, Level)
+    /// - Unbounding Time
+    /// - Can Claim
+    #[view(getUserInfo)]
+    fn ger_user_info(&self, user: ManagedAddress) -> UserInfo<Self::Api> {
+        let user_retrieve_info = self.get_remaining_unbonding_time(user.clone());
+        UserInfo::from((
+            NftInfo::from(self.get_nft_from_address(user.clone())),
+            NftInfo::from(self.get_nft_retrieve_from_address(user)),
+            user_retrieve_info.counter,
+            user_retrieve_info.unlocking,
+        ))
     }
 }

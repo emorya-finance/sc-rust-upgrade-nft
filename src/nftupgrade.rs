@@ -11,7 +11,6 @@ pub mod views;
 
 use constants::TAGS;
 use managedbufferutils::ManagedBufferUtils;
-use multiversx_sc::hex_literal::hex;
 use storage::UserNft;
 
 #[multiversx_sc::contract]
@@ -50,7 +49,7 @@ pub trait NftUpgrade:
         let mut new_attributes = ManagedBuffer::new();
         new_attributes = new_attributes
             .clone()
-            .concat(sc_format!("level:{};activity_days:0;calories_per_day:0", 1));
+            .concat(sc_format!("level:{},activity_days:0,calories_per_day:0", 1));
 
         // Update NFT attributes
         self.send()
@@ -72,11 +71,9 @@ pub trait NftUpgrade:
         self.require_not_paused();
         let user = self.blockchain().get_caller();
 
-        self.require_non_blocked_user(&user);
-
         let (emr_nft_token, token_nonce, amount) =
             self.call_value().single_esdt().clone().into_tuple();
-        self.require_valid_emr_nft(emr_nft_token.clone());
+        // self.require_valid_emr_nft(emr_nft_token.clone());
         require!(
             amount == BigUint::from(1u8),
             "You can only deposit one NFT at a time."
@@ -136,8 +133,6 @@ pub trait NftUpgrade:
 
         let user = self.blockchain().get_caller();
 
-        self.require_non_blocked_user(&user);
-
         require!(
             self.user_retrieve_epoch(&user).is_empty(),
             "You already started the retrieving period."
@@ -147,19 +142,21 @@ pub trait NftUpgrade:
             !self.nft_from_address(&user).is_empty(),
             "You do not have an NFT deposited. Try depositing first."
         );
+
         let nft = self.nft_from_address(&user).get();
+
         require!(
             self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
             "You are not the owner of the NFT."
         );
 
-        //TODO: Set the NFT retrieved inactive
-        //TODO: Clear the storage of the NFT and add another storage (likely a tuple with (user_address, nft_identifier))
-        //      and work with that to countdown the period for that.
-
         let current_epoch = self.blockchain().get_block_epoch();
-
         // Storage
+        self.nft_from_address(&user).clear();
+        self.nft_retrieve_from_address(&user).set(UserNft {
+            identifier: nft.identifier,
+            nonce: nft.nonce,
+        });
         self.user_retrieve_epoch(&user).set(current_epoch);
     }
 
@@ -169,17 +166,15 @@ pub trait NftUpgrade:
 
         let user = self.blockchain().get_caller();
 
-        self.require_non_blocked_user(&user);
-
         require!(
             !self.user_retrieve_epoch(&user).is_empty(),
             "First, retrieve the NFT and wait for the unbonding period to end."
         );
         require!(
-            !self.nft_from_address(&user).is_empty(),
+            !self.nft_retrieve_from_address(&user).is_empty(),
             "You do not have an NFT deposited. Try depositing first."
         );
-        let nft = self.nft_from_address(&user).get();
+        let nft = self.nft_retrieve_from_address(&user).get();
         require!(
             self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
             "You are not the owner of the NFT."
@@ -199,7 +194,7 @@ pub trait NftUpgrade:
                 .transfer();
 
             self.nft_owner_address(&nft.identifier, nft.nonce).clear();
-            self.nft_from_address(&user).clear();
+            self.nft_retrieve_from_address(&user).clear();
             self.user_retrieve_epoch(&user).clear();
         }
     }
@@ -211,8 +206,6 @@ pub trait NftUpgrade:
         self.require_not_paused();
 
         let caller = self.blockchain().get_caller();
-
-        self.require_non_blocked_user(&caller);
 
         let (emr_nft_token, token_nonce, amount) =
             self.call_value().single_esdt().clone().into_tuple();
@@ -252,8 +245,6 @@ pub trait NftUpgrade:
     #[endpoint(increaseLevel)]
     fn increase_level(&self, user: ManagedAddress) {
         self.require_not_paused();
-
-        self.require_non_blocked_user(&user);
 
         require!(
             !self.nft_from_address(&user).is_empty(),
@@ -296,8 +287,6 @@ pub trait NftUpgrade:
     #[endpoint(decreaseLevel)]
     fn decrease_level(&self, user: ManagedAddress) {
         self.require_not_paused();
-
-        self.require_non_blocked_user(&user);
 
         require!(
             !self.nft_from_address(&user).is_empty(),

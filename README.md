@@ -98,17 +98,6 @@
 </details>
 
 <details>
-<summary>downgradeLevel</summary>
-
-#### Inputs:
-| Name | Type | MultiValue |
-| - | - | - |
-| addresses | Address | ✔ |
-
-
-</details>
-
-<details>
 <summary>addAllowedAddresses</summary>
 
 #### Inputs:
@@ -131,45 +120,12 @@
 </details>
 
 <details>
-<summary>addBlockUser</summary>
-
-#### Inputs:
-| Name | Type | MultiValue |
-| - | - | - |
-| users | Address | ✔ |
-
-
-</details>
-
-<details>
-<summary>removeBlockUser</summary>
-
-#### Inputs:
-| Name | Type | MultiValue |
-| - | - | - |
-| users | Address | ✔ |
-
-
-</details>
-
-<details>
 <summary>setUnbondingPeriod</summary>
 
 #### Inputs:
 | Name | Type |
 | - | - |
 | period | u64 |
-
-
-</details>
-
-<details>
-<summary>forceNftClaim</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| user | Address |
 
 
 </details>
@@ -300,6 +256,22 @@ Upgrade an NFT to the same level but with more data in attributes.
 </details>
 
 <details>
+<summary>getNftRetrieveFromAddress</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| UserNft |
+
+
+</details>
+
+<details>
 <summary>getUserRetrieveEpoch</summary>
 
 #### Inputs:
@@ -322,22 +294,6 @@ Upgrade an NFT to the same level but with more data in attributes.
 | Type |
 | - |
 | u64 |
-
-
-</details>
-
-<details>
-<summary>getBlockedUser</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| user | Address |
-
-#### Outputs:
-| Type |
-| - |
-| bool |
 
 
 </details>
@@ -514,6 +470,24 @@ Upgrade an NFT to the same level but with more data in attributes.
 </details>
 
 <details>
+<summary>getNftInRetrieveByAddress</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| TokenIdentifier |
+| u64 |
+| u64 |
+
+
+</details>
+
+<details>
 <summary>getNftNonce</summary>
 
 #### Inputs:
@@ -548,7 +522,7 @@ Upgrade an NFT to the same level but with more data in attributes.
 <details>
 <summary>getRemainingUnbondingTime</summary>
 
-is a number -> 01 True , {empty}/"" False
+Boolean is a number -> 01 True , {empty}/"" False
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -558,6 +532,38 @@ is a number -> 01 True , {empty}/"" False
 | Type |
 | - |
 | UserRetrieve |
+
+
+</details>
+
+<details>
+<summary>getUserInfo</summary>
+
+Returns:
+
+- User Active NFT (Identifier, Nonce , Level)
+
+- User in Retrieve NFT (Identifier, Nonce, Level)
+
+- Unbounding Time
+
+- Can Claim
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
+| TokenIdentifier |
+| u64 |
+| u64 |
+| TokenIdentifier |
+| u64 |
+| u64 |
+| u64 |
+| bool |
 
 
 </details>

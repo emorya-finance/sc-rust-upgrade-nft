@@ -1,0 +1,75 @@
+{
+    "emittedTransaction": {
+        "nonce": 1239,
+        "value": "0",
+        "receiver": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+        "sender": "erd16arrrc0daw46y52prfyz0httsdy4dr0a34hngdedz2fuzvsfmp3sld67zc",
+        "senderUsername": "",
+        "receiverUsername": "",
+        "gasPrice": 1000000000,
+        "gasLimit": 60000000,
+        "data": "Zm9yY2VDbGFpbUBjZWQ2MTJiODAyNGEzYzFhMjI2MDQ3MjIwMTU3YWVlOTdiNjJjZDIzYjM3NTkzYTczNzBkMGJlYjUyYTk4NjU1",
+        "chainID": "1",
+        "version": 2,
+        "options": 0,
+        "guardian": "",
+        "signature": "5e857e1162e73f5af71845417b63b6fd8d18038d94d87601594e78ab0c9b182df10675b7b294728f4fae266b2b498de343327b9716678304ad5edd614f624c0e",
+        "guardianSignature": "",
+        "relayer": "",
+        "relayerSignature": ""
+    },
+    "emittedTransactionData": "forceClaim@ced612b8024a3c1a226047220157aee97b62cd23b37593a7370d0beb52a98655",
+    "emittedTransactionHash": "",
+    "transactionOnNetwork": {
+        "sender": "erd16arrrc0daw46y52prfyz0httsdy4dr0a34hngdedz2fuzvsfmp3sld67zc",
+        "receiver": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+        "hash": "61a472d0fc9d13ee0c2656a80c4d982303b1cd869f5371bfc311e44f9454fc66",
+        "nonce": 1239,
+        "round": 25225688,
+        "epoch": 1751,
+        "timestamp": 1747471728,
+        "blockHash": "00cf9323feed3c00fc82286a87714136e3b24f13c1b6008213ab224e47a2a1e4",
+        "miniBlockHash": "0d1e7056b5a1c8cc6a2d7ec60ed800ad341dfa5518bf6e87c8b2b6f2340327fc",
+        "senderShard": 1,
+        "receiverShard": 1,
+        "value": 0,
+        "gasLimit": 60000000,
+        "gasPrice": 1000000000,
+        "function": "forceClaim",
+        "data": "forceClaim@ced612b8024a3c1a226047220157aee97b62cd23b37593a7370d0beb52a98655",
+        "version": 2,
+        "options": 0,
+        "signature": "5e857e1162e73f5af71845417b63b6fd8d18038d94d87601594e78ab0c9b182df10675b7b294728f4fae266b2b498de343327b9716678304ad5edd614f624c0e",
+        "status": "fail",
+        "smartContractResults": [],
+        "logs": {
+            "address": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+            "events": [
+                {
+                    "address": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+                    "identifier": "signalError",
+                    "topics": [
+                        "d74631e1edebaba251411a4827dd6b8349568dfd8d6f34372d1293c13209d863",
+                        "696e76616c69642066756e6374696f6e20286e6f7420666f756e6429"
+                    ],
+                    "data": "@66756e6374696f6e206e6f7420666f756e64",
+                    "additional_data": [
+                        "40363637353665363337343639366636653230366536663734323036363666373536653634"
+                    ]
+                },
+                {
+                    "address": "erd16arrrc0daw46y52prfyz0httsdy4dr0a34hngdedz2fuzvsfmp3sld67zc",
+                    "identifier": "internalVMErrors",
+                    "topics": [
+                        "000000000000000005006ac2de6b7e3ad5cd8d1d24611f4c319adca10addd863",
+                        "666f726365436c61696d"
+                    ],
+                    "data": "\n\truntime.go:853 [invalid function (not found)] [forceClaim]",
+                    "additional_data": [
+                        "0a0972756e74696d652e676f3a383533205b696e76616c69642066756e6374696f6e20286e6f7420666f756e64295d205b666f726365436c61696d5d"
+                    ]
+                }
+            ]
+        }
+    }
+}

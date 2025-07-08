@@ -156,6 +156,21 @@
             ]
         },
         {
+            "name": "getNftRetrieveFromAddress",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "UserNft"
+                }
+            ]
+        },
+        {
             "name": "getUserRetrieveEpoch",
             "mutability": "readonly",
             "inputs": [
@@ -177,21 +192,6 @@
             "outputs": [
                 {
                     "type": "u64"
-                }
-            ]
-        },
-        {
-            "name": "getBlockedUser",
-            "mutability": "readonly",
-            "inputs": [
-                {
-                    "name": "user",
-                    "type": "Address"
-                }
-            ],
-            "outputs": [
-                {
-                    "type": "bool"
                 }
             ]
         },
@@ -226,19 +226,6 @@
             "outputs": []
         },
         {
-            "name": "downgradeLevel",
-            "onlyOwner": true,
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "addresses",
-                    "type": "variadic<Address>",
-                    "multi_arg": true
-                }
-            ],
-            "outputs": []
-        },
-        {
             "name": "addAllowedAddresses",
             "onlyOwner": true,
             "mutability": "mutable",
@@ -265,32 +252,6 @@
             "outputs": []
         },
         {
-            "name": "addBlockUser",
-            "onlyOwner": true,
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "users",
-                    "type": "variadic<Address>",
-                    "multi_arg": true
-                }
-            ],
-            "outputs": []
-        },
-        {
-            "name": "removeBlockUser",
-            "onlyOwner": true,
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "users",
-                    "type": "variadic<Address>",
-                    "multi_arg": true
-                }
-            ],
-            "outputs": []
-        },
-        {
             "name": "setUnbondingPeriod",
             "onlyOwner": true,
             "mutability": "mutable",
@@ -298,18 +259,6 @@
                 {
                     "name": "period",
                     "type": "u64"
-                }
-            ],
-            "outputs": []
-        },
-        {
-            "name": "forceNftClaim",
-            "onlyOwner": true,
-            "mutability": "mutable",
-            "inputs": [
-                {
-                    "name": "user",
-                    "type": "Address"
                 }
             ],
             "outputs": []
@@ -501,6 +450,27 @@
             ]
         },
         {
+            "name": "getNftInRetrieveByAddress",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
             "name": "getNftNonce",
             "mutability": "readonly",
             "inputs": [
@@ -532,7 +502,7 @@
         },
         {
             "docs": [
-                "is a number -> 01 True , {empty}/\"\" False"
+                "Boolean is a number -> 01 True , {empty}/\"\" False"
             ],
             "name": "getRemainingUnbondingTime",
             "mutability": "readonly",
@@ -545,6 +515,49 @@
             "outputs": [
                 {
                     "type": "UserRetrieve"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Returns:",
+                "- User Active NFT (Identifier, Nonce , Level)",
+                "- User in Retrieve NFT (Identifier, Nonce, Level)",
+                "- Unbounding Time",
+                "- Can Claim"
+            ],
+            "name": "getUserInfo",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "bool"
                 }
             ]
         }

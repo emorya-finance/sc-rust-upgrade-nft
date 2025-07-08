@@ -37,6 +37,13 @@ pub trait StorageModule {
     #[storage_mapper("nftFromAddress")]
     fn nft_from_address(&self, user: &ManagedAddress) -> SingleValueMapper<UserNft<Self::Api>>;
 
+    #[view(getNftRetrieveFromAddress)]
+    #[storage_mapper("nftRetrieveFromAddress")]
+    fn nft_retrieve_from_address(
+        &self,
+        user: &ManagedAddress,
+    ) -> SingleValueMapper<UserNft<Self::Api>>;
+
     #[view(getUserRetrieveEpoch)]
     #[storage_mapper("userRetrieveEpoch")]
     fn user_retrieve_epoch(&self, user: &ManagedAddress) -> SingleValueMapper<u64>;

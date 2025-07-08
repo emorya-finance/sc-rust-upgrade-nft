@@ -1,0 +1,84 @@
+{
+    "emittedTransaction": {
+        "nonce": 1545,
+        "value": "0",
+        "receiver": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+        "sender": "erd16arrrc0daw46y52prfyz0httsdy4dr0a34hngdedz2fuzvsfmp3sld67zc",
+        "senderUsername": "",
+        "receiverUsername": "",
+        "gasPrice": 1000000000,
+        "gasLimit": 60000000,
+        "data": "ZG93bmdyYWRlTGV2ZWxAM2NlNTBiNDY3ZGVlMDdjZWIwOWQxNmZhZjBlNGZlMGY2ODZlNjU0NmU4MDRhNGMyYTJkMTkzYjc4MzRhZDVmZg==",
+        "chainID": "1",
+        "version": 2,
+        "options": 0,
+        "guardian": "",
+        "signature": "f5e9a49571792e135355fd732fe5ed340ae873307a290b78ee75a50a04ce96cf0610f8f4820bf3a69f3b9dce7769d09f9720932085c3c4051eef425c4c8a410f",
+        "guardianSignature": "",
+        "relayer": "",
+        "relayerSignature": ""
+    },
+    "emittedTransactionData": "downgradeLevel@3ce50b467dee07ceb09d16faf0e4fe0f686e6546e804a4c2a2d193b7834ad5ff",
+    "emittedTransactionHash": "",
+    "transactionOnNetwork": {
+        "sender": "erd16arrrc0daw46y52prfyz0httsdy4dr0a34hngdedz2fuzvsfmp3sld67zc",
+        "receiver": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+        "hash": "235559c0d9776f5a6721ea439d998cf709c6d1749edb1893658cb25c248822e9",
+        "nonce": 1545,
+        "round": 25787991,
+        "epoch": 1790,
+        "timestamp": 1750845546,
+        "blockHash": "9ded358a4a7878abc72a1bd86866242ecd96f221ccfd4806d492b7680d45c262",
+        "miniBlockHash": "6dbdc7af60170cb4672f3ef776236466a5147121df5b680851ba7bc4ceb1d856",
+        "senderShard": 1,
+        "receiverShard": 1,
+        "value": 0,
+        "gasLimit": 60000000,
+        "gasPrice": 1000000000,
+        "function": "downgradeLevel",
+        "data": "downgradeLevel@3ce50b467dee07ceb09d16faf0e4fe0f686e6546e804a4c2a2d193b7834ad5ff",
+        "version": 2,
+        "options": 0,
+        "signature": "f5e9a49571792e135355fd732fe5ed340ae873307a290b78ee75a50a04ce96cf0610f8f4820bf3a69f3b9dce7769d09f9720932085c3c4051eef425c4c8a410f",
+        "status": "success",
+        "smartContractResults": [],
+        "logs": {
+            "address": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+            "events": [
+                {
+                    "address": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+                    "identifier": "ESDTNFTUpdateAttributes",
+                    "topics": [
+                        "454d524e46542d303431616266",
+                        "0466",
+                        "",
+                        "6d657461646174613a626166796265696867676634616f37326a727063376f6579767972666d3673727862747779626979616e733465333770787878677268726a7834792e697066732e6e667473746f726167652e6c696e6b2f313132362e6a736f6e3b746167733a456d6f7279612c53706f7274732c4e46543b6c6576656c3a31"
+                    ],
+                    "data": "",
+                    "additional_data": []
+                },
+                {
+                    "address": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+                    "identifier": "writeLog",
+                    "topics": [
+                        "d74631e1edebaba251411a4827dd6b8349568dfd8d6f34372d1293c13209d863",
+                        "40746f6f206d756368206761732070726f766964656420666f722070726f63657373696e673a206761732070726f7669646564203d2035393833313530302c206761732075736564203d2034373931303934"
+                    ],
+                    "data": "@6f6b",
+                    "additional_data": [
+                        "4036663662"
+                    ]
+                },
+                {
+                    "address": "erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370",
+                    "identifier": "completedTxEvent",
+                    "topics": [
+                        "235559c0d9776f5a6721ea439d998cf709c6d1749edb1893658cb25c248822e9"
+                    ],
+                    "data": "",
+                    "additional_data": []
+                }
+            ]
+        }
+    }
+}

@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                           38
+// Endpoints:                           36
 // Async Callback (empty):               1
-// Total number of exported functions:  41
+// Total number of exported functions:  39
 
 #![no_std]
 
@@ -31,19 +31,15 @@ multiversx_sc_wasm_adapter::endpoints! {
         getAllowedAddresses => allowed_addresses
         getNftOwnerAddress => nft_owner_address
         getNftFromAddress => nft_from_address
+        getNftRetrieveFromAddress => nft_retrieve_from_address
         getUserRetrieveEpoch => user_retrieve_epoch
         getUnbondingPeriod => unbonding_period
-        getBlockedUser => blocked_user
         pauseSc => pause_sc
         resumeSc => resume_sc
         setLevel => set_level
-        downgradeLevel => downgrade_nft_level
         addAllowedAddresses => add_allowed_addresses
         removeAllowedAddresses => remove_allowed_address
-        addBlockUser => add_block_user
-        removeBlockUser => remove_block_user
         setUnbondingPeriod => set_unbonding_period
-        forceNftClaim => force_claim
         getTags => get_tags
         getNftIdentifier => get_nft_identifier
         getNftIdentifierInvestors => get_nft_identifier_investors
@@ -55,9 +51,11 @@ multiversx_sc_wasm_adapter::endpoints! {
         getNftLevel => get_nft_level
         getNftInfoBeforeUpgrade => get_nft_from_address_before
         getNftInfoAfterUpgrade => get_nft_from_address
+        getNftInRetrieveByAddress => get_nft_retrieve_from_address
         getNftNonce => get_nft_nonce
         getNftLevelByAddress => get_nft_level_by_address
         getRemainingUnbondingTime => get_remaining_unbonding_time
+        getUserInfo => ger_user_info
     )
 }
 
