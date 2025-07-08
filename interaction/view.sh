@@ -24,4 +24,4 @@ source snippets.sh
 # view getRemainingUnbondingTime addr:erd1at6mzc3s9dmxj40kajwrw5zaazxpj6huvmsluxk38cezugc0n63srud6lw
 # view getRemainingUnbondingTime addr:erd1qqqqqqqqqqqqqpgqdtpdu6m78t2umrgay3s37np3ntw2zzkamp3snnl370
 
-view getUserInfo addr:erd1ksv20qd9uu5tzhumvq3dxjgzdg3aw3t05fyghz5mcrsxyeexe0csy805qv
+# view getUserInfo addr:erd1ksv20qd9uu5tzhumvq3dxjgzdg3aw3t05fyghz5mcrsxyeexe0csy805qv
