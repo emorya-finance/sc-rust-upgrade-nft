@@ -8,7 +8,7 @@ source snippets.sh
 ############ START ############
 
 # deploy
-# upgrade
+upgrade
 
 # runTx $SC_ADDRESS "" setUnbondingPeriod@$(python3 to_hex.py 1)
 

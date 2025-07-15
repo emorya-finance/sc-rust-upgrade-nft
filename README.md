@@ -568,3 +568,33 @@ Returns:
 
 </details>
 
+<details>
+<summary>getCustomNftInfo</summary>
+
+Returns:
+
+- User Address
+
+- Is in Retrieve
+
+- Unbounding Time
+
+
+
+Takes as input the token identifier and nonce of the NFT.
+#### Inputs:
+| Name | Type |
+| - | - |
+| token_identifier | TokenIdentifier |
+| token_nonce | u64 |
+
+#### Outputs:
+| Type |
+| - |
+| Address |
+| bool |
+| u64 |
+
+
+</details>
+

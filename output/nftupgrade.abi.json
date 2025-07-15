@@ -560,6 +560,39 @@
                     "type": "bool"
                 }
             ]
+        },
+        {
+            "docs": [
+                "Returns:",
+                "- User Address",
+                "- Is in Retrieve",
+                "- Unbounding Time",
+                "",
+                "Takes as input the token identifier and nonce of the NFT."
+            ],
+            "name": "getCustomNftInfo",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "Address"
+                },
+                {
+                    "type": "bool"
+                },
+                {
+                    "type": "u64"
+                }
+            ]
         }
     ],
     "esdtAttributes": [],

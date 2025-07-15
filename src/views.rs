@@ -6,6 +6,7 @@ use crate::{
 
 type NftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, u64>;
 type UserInfo<M> = MultiValue4<NftInfo<M>, NftInfo<M>, u64, bool>;
+type CustomNftInfo<M> = MultiValue3<ManagedAddress<M>, bool, u64>;
 
 multiversx_sc::imports!();
 multiversx_sc::derive_imports!();
@@ -250,6 +251,28 @@ pub trait ViewsModule: crate::storage::StorageModule {
             NftInfo::from(self.get_nft_retrieve_from_address(user)),
             user_retrieve_info.counter,
             user_retrieve_info.unlocking,
+        ))
+    }
+
+    /// Returns:
+    /// - User Address
+    /// - Is in Retrieve
+    /// - Unbounding Time
+    ///
+    /// Takes as input the token identifier and nonce of the NFT.
+    #[view(getCustomNftInfo)]
+    fn get_custom_nft_info(
+        &self,
+        token_identifier: TokenIdentifier,
+        token_nonce: u64,
+    ) -> CustomNftInfo<Self::Api> {
+        let user = self.nft_owner_address(&token_identifier, token_nonce).get();
+        let user_retrieve_info = self.get_remaining_unbonding_time(user.clone());
+
+        CustomNftInfo::from((
+            user.clone(),
+            user_retrieve_info.unlocking,
+            user_retrieve_info.counter,
         ))
     }
 }

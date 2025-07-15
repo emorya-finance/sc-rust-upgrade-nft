@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                           36
+// Endpoints:                           37
 // Async Callback (empty):               1
-// Total number of exported functions:  39
+// Total number of exported functions:  40
 
 #![no_std]
 
@@ -56,6 +56,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         getNftLevelByAddress => get_nft_level_by_address
         getRemainingUnbondingTime => get_remaining_unbonding_time
         getUserInfo => ger_user_info
+        getCustomNftInfo => get_custom_nft_info
     )
 }
 

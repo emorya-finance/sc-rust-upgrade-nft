@@ -524,6 +524,28 @@ where
             .argument(&user)
             .original_result()
     }
+
+    /// Returns: 
+    /// - User Address 
+    /// - Is in Retrieve 
+    /// - Unbounding Time 
+    ///  
+    /// Takes as input the token identifier and nonce of the NFT. 
+    pub fn get_custom_nft_info<
+        Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
+        Arg1: ProxyArg<u64>,
+    >(
+        self,
+        token_identifier: Arg0,
+        token_nonce: Arg1,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, MultiValue3<ManagedAddress<Env::Api>, bool, u64>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getCustomNftInfo")
+            .argument(&token_identifier)
+            .argument(&token_nonce)
+            .original_result()
+    }
 }
 
 #[type_abi]
