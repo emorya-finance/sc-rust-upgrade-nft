@@ -196,6 +196,21 @@
             ]
         },
         {
+            "name": "getBlockedUsers",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
             "name": "pauseSc",
             "onlyOwner": true,
             "mutability": "mutable",
@@ -221,6 +236,32 @@
                 {
                     "name": "new_level",
                     "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "blockUser",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "addresses",
+                    "type": "variadic<Address>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "unBlockUser",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "addresses",
+                    "type": "variadic<Address>",
+                    "multi_arg": true
                 }
             ],
             "outputs": []

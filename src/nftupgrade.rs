@@ -76,6 +76,8 @@ pub trait NftUpgrade:
 
         self.require_valid_emr_nft(emr_nft_token.clone());
 
+        self.require_non_blocked_user(&user);
+
         require!(
             amount == BigUint::from(1u8),
             "You can only deposit one NFT at a time."
@@ -135,6 +137,8 @@ pub trait NftUpgrade:
 
         let user = self.blockchain().get_caller();
 
+        self.require_non_blocked_user(&user);
+
         require!(
             self.user_retrieve_epoch(&user).is_empty(),
             "You already started the retrieving period."
@@ -167,6 +171,7 @@ pub trait NftUpgrade:
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
+        self.require_non_blocked_user(&user);
 
         require!(
             !self.user_retrieve_epoch(&user).is_empty(),

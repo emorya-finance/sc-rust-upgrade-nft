@@ -40,6 +40,22 @@ pub trait OwnerModule:
             .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
     }
 
+    #[only_owner]
+    #[endpoint(blockUser)]
+    fn block_user(&self, addresses: MultiValueEncoded<ManagedAddress>) {
+        for address in addresses.into_iter() {
+            self.blocked_users(&address).set(true);
+        }
+    }
+
+    #[only_owner]
+    #[endpoint(unBlockUser)]
+    fn unblock_user(&self, addresses: MultiValueEncoded<ManagedAddress>) {
+        for address in addresses.into_iter() {
+            self.blocked_users(&address).set(false);
+        }
+    }
+
     // Deprecated - to be removed
     // #[endpoint(updateStorage)]
     // fn update_storage(&self, addresses: MultiValueEncoded<ManagedAddress>) {

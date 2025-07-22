@@ -6,9 +6,9 @@
 
 // Init:                                 1
 // Upgrade:                              1
-// Endpoints:                           37
+// Endpoints:                           40
 // Async Callback (empty):               1
-// Total number of exported functions:  40
+// Total number of exported functions:  43
 
 #![no_std]
 
@@ -34,9 +34,12 @@ multiversx_sc_wasm_adapter::endpoints! {
         getNftRetrieveFromAddress => nft_retrieve_from_address
         getUserRetrieveEpoch => user_retrieve_epoch
         getUnbondingPeriod => unbonding_period
+        getBlockedUsers => blocked_users
         pauseSc => pause_sc
         resumeSc => resume_sc
         setLevel => set_level
+        blockUser => block_user
+        unBlockUser => unblock_user
         addAllowedAddresses => add_allowed_addresses
         removeAllowedAddresses => remove_allowed_address
         setUnbondingPeriod => set_unbonding_period

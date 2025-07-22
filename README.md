@@ -98,6 +98,28 @@
 </details>
 
 <details>
+<summary>blockUser</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| addresses | Address | ✔ |
+
+
+</details>
+
+<details>
+<summary>unBlockUser</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| addresses | Address | ✔ |
+
+
+</details>
+
+<details>
 <summary>addAllowedAddresses</summary>
 
 #### Inputs:
@@ -294,6 +316,22 @@ Upgrade an NFT to the same level but with more data in attributes.
 | Type |
 | - |
 | u64 |
+
+
+</details>
+
+<details>
+<summary>getBlockedUsers</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| address | Address |
+
+#### Outputs:
+| Type |
+| - |
+| bool |
 
 
 </details>

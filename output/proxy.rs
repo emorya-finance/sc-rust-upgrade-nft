@@ -232,6 +232,19 @@ where
             .original_result()
     }
 
+    pub fn blocked_users<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        address: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, bool> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getBlockedUsers")
+            .argument(&address)
+            .original_result()
+    }
+
     pub fn pause_sc(
         self,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
@@ -263,6 +276,32 @@ where
             .raw_call("setLevel")
             .argument(&address)
             .argument(&new_level)
+            .original_result()
+    }
+
+    pub fn block_user<
+        Arg0: ProxyArg<MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>>,
+    >(
+        self,
+        addresses: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("blockUser")
+            .argument(&addresses)
+            .original_result()
+    }
+
+    pub fn unblock_user<
+        Arg0: ProxyArg<MultiValueEncoded<Env::Api, ManagedAddress<Env::Api>>>,
+    >(
+        self,
+        addresses: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("unBlockUser")
+            .argument(&addresses)
             .original_result()
     }
 
