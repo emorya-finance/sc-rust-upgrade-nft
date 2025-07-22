@@ -17,6 +17,12 @@ source snippets.sh
 
 # view getNftAttributesLevelAfterUpgrade "0x$NFT_HEX 0x01"
 
+# view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd15utsrxg6qqlsc72t5pvx456gcfp7jwdpehu340zfu3wzqnv9u79sanhjjm)"
+# view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd1emtp9wqzfg7p5gnqgu3qz4awa9ak9nfrkd6e8fehp597k54fse2sht0qyv)"
+# view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd1v5tjaqwed09wshkp7gxp56k66futyvgterr3vthfeqzxvzhzgcrsxe9krp)"
+# view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd170d985s433uwwvn8ewnh8lsvaldw2wae6exp2xyapr2sr57rxv6szaa4qw)"
+# view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd1s4uumkrz8gjevv64sne7cje6hq9ft2mkm8wwta6dvs379vy2mr0q88x8l6)"
+
 
 # view getRemainingUnbondingTime addr:erd1xyphe7caprqgm9t05dewgrzvte3a32a9s8ml75wlzuqzht5cyg6skulk3y
 # view getRemainingUnbondingTime addr:erd15c4ptcs8szl90l6lq0tjz30a0u4qtptmu74lyp0a6l36qnl8aj8q9l2luc

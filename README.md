@@ -93,6 +93,7 @@
 | - | - |
 | address | Address |
 | new_level | u64 |
+| category | u64 |
 
 
 </details>

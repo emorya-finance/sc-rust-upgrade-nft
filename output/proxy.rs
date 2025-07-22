@@ -266,16 +266,19 @@ where
     pub fn set_level<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
         Arg1: ProxyArg<u64>,
+        Arg2: ProxyArg<u64>,
     >(
         self,
         address: Arg0,
         new_level: Arg1,
+        category: Arg2,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
         self.wrapped_tx
             .payment(NotPayable)
             .raw_call("setLevel")
             .argument(&address)
             .argument(&new_level)
+            .argument(&category)
             .original_result()
     }
 

@@ -236,6 +236,10 @@
                 {
                     "name": "new_level",
                     "type": "u64"
+                },
+                {
+                    "name": "category",
+                    "type": "u64"
                 }
             ],
             "outputs": []

@@ -20,8 +20,13 @@ pub trait OwnerModule:
 
     #[only_owner]
     #[endpoint(setLevel)]
-    fn set_level(&self, address: ManagedAddress, new_level: u64) {
-        let nft = self.nft_from_address(&address).get();
+    fn set_level(&self, address: ManagedAddress, new_level: u64, category: u64) {
+        let nft;
+        if category == 1 {
+            nft = self.nft_from_address(&address).get();
+        } else {
+            nft = self.nft_retrieve_from_address(&address).get();
+        }
 
         let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
 

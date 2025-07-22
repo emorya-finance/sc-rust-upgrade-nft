@@ -8,7 +8,33 @@ source snippets.sh
 ############ START ############
 
 # deploy
-upgrade
+# upgrade
+
+# runTx $SC_ADDRESS "" unBlockUser @$(mxpy wallet bech32 --decode erd1nj0rhdtc7y7ec9ua6rryavvsq4vnzksu420rqta5t63cz3w4dvus5l4pjc)@$(mxpy wallet bech32 --decode erd1kxcm33ewj9kh9vdrldp5ujnmmrsdczc720jlneq2gdx4lh550gcsrcx5q5)@$(mxpy wallet bech32 --decode erd1xvq3tet0ehpvjcjwfh4m2wrdsyv7awjjywm4gyrtjcvg97r2tk3swuffhd)@$(mxpy wallet bech32 --decode erd1lpgtpc50gtqskzl9vc48esmxekrrep22rll9tq9m5rn2kp59zznq4ylfza)@$(mxpy wallet bech32 --decode erd1ezrgsukqhkeqfz2y8k9wf6ewmyjdpg709pszm95wlg03akmjs0lqujgrzp)@$(mxpy wallet bech32 --decode erd1emtp9wqzfg7p5gnqgu3qz4awa9ak9nfrkd6e8fehp597k54fse2sht0qyv)@$(mxpy wallet bech32 --decode erd1v5tjaqwed09wshkp7gxp56k66futyvgterr3vthfeqzxvzhzgcrsxe9krp)@$(mxpy wallet bech32 --decode erd170d985s433uwwvn8ewnh8lsvaldw2wae6exp2xyapr2sr57rxv6szaa4qw)@$(mxpy wallet bech32 --decode erd1t2m266ccxq5n99c9pupuxx88jwepmvfnkuqa6hq6v8m6hfcvhpcqn4n5qz)@$(mxpy wallet bech32 --decode erd1s4uumkrz8gjevv64sne7cje6hq9ft2mkm8wwta6dvs379vy2mr0q88x8l6)@$(mxpy wallet bech32 --decode erd15utsrxg6qqlsc72t5pvx456gcfp7jwdpehu340zfu3wzqnv9u79sanhjjm)
+ 
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1nj0rhdtc7y7ec9ua6rryavvsq4vnzksu420rqta5t63cz3w4dvus5l4pjc)@01
+#  sleep 2
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1kxcm33ewj9kh9vdrldp5ujnmmrsdczc720jlneq2gdx4lh550gcsrcx5q5)@01
+#  sleep 2
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1xvq3tet0ehpvjcjwfh4m2wrdsyv7awjjywm4gyrtjcvg97r2tk3swuffhd)@01
+#  sleep 2
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1lpgtpc50gtqskzl9vc48esmxekrrep22rll9tq9m5rn2kp59zznq4ylfza)@01
+#  sleep 2
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1t2m266ccxq5n99c9pupuxx88jwepmvfnkuqa6hq6v8m6hfcvhpcqn4n5qz)@01
+#  sleep 2
+
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1ezrgsukqhkeqfz2y8k9wf6ewmyjdpg709pszm95wlg03akmjs0lqujgrzp)@01@02
+#  sleep 4
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1emtp9wqzfg7p5gnqgu3qz4awa9ak9nfrkd6e8fehp597k54fse2sht0qyv)@01@02
+#  sleep 4
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1v5tjaqwed09wshkp7gxp56k66futyvgterr3vthfeqzxvzhzgcrsxe9krp)@01@02
+#  sleep 4
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd170d985s433uwwvn8ewnh8lsvaldw2wae6exp2xyapr2sr57rxv6szaa4qw)@01@02
+#  sleep 4
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd1s4uumkrz8gjevv64sne7cje6hq9ft2mkm8wwta6dvs379vy2mr0q88x8l6)@01@02
+#  sleep 4
+#  runTx $SC_ADDRESS "" setLevel @$(mxpy wallet bech32 --decode erd15utsrxg6qqlsc72t5pvx456gcfp7jwdpehu340zfu3wzqnv9u79sanhjjm)@01@02
+
 
 # runTx $SC_ADDRESS "" setUnbondingPeriod@$(python3 to_hex.py 1)
 
