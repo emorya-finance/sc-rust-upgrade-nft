@@ -272,7 +272,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
             counter: 0u64,
             unlocking: false,
         };
-        if token_identifier != nft_in_retrieve.identifier {
+        if token_identifier != nft_in_retrieve.identifier && token_nonce != nft_in_retrieve.nonce {
             let user_retrieve_info_temp = self.get_remaining_unbonding_time(user.clone());
             user_retrieve_info.counter = user_retrieve_info_temp.counter;
             user_retrieve_info.unlocking = user_retrieve_info_temp.unlocking;
