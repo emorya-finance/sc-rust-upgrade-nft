@@ -17,7 +17,7 @@ source snippets.sh
 
 # view getNftAttributesLevelAfterUpgrade "0x$NFT_HEX 0x01"
 
-# view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd15utsrxg6qqlsc72t5pvx456gcfp7jwdpehu340zfu3wzqnv9u79sanhjjm)"
+view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd1xs97t73adfnxaql8sss236tum72cm2pd0laps9m746mv80gqn2gsfmk4h7)"
 # view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd1emtp9wqzfg7p5gnqgu3qz4awa9ak9nfrkd6e8fehp597k54fse2sht0qyv)"
 # view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd1v5tjaqwed09wshkp7gxp56k66futyvgterr3vthfeqzxvzhzgcrsxe9krp)"
 # view getNftFromAddress "0x$(mxpy wallet bech32 --decode erd170d985s433uwwvn8ewnh8lsvaldw2wae6exp2xyapr2sr57rxv6szaa4qw)"
