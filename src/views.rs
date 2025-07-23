@@ -269,7 +269,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
         let user = self.nft_owner_address(&token_identifier, token_nonce).get();
         let nft_in_retrieve = self.nft_retrieve_from_address(&user.clone()).get();
 
-        if token_identifier != nft_in_retrieve.identifier && token_nonce != nft_in_retrieve.nonce {
+        if token_identifier == nft_in_retrieve.identifier && token_nonce == nft_in_retrieve.nonce {
             let nft_in_rtetrieve = self.get_remaining_unbonding_time(user.clone());
             return CustomNftInfo::from((
                 user.clone(),
