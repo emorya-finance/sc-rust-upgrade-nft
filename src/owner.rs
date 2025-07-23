@@ -21,12 +21,11 @@ pub trait OwnerModule:
     #[only_owner]
     #[endpoint(setLevel)]
     fn set_level(&self, address: ManagedAddress, new_level: u64, category: u64) {
-        let nft;
-        if category == 1 {
-            nft = self.nft_from_address(&address).get();
+        let nft = if category == 1 {
+            self.nft_from_address(&address).get()
         } else {
-            nft = self.nft_retrieve_from_address(&address).get();
-        }
+            self.nft_retrieve_from_address(&address).get()
+        };
 
         let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
 
@@ -60,19 +59,6 @@ pub trait OwnerModule:
             self.blocked_users(&address).set(false);
         }
     }
-
-    // Deprecated - to be removed
-    // #[endpoint(updateStorage)]
-    // fn update_storage(&self, addresses: MultiValueEncoded<ManagedAddress>) {
-    //     for user in addresses {
-    //         let nft = self.nft_from_address(&user).get();
-    //         self.nft_from_address(&user).clear();
-    //         self.nft_retrieve_from_address(&user).set(UserNft {
-    //             identifier: nft.identifier,
-    //             nonce: nft.nonce,
-    //         });
-    //     }
-    // }
 
     #[only_owner]
     #[endpoint(addAllowedAddresses)]
