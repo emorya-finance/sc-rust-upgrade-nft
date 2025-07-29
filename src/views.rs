@@ -266,7 +266,16 @@ pub trait ViewsModule: crate::storage::StorageModule {
         token_identifier: TokenIdentifier,
         token_nonce: u64,
     ) -> CustomNftInfo<Self::Api> {
+        if self
+            .nft_owner_address(&token_identifier, token_nonce)
+            .is_empty()
+        {
+            return CustomNftInfo::from((ManagedAddress::zero(), false, 0));
+        }
         let user = self.nft_owner_address(&token_identifier, token_nonce).get();
+        if self.nft_retrieve_from_address(&user.clone()).is_empty() {
+            return CustomNftInfo::from((user.clone(), false, 0));
+        }
         let nft_in_retrieve = self.nft_retrieve_from_address(&user.clone()).get();
 
         if token_identifier == nft_in_retrieve.identifier && token_nonce == nft_in_retrieve.nonce {
