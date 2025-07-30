@@ -153,6 +153,19 @@
 
 </details>
 
+<details>
+<summary>forceNftClaim</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| token | TokenIdentifier |
+| nonce | u64 |
+| address | Address |
+
+
+</details>
+
 ### Other
 
 <details>

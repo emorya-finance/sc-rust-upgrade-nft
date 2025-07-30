@@ -6,6 +6,3 @@ elif [ $1 -eq 1 ]; then
 fi
 source snippets.sh
 ############ START ############
-
-
-view getCustomNftInfo "0x$(python to_hex.py EMRNFT-041abf) 0x58"
