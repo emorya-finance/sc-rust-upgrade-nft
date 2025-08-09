@@ -20,7 +20,7 @@ pub trait NftUpgrade:
     + crate::owner::OwnerModule
     + crate::views::ViewsModule
 {
-    // ===================== Deployment & Upgrade =====================
+    // === Deployment & Upgrade ===
 
     #[init]
     fn init(&self) {}
@@ -28,7 +28,7 @@ pub trait NftUpgrade:
     #[upgrade]
     fn upgrade(&self) {}
 
-    // ===================== For Devnet initialization =====================
+    // === For Devnet initialization ===
 
     /// Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.
     /// This will make an NFT similar to the current EMR NFTs.
@@ -62,9 +62,9 @@ pub trait NftUpgrade:
             .transfer();
     }
 
-    // ===================== Endpoints =====================
+    // === Endpoints ===
 
-    // Deposit the NFT and save the actual owner address in the storage
+    /// Allows a user to deposit an NFT into the contract.
     #[payable("*")]
     #[endpoint(depositNft)]
     fn deposit_nft(&self) {
@@ -131,6 +131,7 @@ pub trait NftUpgrade:
         }
     }
 
+    /// Allows a user to iniate the retrieval of an NFT.
     #[endpoint(retrieveNft)]
     fn retrieve_nft(&self) {
         self.require_not_paused();
@@ -166,6 +167,7 @@ pub trait NftUpgrade:
         self.user_retrieve_epoch(&user).set(current_epoch);
     }
 
+    /// Allows a user to claim their NFT after the unbonding period.
     #[endpoint(claimNft)]
     fn claim_nft(&self) {
         self.require_not_paused();
@@ -206,7 +208,7 @@ pub trait NftUpgrade:
         }
     }
 
-    /// Upgrade an NFT to the same level but with more data in attributes.
+    /// Upgrade an NFT to the same level but with the new attributes.
     #[payable("*")]
     #[endpoint(upgradeNft)]
     fn upgrade_nft(&self) {
@@ -248,6 +250,7 @@ pub trait NftUpgrade:
             .transfer();
     }
 
+    /// Increase the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(increaseLevel)]
     fn increase_level(&self, user: ManagedAddress) {
@@ -290,6 +293,7 @@ pub trait NftUpgrade:
             .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
     }
 
+    /// Decrease the level of an NFT by 1.
     #[payable("*")]
     #[endpoint(decreaseLevel)]
     fn decrease_level(&self, user: ManagedAddress) {

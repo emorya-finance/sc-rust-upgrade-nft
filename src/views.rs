@@ -5,6 +5,7 @@ use crate::{
 };
 
 type NftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, u64>;
+type DepositedNftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, ManagedAddress<M>>;
 type UserInfo<M> = MultiValue4<NftInfo<M>, NftInfo<M>, u64, bool>;
 type CustomNftInfo<M> = MultiValue3<ManagedAddress<M>, bool, u64>;
 
@@ -288,5 +289,56 @@ pub trait ViewsModule: crate::storage::StorageModule {
         } else {
             CustomNftInfo::from((user.clone(), false, 0))
         }
+    }
+
+    #[view(getAllNfts)]
+    fn get_all_nfts(&self) -> MultiValueEncoded<DepositedNftInfo<Self::Api>> {
+        let mut nfts: MultiValueEncoded<DepositedNftInfo<Self::Api>> = MultiValueEncoded::new();
+
+        // Investors
+        let investors_identifier = TokenIdentifier::from_esdt_bytes(NFT_IDENTIFIER_INVESTORS);
+        for nonce in 1..=386 {
+            let amount_in_sc = self.blockchain().get_sc_balance(
+                &EgldOrEsdtTokenIdentifier::esdt(investors_identifier.clone()),
+                nonce,
+            );
+
+            if amount_in_sc == BigUint::zero() {
+                continue;
+            }
+
+            let owner_address = self.nft_owner_address(&investors_identifier, nonce).get();
+            if !self.nft_from_address(&owner_address).is_empty() {
+                nfts.push(DepositedNftInfo::from((
+                    investors_identifier.clone(),
+                    nonce,
+                    owner_address,
+                )));
+            }
+        }
+
+        // NFTs
+        let nfts_identifier = TokenIdentifier::from_esdt_bytes(NFT_IDENTIFIER);
+        for nonce in 1..=2500 {
+            let amount_in_sc = self.blockchain().get_sc_balance(
+                &EgldOrEsdtTokenIdentifier::esdt(nfts_identifier.clone()),
+                nonce,
+            );
+
+            if amount_in_sc == BigUint::zero() {
+                continue;
+            }
+
+            let owner_address = self.nft_owner_address(&nfts_identifier, nonce).get();
+            if !self.nft_from_address(&owner_address).is_empty() {
+                nfts.push(DepositedNftInfo::from((
+                    nfts_identifier.clone(),
+                    nonce,
+                    owner_address,
+                )));
+            }
+        }
+
+        nfts
     }
 }

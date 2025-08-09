@@ -91,6 +91,7 @@ where
             .original_result()
     }
 
+    /// Allows a user to deposit an NFT into the contract. 
     pub fn deposit_nft(
         self,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
@@ -99,6 +100,7 @@ where
             .original_result()
     }
 
+    /// Allows a user to iniate the retrieval of an NFT. 
     pub fn retrieve_nft(
         self,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
@@ -108,6 +110,7 @@ where
             .original_result()
     }
 
+    /// Allows a user to claim their NFT after the unbonding period. 
     pub fn claim_nft(
         self,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
@@ -117,7 +120,7 @@ where
             .original_result()
     }
 
-    /// Upgrade an NFT to the same level but with more data in attributes. 
+    /// Upgrade an NFT to the same level but with the new attributes. 
     pub fn upgrade_nft(
         self,
     ) -> TxTypedCall<Env, From, To, (), Gas, ()> {
@@ -126,6 +129,7 @@ where
             .original_result()
     }
 
+    /// Increase the level of an NFT by 1. 
     pub fn increase_level<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
@@ -138,6 +142,7 @@ where
             .original_result()
     }
 
+    /// Decrease the level of an NFT by 1. 
     pub fn decrease_level<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
     >(
@@ -605,6 +610,15 @@ where
             .raw_call("getCustomNftInfo")
             .argument(&token_identifier)
             .argument(&token_nonce)
+            .original_result()
+    }
+
+    pub fn get_all_nfts(
+        self,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, MultiValueEncoded<Env::Api, MultiValue3<TokenIdentifier<Env::Api>, u64, ManagedAddress<Env::Api>>>> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("getAllNfts")
             .original_result()
     }
 }

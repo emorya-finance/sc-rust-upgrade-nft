@@ -40,6 +40,9 @@
             "outputs": []
         },
         {
+            "docs": [
+                "Allows a user to deposit an NFT into the contract."
+            ],
             "name": "depositNft",
             "mutability": "mutable",
             "payableInTokens": [
@@ -49,12 +52,18 @@
             "outputs": []
         },
         {
+            "docs": [
+                "Allows a user to iniate the retrieval of an NFT."
+            ],
             "name": "retrieveNft",
             "mutability": "mutable",
             "inputs": [],
             "outputs": []
         },
         {
+            "docs": [
+                "Allows a user to claim their NFT after the unbonding period."
+            ],
             "name": "claimNft",
             "mutability": "mutable",
             "inputs": [],
@@ -62,7 +71,7 @@
         },
         {
             "docs": [
-                "Upgrade an NFT to the same level but with more data in attributes."
+                "Upgrade an NFT to the same level but with the new attributes."
             ],
             "name": "upgradeNft",
             "mutability": "mutable",
@@ -73,6 +82,9 @@
             "outputs": []
         },
         {
+            "docs": [
+                "Increase the level of an NFT by 1."
+            ],
             "name": "increaseLevel",
             "mutability": "mutable",
             "payableInTokens": [
@@ -87,6 +99,9 @@
             "outputs": []
         },
         {
+            "docs": [
+                "Decrease the level of an NFT by 1."
+            ],
             "name": "decreaseLevel",
             "mutability": "mutable",
             "payableInTokens": [
@@ -656,6 +671,17 @@
                 },
                 {
                     "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getAllNfts",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<multi<TokenIdentifier,u64,Address>>",
+                    "multi_result": true
                 }
             ]
         }

@@ -1,6 +1,8 @@
 [
   "bigIntAdd",
   "bigIntCmp",
+  "bigIntGetESDTExternalBalance",
+  "bigIntGetExternalBalance",
   "bigIntNew",
   "bigIntSetInt64",
   "checkNoPayment",
@@ -16,6 +18,7 @@
   "mBufferFinish",
   "mBufferGetArgument",
   "mBufferGetByteSlice",
+  "mBufferGetBytes",
   "mBufferGetLength",
   "mBufferNew",
   "mBufferSetBytes",

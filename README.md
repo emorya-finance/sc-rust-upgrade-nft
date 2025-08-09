@@ -182,6 +182,7 @@ This will make an NFT similar to the current EMR NFTs.
 <details>
 <summary>depositNft</summary>
 
+Allows a user to deposit an NFT into the contract.
 #### Note: This endpoint is payable by any token.
 
 
@@ -190,19 +191,21 @@ This will make an NFT similar to the current EMR NFTs.
 <details>
 <summary>retrieveNft</summary>
 
+Allows a user to iniate the retrieval of an NFT.
 
 </details>
 
 <details>
 <summary>claimNft</summary>
 
+Allows a user to claim their NFT after the unbonding period.
 
 </details>
 
 <details>
 <summary>upgradeNft</summary>
 
-Upgrade an NFT to the same level but with more data in attributes.
+Upgrade an NFT to the same level but with the new attributes.
 #### Note: This endpoint is payable by any token.
 
 
@@ -211,6 +214,7 @@ Upgrade an NFT to the same level but with more data in attributes.
 <details>
 <summary>increaseLevel</summary>
 
+Increase the level of an NFT by 1.
 #### Note: This endpoint is payable by any token.
 
 #### Inputs:
@@ -224,6 +228,7 @@ Upgrade an NFT to the same level but with more data in attributes.
 <details>
 <summary>decreaseLevel</summary>
 
+Decrease the level of an NFT by 1.
 #### Note: This endpoint is payable by any token.
 
 #### Inputs:
@@ -646,6 +651,17 @@ Takes as input the token identifier and nonce of the NFT.
 | Address |
 | bool |
 | u64 |
+
+
+</details>
+
+<details>
+<summary>getAllNfts</summary>
+
+#### Outputs:
+| Type | MultiValue |
+| - | - |
+| multi&lt;TokenIdentifier,u64,Address | ✔ |
 
 
 </details>
