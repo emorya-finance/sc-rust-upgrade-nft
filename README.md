@@ -658,6 +658,17 @@ Takes as input the token identifier and nonce of the NFT.
 <details>
 <summary>getAllNfts</summary>
 
+Returns all NFTs that are currently deposited in the smart contract.
+
+This includes both the investors' NFTs and the regular NFTs.
+
+It returns a list of tuples containing:
+
+- Token Identifier
+
+- Token Nonce
+
+- Owner Address
 #### Outputs:
 | Type | MultiValue |
 | - | - |

@@ -676,6 +676,14 @@
                 ]
             },
             {
+                "docs": [
+                    "Returns all NFTs that are currently deposited in the smart contract.",
+                    "This includes both the investors' NFTs and the regular NFTs.",
+                    "It returns a list of tuples containing:",
+                    "- Token Identifier",
+                    "- Token Nonce",
+                    "- Owner Address"
+                ],
                 "name": "getAllNfts",
                 "mutability": "readonly",
                 "inputs": [],

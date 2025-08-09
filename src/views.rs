@@ -291,6 +291,12 @@ pub trait ViewsModule: crate::storage::StorageModule {
         }
     }
 
+    /// Returns all NFTs that are currently deposited in the smart contract.
+    /// This includes both the investors' NFTs and the regular NFTs.
+    /// It returns a list of tuples containing:
+    /// - Token Identifier
+    /// - Token Nonce
+    /// - Owner Address
     #[view(getAllNfts)]
     fn get_all_nfts(&self) -> MultiValueEncoded<DepositedNftInfo<Self::Api>> {
         let mut nfts: MultiValueEncoded<DepositedNftInfo<Self::Api>> = MultiValueEncoded::new();

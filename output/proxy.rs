@@ -613,6 +613,12 @@ where
             .original_result()
     }
 
+    /// Returns all NFTs that are currently deposited in the smart contract. 
+    /// This includes both the investors' NFTs and the regular NFTs. 
+    /// It returns a list of tuples containing: 
+    /// - Token Identifier 
+    /// - Token Nonce 
+    /// - Owner Address 
     pub fn get_all_nfts(
         self,
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, MultiValueEncoded<Env::Api, MultiValue3<TokenIdentifier<Env::Api>, u64, ManagedAddress<Env::Api>>>> {
