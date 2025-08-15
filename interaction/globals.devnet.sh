@@ -11,6 +11,8 @@ SC_PATH="../"
 SC_NAME=$(sed -n 's/^name = "\([^"]*\)".*/\1/p' "$SC_PATH/Cargo.toml")
 SC_BYTECODE=$SC_PATH"output/$SC_NAME.wasm"
 
+source $SC_PATH".env.mainnet"
+
 SC_ADDRESS="erd1qqqqqqqqqqqqqpgqwarwdrnq5gnf7jnjcth5l73s0h6p7adeyqdsc8mjle"
 if [ ! -z $SC_ADDRESS ]; then
     SC_ADDRESS_HEX=$(mxpy wallet bech32 --decode $SC_ADDRESS)
@@ -20,7 +22,7 @@ fi
 
 #=============================== WALLETS ===============================
 
-source $SC_PATH".devnet.env"
+source $SC_PATH".env.devnet"
 
 OWNER_PEM=$MY_PEM
 OWNER_ADDRESS=$(mxpy wallet convert --infile $OWNER_PEM --in-format pem --out-format address-bech32 | sed -n '3p')

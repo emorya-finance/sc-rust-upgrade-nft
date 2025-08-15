@@ -11,7 +11,7 @@
 - **Channel**: Stable
 
 - **Framework**: multiversx-sc
-- **Version**: 0.58.0
+- **Version**: 0.60.0
 </details>
 
 <details>
@@ -171,6 +171,8 @@
 <details>
 <summary>initialize</summary>
 
+Only for testing purposes in Devnet.
+
 Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.
 
 This will make an NFT similar to the current EMR NFTs.
@@ -182,7 +184,9 @@ This will make an NFT similar to the current EMR NFTs.
 <details>
 <summary>depositNft</summary>
 
-Allows a user to deposit an NFT into the contract.
+Allows a user to deposit an NFT into the contract to be able to "lock" it and enjoy the benefits.
+
+Only 1 NFT per user can be active at a time.
 #### Note: This endpoint is payable by any token.
 
 
@@ -193,6 +197,12 @@ Allows a user to deposit an NFT into the contract.
 
 Allows a user to iniate the retrieval of an NFT.
 
+This will start the unbonding period.
+
+After the unbonding period, the user can claim their NFT.
+
+While the NFT is in retrieval, it cannot be used for any benefits but the user can deposit a new NFT as active.
+
 </details>
 
 <details>
@@ -200,12 +210,20 @@ Allows a user to iniate the retrieval of an NFT.
 
 Allows a user to claim their NFT after the unbonding period.
 
+This will transfer the NFT back to the user.
+
+The user must have initiated the retrieval process first.
+
+If the unbonding period is not over, the user cannot claim the NFT.
+
 </details>
 
 <details>
 <summary>upgradeNft</summary>
 
 Upgrade an NFT to the same level but with the new attributes.
+
+This will update the NFT attributes to match the current EMR NFTs.
 #### Note: This endpoint is payable by any token.
 
 
@@ -215,8 +233,8 @@ Upgrade an NFT to the same level but with the new attributes.
 <summary>increaseLevel</summary>
 
 Increase the level of an NFT by 1.
-#### Note: This endpoint is payable by any token.
 
+This can only be done by the owner or an allowed address.
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -229,8 +247,8 @@ Increase the level of an NFT by 1.
 <summary>decreaseLevel</summary>
 
 Decrease the level of an NFT by 1.
-#### Note: This endpoint is payable by any token.
 
+This can only be done by the owner or an allowed address.
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -356,17 +374,6 @@ Decrease the level of an NFT by 1.
 </details>
 
 <details>
-<summary>getTags</summary>
-
-#### Outputs:
-| Type |
-| - |
-| bytes |
-
-
-</details>
-
-<details>
 <summary>getNftIdentifier</summary>
 
 #### Outputs:
@@ -401,23 +408,6 @@ Decrease the level of an NFT by 1.
 | Type |
 | - |
 | bytes |
-
-
-</details>
-
-<details>
-<summary>getNftUris</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| token_identifier | TokenIdentifier |
-| token_nonce | u64 |
-
-#### Outputs:
-| Type | List |
-| - | - |
-| bytes | ✔ |
 
 
 </details>
@@ -491,25 +481,7 @@ Decrease the level of an NFT by 1.
 </details>
 
 <details>
-<summary>getNftInfoBeforeUpgrade</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| user | Address |
-
-#### Outputs:
-| Type |
-| - |
-| TokenIdentifier |
-| u64 |
-| u64 |
-
-
-</details>
-
-<details>
-<summary>getNftInfoAfterUpgrade</summary>
+<summary>getNftInfoFromAddress</summary>
 
 #### Inputs:
 | Name | Type |
@@ -545,41 +517,8 @@ Decrease the level of an NFT by 1.
 </details>
 
 <details>
-<summary>getNftNonce</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| user | Address |
-
-#### Outputs:
-| Type |
-| - |
-| u64 |
-
-
-</details>
-
-<details>
-<summary>getNftLevelByAddress</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| user | Address |
-
-#### Outputs:
-| Type |
-| - |
-| u64 |
-
-
-</details>
-
-<details>
 <summary>getRemainingUnbondingTime</summary>
 
-Boolean is a number -> 01 True , {empty}/"" False
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -602,9 +541,13 @@ Returns:
 
 - User in Retrieve NFT (Identifier, Nonce, Level)
 
-- Unbounding Time
+- Unbonding Time
 
 - Can Claim
+
+
+
+Takes as input the user address.
 #### Inputs:
 | Name | Type |
 | - | - |
@@ -634,7 +577,7 @@ Returns:
 
 - Is in Retrieve
 
-- Unbounding Time
+- Unbonding Time
 
 
 

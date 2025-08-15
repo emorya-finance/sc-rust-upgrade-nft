@@ -1,6 +1,6 @@
 use crate::constants::TAGS;
 
-multiversx_sc::imports!();
+use multiversx_sc::imports::*;
 
 #[multiversx_sc::module]
 pub trait OwnerModule:
@@ -28,8 +28,6 @@ pub trait OwnerModule:
         };
 
         let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
-
-        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
         new_attributes = new_attributes
             .clone()

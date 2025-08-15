@@ -1,6 +1,6 @@
 #![no_std]
 
-multiversx_sc::imports!();
+use multiversx_sc::imports::*;
 
 pub mod constants;
 pub mod managedbufferutils;
@@ -28,8 +28,7 @@ pub trait NftUpgrade:
     #[upgrade]
     fn upgrade(&self) {}
 
-    // === For Devnet initialization ===
-
+    /// Only for testing purposes in Devnet.
     /// Initialize a Test NFT with level 1 in attributes, plus some more info to match current EMR NFTs.
     /// This will make an NFT similar to the current EMR NFTs.
     #[payable("*")]
@@ -45,52 +44,46 @@ pub trait NftUpgrade:
             "You are not allowed to upgrade NFTs."
         );
 
-        // prepare NFT attributes | I skip the IPFS CID and tags for now but you will need them in upgradeNft
         let mut new_attributes = ManagedBuffer::new();
         new_attributes = new_attributes
             .clone()
             .concat(sc_format!("level:{},activity_days:0,calories_per_day:0", 1));
 
-        // Update NFT attributes
         self.send()
             .nft_update_attributes(&nft_identifier, nft_nonce, &new_attributes);
 
-        // Transfer NFT back to caller
         self.tx()
             .to(&caller)
             .single_esdt(&nft_identifier, nft_nonce, &BigUint::from(1u8))
             .transfer();
     }
 
-    // === Endpoints ===
+    // === Public Endpoints ===
 
-    /// Allows a user to deposit an NFT into the contract.
+    /// Allows a user to deposit an NFT into the contract to be able to "lock" it and enjoy the benefits.
+    /// Only 1 NFT per user can be active at a time.
     #[payable("*")]
     #[endpoint(depositNft)]
     fn deposit_nft(&self) {
         self.require_not_paused();
         let user = self.blockchain().get_caller();
+        self.require_non_blocked_user(&user);
 
         let (emr_nft_token, token_nonce, amount) =
             self.call_value().single_esdt().clone().into_tuple();
-
         self.require_valid_emr_nft(emr_nft_token.clone());
-
-        self.require_non_blocked_user(&user);
-
         require!(
             amount == BigUint::from(1u8),
             "You can only deposit one NFT at a time."
         );
-
         require!(
             self.nft_from_address(&user).is_empty(),
-            "You already deposited one NFT."
+            "You already have an active NFT deposited."
         );
         require!(
             self.nft_owner_address(&emr_nft_token, token_nonce)
                 .is_empty(),
-            "This NFT is already deposited."
+            "This NFT is already in retrieval process."
         );
 
         // Storage
@@ -116,7 +109,6 @@ pub trait NftUpgrade:
 
             let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), token_nonce);
 
-            // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
             let mut new_attributes = ManagedBuffer::new();
             new_attributes = new_attributes
                 .clone()
@@ -125,39 +117,39 @@ pub trait NftUpgrade:
             new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
             new_attributes = new_attributes.clone().concat(sc_format!("level:{}", level));
 
-            // Update NFT attributes
             self.send()
-                .nft_update_attributes(&emr_nft_token.clone(), token_nonce, &new_attributes);
+                .nft_update_attributes(&emr_nft_token, token_nonce, &new_attributes);
         }
     }
 
     /// Allows a user to iniate the retrieval of an NFT.
+    /// This will start the unbonding period.
+    /// After the unbonding period, the user can claim their NFT.
+    /// While the NFT is in retrieval, it cannot be used for any benefits but the user can deposit a new NFT as active.
     #[endpoint(retrieveNft)]
     fn retrieve_nft(&self) {
         self.require_not_paused();
 
         let user = self.blockchain().get_caller();
-
         self.require_non_blocked_user(&user);
 
         require!(
             self.user_retrieve_epoch(&user).is_empty(),
-            "You already started the retrieving period."
+            "You already started the retrieval process."
         );
-
         require!(
             !self.nft_from_address(&user).is_empty(),
-            "You do not have an NFT deposited. Try depositing first."
+            "You do not have an NFT deposited."
         );
 
         let nft = self.nft_from_address(&user).get();
-
         require!(
             self.nft_owner_address(&nft.identifier, nft.nonce).get() == user,
             "You are not the owner of the NFT."
         );
 
         let current_epoch = self.blockchain().get_block_epoch();
+
         // Storage
         self.nft_from_address(&user).clear();
         self.nft_retrieve_from_address(&user).set(UserNft {
@@ -168,6 +160,9 @@ pub trait NftUpgrade:
     }
 
     /// Allows a user to claim their NFT after the unbonding period.
+    /// This will transfer the NFT back to the user.
+    /// The user must have initiated the retrieval process first.
+    /// If the unbonding period is not over, the user cannot claim the NFT.
     #[endpoint(claimNft)]
     fn claim_nft(&self) {
         self.require_not_paused();
@@ -209,6 +204,7 @@ pub trait NftUpgrade:
     }
 
     /// Upgrade an NFT to the same level but with the new attributes.
+    /// This will update the NFT attributes to match the current EMR NFTs.
     #[payable("*")]
     #[endpoint(upgradeNft)]
     fn upgrade_nft(&self) {
@@ -231,7 +227,6 @@ pub trait NftUpgrade:
 
         let uri_json = self.get_nft_uri_json(emr_nft_token.clone(), token_nonce);
 
-        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
         new_attributes = new_attributes
             .clone()
@@ -240,7 +235,6 @@ pub trait NftUpgrade:
         new_attributes = new_attributes.clone().concat(sc_format!("tags:{};", TAGS));
         new_attributes = new_attributes.clone().concat(sc_format!("level:{}", level));
 
-        // Update NFT attributes
         self.send()
             .nft_update_attributes(&emr_nft_token.clone(), token_nonce, &new_attributes);
 
@@ -250,17 +244,17 @@ pub trait NftUpgrade:
             .transfer();
     }
 
+    // === Admin Endpoints ===
+
     /// Increase the level of an NFT by 1.
-    #[payable("*")]
+    /// This can only be done by the owner or an allowed address.
     #[endpoint(increaseLevel)]
     fn increase_level(&self, user: ManagedAddress) {
         self.require_not_paused();
-
         require!(
             !self.nft_from_address(&user).is_empty(),
             "The user has no NFT deposited!"
         );
-        let nft = self.nft_from_address(&user).get();
 
         let caller = self.blockchain().get_caller();
         require!(
@@ -269,15 +263,12 @@ pub trait NftUpgrade:
             "You are not allowed to modify NFT level."
         );
 
+        let nft = self.nft_from_address(&user).get();
         let level = self.get_nft_attributes_level_after_upgrade(nft.identifier.clone(), nft.nonce);
-
         let level = level.ascii_to_u64().unwrap();
-
         let new_level = level + 1;
-
         let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
 
-        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
         new_attributes = new_attributes
             .clone()
@@ -288,22 +279,19 @@ pub trait NftUpgrade:
             .clone()
             .concat(sc_format!("level:{}", new_level));
 
-        // Update NFT attributes
         self.send()
             .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
     }
 
     /// Decrease the level of an NFT by 1.
-    #[payable("*")]
+    /// This can only be done by the owner or an allowed address.
     #[endpoint(decreaseLevel)]
     fn decrease_level(&self, user: ManagedAddress) {
         self.require_not_paused();
-
         require!(
             !self.nft_from_address(&user).is_empty(),
             "The user has no NFT deposited!"
         );
-        let nft = self.nft_from_address(&user).get();
 
         let caller = self.blockchain().get_caller();
         require!(
@@ -312,17 +300,13 @@ pub trait NftUpgrade:
             "You are not allowed to modify NFT level."
         );
 
+        let nft = self.nft_from_address(&user).get();
         let level = self.get_nft_attributes_level_after_upgrade(nft.identifier.clone(), nft.nonce);
-
         let level = level.ascii_to_u64().unwrap();
-
         require!(level > 1, "NFT level cannot be less than 1.");
-
         let new_level = level - 1;
-
         let uri_json = self.get_nft_uri_json(nft.identifier.clone(), nft.nonce);
 
-        // prepare NFT attributes | Format is metadata:IPFS_CID/NFT_NONCE.json;tags:TAGS;level:LEVEL
         let mut new_attributes = ManagedBuffer::new();
         new_attributes = new_attributes
             .clone()

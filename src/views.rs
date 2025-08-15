@@ -1,24 +1,17 @@
 use crate::{
-    constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS, TAGS},
+    constants::{NFT_IDENTIFIER, NFT_IDENTIFIER_INVESTORS},
     managedbufferutils::ManagedBufferUtils,
     storage::UserRetrieve,
 };
+use multiversx_sc::imports::*;
 
 type NftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, u64>;
 type DepositedNftInfo<M> = MultiValue3<TokenIdentifier<M>, u64, ManagedAddress<M>>;
 type UserInfo<M> = MultiValue4<NftInfo<M>, NftInfo<M>, u64, bool>;
 type CustomNftInfo<M> = MultiValue3<ManagedAddress<M>, bool, u64>;
 
-multiversx_sc::imports!();
-multiversx_sc::derive_imports!();
-
 #[multiversx_sc::module]
 pub trait ViewsModule: crate::storage::StorageModule {
-    #[view(getTags)]
-    fn get_tags(&self) -> ManagedBuffer {
-        ManagedBuffer::new_from_bytes(TAGS)
-    }
-
     #[view(getNftIdentifier)]
     fn get_nft_identifier(&self) -> TokenIdentifier {
         TokenIdentifier::from_esdt_bytes(NFT_IDENTIFIER)
@@ -42,21 +35,6 @@ pub trait ViewsModule: crate::storage::StorageModule {
                 token_nonce,
             )
             .attributes
-    }
-
-    #[view(getNftUris)]
-    fn get_nft_uris(
-        &self,
-        token_identifier: TokenIdentifier,
-        token_nonce: u64,
-    ) -> ManagedVec<ManagedBuffer> {
-        self.blockchain()
-            .get_esdt_token_data(
-                &self.blockchain().get_sc_address(),
-                &token_identifier,
-                token_nonce,
-            )
-            .uris
     }
 
     #[view(getNftUriJson)]
@@ -165,20 +143,8 @@ pub trait ViewsModule: crate::storage::StorageModule {
         }
     }
 
-    #[view(getNftInfoBeforeUpgrade)]
-    fn get_nft_from_address_before(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
-        let nft_token = self.nft_from_address(&user).get();
-
-        let level = self
-            .get_nft_attributes_level_before_upgrade(nft_token.identifier.clone(), nft_token.nonce)
-            .ascii_to_u64()
-            .unwrap_or(1);
-
-        NftInfo::from((nft_token.identifier, nft_token.nonce, level))
-    }
-
-    #[view(getNftInfoAfterUpgrade)]
-    fn get_nft_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
+    #[view(getNftInfoFromAddress)]
+    fn get_nft_info_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
         if self.nft_from_address(&user).is_empty() {
             return NftInfo::from((TokenIdentifier::from_esdt_bytes(b""), 0, 0));
         }
@@ -194,7 +160,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     }
 
     #[view(getNftInRetrieveByAddress)]
-    fn get_nft_retrieve_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
+    fn get_nft_in_retrieve_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
         if self.nft_retrieve_from_address(&user).is_empty() {
             return NftInfo::from((TokenIdentifier::from_esdt_bytes(b""), 0, 0));
         }
@@ -208,18 +174,6 @@ pub trait ViewsModule: crate::storage::StorageModule {
         NftInfo::from((nft.identifier, nft.nonce, level))
     }
 
-    #[view(getNftNonce)]
-    fn get_nft_nonce(&self, user: ManagedAddress) -> u64 {
-        let nft_token = self.nft_from_address(&user).get();
-        nft_token.nonce
-    }
-
-    #[view(getNftLevelByAddress)]
-    fn get_nft_level_by_address(&self, user: ManagedAddress) -> u64 {
-        self.get_nft_from_address(user).into_tuple().2
-    }
-
-    /// Boolean is a number -> 01 True , {empty}/"" False
     #[view(getRemainingUnbondingTime)]
     fn get_remaining_unbonding_time(&self, user: ManagedAddress) -> UserRetrieve {
         if self.unbonding_period().get()
@@ -242,14 +196,16 @@ pub trait ViewsModule: crate::storage::StorageModule {
     /// Returns:
     /// - User Active NFT (Identifier, Nonce , Level)
     /// - User in Retrieve NFT (Identifier, Nonce, Level)
-    /// - Unbounding Time
+    /// - Unbonding Time
     /// - Can Claim
+    ///
+    /// Takes as input the user address.
     #[view(getUserInfo)]
     fn ger_user_info(&self, user: ManagedAddress) -> UserInfo<Self::Api> {
         let user_retrieve_info = self.get_remaining_unbonding_time(user.clone());
         UserInfo::from((
-            NftInfo::from(self.get_nft_from_address(user.clone())),
-            NftInfo::from(self.get_nft_retrieve_from_address(user)),
+            NftInfo::from(self.get_nft_info_from_address(user.clone())),
+            NftInfo::from(self.get_nft_in_retrieve_from_address(user)),
             user_retrieve_info.counter,
             user_retrieve_info.unlocking,
         ))
@@ -258,7 +214,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     /// Returns:
     /// - User Address
     /// - Is in Retrieve
-    /// - Unbounding Time
+    /// - Unbonding Time
     ///
     /// Takes as input the token identifier and nonce of the NFT.
     #[view(getCustomNftInfo)]
