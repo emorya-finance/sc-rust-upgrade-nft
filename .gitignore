@@ -21,7 +21,7 @@ interaction/reports/
 # from output folder, ignore all except *abi.json
 /output/*
 !/output/*.abi.json
-!/output/*.rs
+!/output/*_proxy.rs
 
 # Ignore all .env files except the example
 .env*
