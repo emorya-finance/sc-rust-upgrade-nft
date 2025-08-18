@@ -86,41 +86,6 @@
 </details>
 
 <details>
-<summary>setLevel</summary>
-
-#### Inputs:
-| Name | Type |
-| - | - |
-| address | Address |
-| new_level | u64 |
-| category | u64 |
-
-
-</details>
-
-<details>
-<summary>blockUser</summary>
-
-#### Inputs:
-| Name | Type | MultiValue |
-| - | - | - |
-| addresses | Address | ✔ |
-
-
-</details>
-
-<details>
-<summary>unBlockUser</summary>
-
-#### Inputs:
-| Name | Type | MultiValue |
-| - | - | - |
-| addresses | Address | ✔ |
-
-
-</details>
-
-<details>
 <summary>addAllowedAddresses</summary>
 
 #### Inputs:
@@ -253,6 +218,41 @@ This can only be done by the owner or an allowed address.
 | Name | Type |
 | - | - |
 | user | Address |
+
+
+</details>
+
+<details>
+<summary>setLevel</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| address | Address |
+| new_level | u64 |
+| category | u64 |
+
+
+</details>
+
+<details>
+<summary>blockUser</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| addresses | Address | ✔ |
+
+
+</details>
+
+<details>
+<summary>unBlockUser</summary>
+
+#### Inputs:
+| Name | Type | MultiValue |
+| - | - | - |
+| addresses | Address | ✔ |
 
 
 </details>

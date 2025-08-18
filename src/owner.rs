@@ -18,9 +18,16 @@ pub trait OwnerModule:
         self.is_sc_paused().set(false);
     }
 
-    #[only_owner]
     #[endpoint(setLevel)]
     fn set_level(&self, address: ManagedAddress, new_level: u64, category: u64) {
+        let caller = self.blockchain().get_caller();
+
+        require!(
+            caller == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&caller),
+            "You are not allowed to use this function."
+        );
+
         let nft = if category == 1 {
             self.nft_from_address(&address).get()
         } else {
@@ -42,17 +49,31 @@ pub trait OwnerModule:
             .nft_update_attributes(&nft.identifier, nft.nonce, &new_attributes);
     }
 
-    #[only_owner]
     #[endpoint(blockUser)]
     fn block_user(&self, addresses: MultiValueEncoded<ManagedAddress>) {
+        let caller = self.blockchain().get_caller();
+
+        require!(
+            caller == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&caller),
+            "You are not allowed to use this function."
+        );
+
         for address in addresses.into_iter() {
             self.blocked_users(&address).set(true);
         }
     }
 
-    #[only_owner]
     #[endpoint(unBlockUser)]
     fn unblock_user(&self, addresses: MultiValueEncoded<ManagedAddress>) {
+        let caller = self.blockchain().get_caller();
+
+        require!(
+            caller == self.blockchain().get_owner_address()
+                || self.allowed_addresses().contains(&caller),
+            "You are not allowed to use this function."
+        );
+
         for address in addresses.into_iter() {
             self.blocked_users(&address).set(false);
         }

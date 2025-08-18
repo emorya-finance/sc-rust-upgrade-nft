@@ -246,7 +246,6 @@
         },
         {
             "name": "setLevel",
-            "onlyOwner": true,
             "mutability": "mutable",
             "inputs": [
                 {
@@ -266,7 +265,6 @@
         },
         {
             "name": "blockUser",
-            "onlyOwner": true,
             "mutability": "mutable",
             "inputs": [
                 {
@@ -279,7 +277,6 @@
         },
         {
             "name": "unBlockUser",
-            "onlyOwner": true,
             "mutability": "mutable",
             "inputs": [
                 {
