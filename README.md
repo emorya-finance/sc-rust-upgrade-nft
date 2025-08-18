@@ -481,7 +481,7 @@ This can only be done by the owner or an allowed address.
 </details>
 
 <details>
-<summary>getNftInfoBeforeUpgrade</summary>
+<summary>getNftInfoFromAddressBefore</summary>
 
 #### Inputs:
 | Name | Type |
@@ -499,7 +499,7 @@ This can only be done by the owner or an allowed address.
 </details>
 
 <details>
-<summary>getNftInfoAfterUpgrade</summary>
+<summary>getNftInfoFromAddress</summary>
 
 #### Inputs:
 | Name | Type |
@@ -529,6 +529,22 @@ This can only be done by the owner or an allowed address.
 | - |
 | TokenIdentifier |
 | u64 |
+| u64 |
+
+
+</details>
+
+<details>
+<summary>getNftLevelByAddress</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| user | Address |
+
+#### Outputs:
+| Type |
+| - |
 | u64 |
 
 

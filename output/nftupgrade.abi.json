@@ -461,7 +461,7 @@
             ]
         },
         {
-            "name": "getNftInfoBeforeUpgrade",
+            "name": "getNftInfoFromAddressBefore",
             "mutability": "readonly",
             "inputs": [
                 {
@@ -482,7 +482,7 @@
             ]
         },
         {
-            "name": "getNftInfoAfterUpgrade",
+            "name": "getNftInfoFromAddress",
             "mutability": "readonly",
             "inputs": [
                 {
@@ -518,6 +518,21 @@
                 {
                     "type": "u64"
                 },
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getNftLevelByAddress",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
                 {
                     "type": "u64"
                 }
