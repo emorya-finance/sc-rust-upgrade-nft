@@ -461,7 +461,28 @@
             ]
         },
         {
-            "name": "getNftInfoFromAddress",
+            "name": "getNftInfoBeforeUpgrade",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "user",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getNftInfoAfterUpgrade",
             "mutability": "readonly",
             "inputs": [
                 {

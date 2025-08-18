@@ -143,8 +143,36 @@ pub trait ViewsModule: crate::storage::StorageModule {
         }
     }
 
-    #[view(getNftInfoFromAddress)]
-    fn get_nft_info_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
+    // #[view(getNftInfoAfterUpgrade)]
+    // fn get_nft_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
+    //     if self.nft_from_address(&user).is_empty() {
+    //         return NftInfo::from((TokenIdentifier::from_esdt_bytes(b""), 0, 0));
+    //     }
+
+    //     let nft_token = self.nft_from_address(&user).get();
+
+    //     let level = self
+    //         .get_nft_attributes_level_after_upgrade(nft_token.identifier.clone(), nft_token.nonce)
+    //         .ascii_to_u64()
+    //         .unwrap_or(1);
+
+    //     NftInfo::from((nft_token.identifier, nft_token.nonce, level))
+    // }
+
+    #[view(getNftInfoBeforeUpgrade)]
+    fn get_nft_from_address_before(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
+        let nft_token = self.nft_from_address(&user).get();
+
+        let level = self
+            .get_nft_attributes_level_before_upgrade(nft_token.identifier.clone(), nft_token.nonce)
+            .ascii_to_u64()
+            .unwrap_or(1);
+
+        NftInfo::from((nft_token.identifier, nft_token.nonce, level))
+    }
+
+    #[view(getNftInfoAfterUpgrade)]
+    fn get_nft_from_address(&self, user: ManagedAddress) -> NftInfo<Self::Api> {
         if self.nft_from_address(&user).is_empty() {
             return NftInfo::from((TokenIdentifier::from_esdt_bytes(b""), 0, 0));
         }
@@ -204,7 +232,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
     fn ger_user_info(&self, user: ManagedAddress) -> UserInfo<Self::Api> {
         let user_retrieve_info = self.get_remaining_unbonding_time(user.clone());
         UserInfo::from((
-            NftInfo::from(self.get_nft_info_from_address(user.clone())),
+            NftInfo::from(self.get_nft_from_address(user.clone())),
             NftInfo::from(self.get_nft_in_retrieve_from_address(user)),
             user_retrieve_info.counter,
             user_retrieve_info.unlocking,
