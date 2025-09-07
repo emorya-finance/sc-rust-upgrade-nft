@@ -6,5 +6,3 @@ elif [ $1 -eq 1 ]; then
 fi
 source snippets.sh
 ############ START ############
-
-upgrade '' 70000000

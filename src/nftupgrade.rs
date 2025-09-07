@@ -1,6 +1,9 @@
 #![no_std]
 
+use constants::TAGS;
+use managedbufferutils::ManagedBufferUtils;
 use multiversx_sc::imports::*;
+use storage::UserNft;
 
 pub mod constants;
 pub mod managedbufferutils;
@@ -8,10 +11,6 @@ pub mod owner;
 pub mod private;
 pub mod storage;
 pub mod views;
-
-use constants::TAGS;
-use managedbufferutils::ManagedBufferUtils;
-use storage::UserNft;
 
 #[multiversx_sc::contract]
 pub trait NftUpgrade:
