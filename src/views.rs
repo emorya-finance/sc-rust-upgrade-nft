@@ -112,8 +112,15 @@ pub trait ViewsModule: crate::storage::StorageModule {
         starting_attributes = starting_attributes
             .clone()
             .concat(sc_format!("metadata:{}", uri_json));
+        let starting_attributes_force_mp4 =
+            starting_attributes.replace(b".json", &ManagedBuffer::new_from_bytes(b".mp4"));
 
-        if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes {
+        if attributes.copy_slice(0, starting_attributes.len()).unwrap() != starting_attributes
+            && attributes
+                .copy_slice(0, starting_attributes_force_mp4.len())
+                .unwrap()
+                != starting_attributes_force_mp4
+        {
             sc_panic!("Attributes do not start as expected.");
         }
 
