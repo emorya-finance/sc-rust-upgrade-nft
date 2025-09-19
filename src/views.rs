@@ -52,13 +52,13 @@ pub trait ViewsModule: crate::storage::StorageModule {
             )
             .uris;
 
-        let first_link = uris.get(1).clone_value();
-        let second_link = uris.get(2).clone_value();
-        if first_link.contains(b".json") {
-            first_link.copy_slice(8, first_link.len() - 8).unwrap()
-        } else {
-            second_link.copy_slice(8, second_link.len() - 8).unwrap()
+        for uri in uris.iter() {
+            if uri.contains(b".json;") {
+                return uri.copy_slice(8, uri.len() - 8).unwrap();
+            }
         }
+
+        sc_panic!("No json was found.");
     }
 
     #[view(getNftAttributesLevelBeforeUpgrade)]
