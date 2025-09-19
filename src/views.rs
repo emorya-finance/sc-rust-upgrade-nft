@@ -53,7 +53,7 @@ pub trait ViewsModule: crate::storage::StorageModule {
             .uris;
 
         for uri in uris.iter() {
-            if uri.contains(b".json;") {
+            if uri.contains(b".json") {
                 return uri.copy_slice(8, uri.len() - 8).unwrap();
             }
         }
