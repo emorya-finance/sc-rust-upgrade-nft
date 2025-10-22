@@ -51,7 +51,7 @@ deploy() {
 upgrade() {
     # upgrade OR upgrade "0xArg1_hex 0xArg2_hex ..." 50000000
 
-    local GAS_LIMIT=${2:-20000000}  # Default gas limit is 20 million
+    local GAS_LIMIT=${2:-80000000}  # Default gas limit is 20 million
 
     if [ -n "$1" ]; then
         ARGS="--arguments $1"
