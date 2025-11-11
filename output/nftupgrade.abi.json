@@ -1,11 +1,11 @@
 {
     "buildInfo": {
         "rustc": {
-            "version": "1.86.0",
-            "commitHash": "05f9846f893b09a1be1fc8560e33fc3c815cfecb",
-            "commitDate": "2025-03-31",
+            "version": "1.90.0",
+            "commitHash": "1159e78c4747b02ef996e55082b704c09b970588",
+            "commitDate": "2025-09-14",
             "channel": "Stable",
-            "short": "rustc 1.86.0 (05f9846f8 2025-03-31)"
+            "short": "rustc 1.90.0 (1159e78c4 2025-09-14)"
         },
         "contractCrate": {
             "name": "nftupgrade",
@@ -321,6 +321,18 @@
                 {
                     "name": "period",
                     "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "reclaimNft",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
                 }
             ],
             "outputs": []

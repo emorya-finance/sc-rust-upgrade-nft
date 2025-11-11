@@ -365,6 +365,19 @@ where
             .original_result()
     }
 
+    pub fn reclaim_nft<
+        Arg0: ProxyArg<ManagedAddress<Env::Api>>,
+    >(
+        self,
+        address: Arg0,
+    ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
+        self.wrapped_tx
+            .payment(NotPayable)
+            .raw_call("reclaimNft")
+            .argument(&address)
+            .original_result()
+    }
+
     pub fn force_claim<
         Arg0: ProxyArg<TokenIdentifier<Env::Api>>,
         Arg1: ProxyArg<u64>,

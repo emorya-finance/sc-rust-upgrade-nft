@@ -5,9 +5,9 @@
 <details>
 <summary>Build info</summary>
 
-- **Rustc Version**: 1.86.0
-- **Commit Hash**: 05f9846f893b09a1be1fc8560e33fc3c815cfecb
-- **Commit Date**: 2025-03-31
+- **Rustc Version**: 1.90.0
+- **Commit Hash**: 1159e78c4747b02ef996e55082b704c09b970588
+- **Commit Date**: 2025-09-14
 - **Channel**: Stable
 
 - **Framework**: multiversx-sc
@@ -114,6 +114,17 @@
 | Name | Type |
 | - | - |
 | period | u64 |
+
+
+</details>
+
+<details>
+<summary>reclaimNft</summary>
+
+#### Inputs:
+| Name | Type |
+| - | - |
+| address | Address |
 
 
 </details>

@@ -102,6 +102,22 @@ pub trait OwnerModule:
     }
 
     #[only_owner]
+    #[endpoint(reclaimNft)]
+    fn reclaim_nft(&self, address: ManagedAddress) {
+        require!(
+            !self.nft_from_address(&address).is_empty(),
+            "The user has no NFT deposited!"
+        );
+        let nft = self.nft_from_address(&address).get();
+        let owner_address = self.blockchain().get_owner_address();
+
+        self.tx()
+            .to(&owner_address)
+            .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
+            .transfer();
+    }
+
+    #[only_owner]
     #[endpoint(forceNftClaim)]
     fn force_claim(&self, token: TokenIdentifier, nonce: u64, address: ManagedAddress) {
         let user = self.nft_owner_address(&token, nonce).get();
