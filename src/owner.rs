@@ -131,7 +131,7 @@ pub trait OwnerModule:
 
         if !self.nft_retrieve_from_address(&old_address).is_empty() {
             require!(
-                !self.nft_retrieve_from_address(&new_address).is_empty(),
+                self.nft_retrieve_from_address(&new_address).is_empty(),
                 "The new user has already an NFT in retrieve!"
             );
 
