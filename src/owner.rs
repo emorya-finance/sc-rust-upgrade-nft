@@ -1,4 +1,4 @@
-use crate::constants::TAGS;
+use crate::{constants::TAGS, storage::UserNft};
 
 use multiversx_sc::imports::*;
 
@@ -102,21 +102,52 @@ pub trait OwnerModule:
     }
 
     #[only_owner]
-    #[endpoint(reclaimNft)]
-    fn reclaim_nft(&self, address: ManagedAddress) {
+    #[endpoint(migrateNft)]
+    fn migrate_nft(&self, old_address: ManagedAddress, new_address: ManagedAddress) {
         require!(
-            !self.nft_from_address(&address).is_empty(),
+            !self.nft_from_address(&old_address).is_empty(),
             "The user has no NFT deposited!"
         );
-        let nft = self.nft_from_address(&address).get();
-        let owner_address = self.blockchain().get_owner_address();
 
-        self.tx()
-            .to(&owner_address)
-            .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
-            .transfer();
+        require!(
+            self.nft_from_address(&new_address).is_empty(),
+            "The new user has already an NFT deposited!"
+        );
 
-        self.nft_from_address(&address).clear();
+        let nft = self.nft_from_address(&old_address).get();
+
+        self.nft_from_address(&old_address).clear();
+        self.nft_owner_address(&nft.identifier, nft.nonce).clear();
+
+        self.nft_owner_address(&nft.identifier, nft.nonce)
+            .set(new_address.clone());
+        self.nft_from_address(&new_address).set(UserNft {
+            identifier: nft.identifier,
+            nonce: nft.nonce,
+        });
+
+        if !self.nft_retrieve_from_address(&old_address).is_empty() {
+            require!(
+                !self.nft_retrieve_from_address(&new_address).is_empty(),
+                "The new user has already an NFT in retrieve!"
+            );
+            let nft_in_retrieve = self.nft_retrieve_from_address(&old_address).get();
+            let unbounding_period = self.user_retrieve_epoch(&old_address).get();
+
+            self.nft_retrieve_from_address(&old_address).clear();
+            self.nft_owner_address(&nft_in_retrieve.identifier, nft_in_retrieve.nonce)
+                .clear();
+            self.user_retrieve_epoch(&old_address).clear();
+
+            self.nft_owner_address(&nft_in_retrieve.identifier, nft_in_retrieve.nonce)
+                .set(new_address.clone());
+            self.nft_retrieve_from_address(&new_address).set(UserNft {
+                identifier: nft_in_retrieve.identifier,
+                nonce: nft_in_retrieve.nonce,
+            });
+            self.user_retrieve_epoch(&new_address)
+                .set(unbounding_period);
+        }
     }
 
     #[only_owner]

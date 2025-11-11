@@ -119,12 +119,13 @@
 </details>
 
 <details>
-<summary>reclaimNft</summary>
+<summary>migrateNft</summary>
 
 #### Inputs:
 | Name | Type |
 | - | - |
-| address | Address |
+| old_address | Address |
+| new_address | Address |
 
 
 </details>

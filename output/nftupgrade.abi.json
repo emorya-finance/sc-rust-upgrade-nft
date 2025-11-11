@@ -326,12 +326,16 @@
             "outputs": []
         },
         {
-            "name": "reclaimNft",
+            "name": "migrateNft",
             "onlyOwner": true,
             "mutability": "mutable",
             "inputs": [
                 {
-                    "name": "address",
+                    "name": "old_address",
+                    "type": "Address"
+                },
+                {
+                    "name": "new_address",
                     "type": "Address"
                 }
             ],
