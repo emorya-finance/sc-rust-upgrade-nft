@@ -115,6 +115,8 @@ pub trait OwnerModule:
             .to(&owner_address)
             .single_esdt(&nft.identifier, nft.nonce, &BigUint::from(1u8))
             .transfer();
+
+        self.nft_from_address(&address).clear();
     }
 
     #[only_owner]
