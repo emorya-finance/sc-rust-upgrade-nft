@@ -105,32 +105,36 @@ pub trait OwnerModule:
     #[endpoint(migrateNft)]
     fn migrate_nft(&self, old_address: ManagedAddress, new_address: ManagedAddress) {
         require!(
-            !self.nft_from_address(&old_address).is_empty(),
+            !self.nft_from_address(&old_address).is_empty()
+                || !self.nft_retrieve_from_address(&old_address).is_empty(),
             "The user has no NFT deposited!"
         );
 
-        require!(
-            self.nft_from_address(&new_address).is_empty(),
-            "The new user has already an NFT deposited!"
-        );
+        if !self.nft_from_address(&old_address).is_empty() {
+            require!(
+                self.nft_from_address(&new_address).is_empty(),
+                "The new user has already an NFT deposited!"
+            );
 
-        let nft = self.nft_from_address(&old_address).get();
+            let nft = self.nft_from_address(&old_address).get();
 
-        self.nft_from_address(&old_address).clear();
-        self.nft_owner_address(&nft.identifier, nft.nonce).clear();
+            self.nft_from_address(&old_address).clear();
+            self.nft_owner_address(&nft.identifier, nft.nonce).clear();
 
-        self.nft_owner_address(&nft.identifier, nft.nonce)
-            .set(new_address.clone());
-        self.nft_from_address(&new_address).set(UserNft {
-            identifier: nft.identifier,
-            nonce: nft.nonce,
-        });
+            self.nft_owner_address(&nft.identifier, nft.nonce)
+                .set(new_address.clone());
+            self.nft_from_address(&new_address).set(UserNft {
+                identifier: nft.identifier,
+                nonce: nft.nonce,
+            });
+        }
 
         if !self.nft_retrieve_from_address(&old_address).is_empty() {
             require!(
                 !self.nft_retrieve_from_address(&new_address).is_empty(),
                 "The new user has already an NFT in retrieve!"
             );
+
             let nft_in_retrieve = self.nft_retrieve_from_address(&old_address).get();
             let unbounding_period = self.user_retrieve_epoch(&old_address).get();
 
