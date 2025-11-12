@@ -184,11 +184,11 @@ pub trait NftUpgrade:
         );
 
         let current_epoch = self.blockchain().get_block_epoch();
-        let unbounding_period = self.unbonding_period().get();
+        let unbonding_period = self.unbonding_period().get();
         let user_retrieve_epoch = self.user_retrieve_epoch(&user).get();
         let unclaimed_epochs = current_epoch - user_retrieve_epoch;
 
-        if unclaimed_epochs <= unbounding_period {
+        if unclaimed_epochs <= unbonding_period {
             sc_panic!("You have to wait until the unbounding period is over.");
         } else {
             self.tx()

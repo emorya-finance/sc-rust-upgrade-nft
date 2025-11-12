@@ -102,8 +102,8 @@ pub trait OwnerModule:
     }
 
     #[only_owner]
-    #[endpoint(migrateNft)]
-    fn migrate_nft(&self, old_address: ManagedAddress, new_address: ManagedAddress) {
+    #[endpoint(migrateNfts)]
+    fn migrate_nfts(&self, old_address: ManagedAddress, new_address: ManagedAddress) {
         require!(
             !self.nft_from_address(&old_address).is_empty()
                 || !self.nft_retrieve_from_address(&old_address).is_empty(),
@@ -118,11 +118,10 @@ pub trait OwnerModule:
 
             let nft = self.nft_from_address(&old_address).get();
 
-            self.nft_from_address(&old_address).clear();
-            self.nft_owner_address(&nft.identifier, nft.nonce).clear();
-
             self.nft_owner_address(&nft.identifier, nft.nonce)
                 .set(new_address.clone());
+
+            self.nft_from_address(&old_address).clear();
             self.nft_from_address(&new_address).set(UserNft {
                 identifier: nft.identifier,
                 nonce: nft.nonce,
@@ -136,21 +135,19 @@ pub trait OwnerModule:
             );
 
             let nft_in_retrieve = self.nft_retrieve_from_address(&old_address).get();
-            let unbounding_period = self.user_retrieve_epoch(&old_address).get();
-
-            self.nft_retrieve_from_address(&old_address).clear();
-            self.nft_owner_address(&nft_in_retrieve.identifier, nft_in_retrieve.nonce)
-                .clear();
-            self.user_retrieve_epoch(&old_address).clear();
 
             self.nft_owner_address(&nft_in_retrieve.identifier, nft_in_retrieve.nonce)
                 .set(new_address.clone());
+
+            self.nft_retrieve_from_address(&old_address).clear();
             self.nft_retrieve_from_address(&new_address).set(UserNft {
                 identifier: nft_in_retrieve.identifier,
                 nonce: nft_in_retrieve.nonce,
             });
+
             self.user_retrieve_epoch(&new_address)
-                .set(unbounding_period);
+                .set(self.user_retrieve_epoch(&old_address).get());
+            self.user_retrieve_epoch(&old_address).clear();
         }
     }
 

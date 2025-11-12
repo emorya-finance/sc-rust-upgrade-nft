@@ -365,7 +365,7 @@ where
             .original_result()
     }
 
-    pub fn migrate_nft<
+    pub fn migrate_nfts<
         Arg0: ProxyArg<ManagedAddress<Env::Api>>,
         Arg1: ProxyArg<ManagedAddress<Env::Api>>,
     >(
@@ -375,7 +375,7 @@ where
     ) -> TxTypedCall<Env, From, To, NotPayable, Gas, ()> {
         self.wrapped_tx
             .payment(NotPayable)
-            .raw_call("migrateNft")
+            .raw_call("migrateNfts")
             .argument(&old_address)
             .argument(&new_address)
             .original_result()

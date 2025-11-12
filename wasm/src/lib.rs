@@ -43,7 +43,7 @@ multiversx_sc_wasm_adapter::endpoints! {
         addAllowedAddresses => add_allowed_addresses
         removeAllowedAddresses => remove_allowed_address
         setUnbondingPeriod => set_unbonding_period
-        migrateNft => migrate_nft
+        migrateNfts => migrate_nfts
         forceNftClaim => force_claim
         getNftIdentifier => get_nft_identifier
         getNftIdentifierInvestors => get_nft_identifier_investors
